@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Xưởng kịch bản Short</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Be+Vietnam+Pro:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eef2f7;--card:#fff;--ink:#1b2a41;--mute:#5d6b82;--line:#d5dce8;--acc:#2f5bff;--acc-ink:#fff;--sun:#ffc93c;--sun-ink:#1b2a41;--ok:#12805c;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121a29;--card:#1b2538;--ink:#e8edf6;--mute:#9aa8c2;--line:#2c3a55;--acc:#7a98ff;--acc-ink:#0e1626;--sun:#ffc93c;--ok:#4cc79a}}
+:root[data-theme="dark"]{--bg:#121a29;--card:#1b2538;--ink:#e8edf6;--mute:#9aa8c2;--line:#2c3a55;--acc:#7a98ff;--acc-ink:#0e1626;--sun:#ffc93c;--ok:#4cc79a}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.55 "Be Vietnam Pro",system-ui,sans-serif}
+.wrap{max-width:760px;margin:0 auto;padding:20px 16px 80px}
+h1{font:800 clamp(28px,6vw,40px)/1.1 "Bricolage Grotesque",system-ui,sans-serif;margin:8px 0 6px;letter-spacing:-.02em}
+h2{font:600 18px "Bricolage Grotesque",system-ui,sans-serif;margin:0 0 10px}
+.sub{color:var(--mute);margin:0 0 22px}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:16px}
+label{display:block;font-weight:600;font-size:14px;margin:14px 0 6px}
+label:first-child{margin-top:0}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:999px;padding:7px 13px;font:inherit;font-size:14px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.row{display:flex;gap:12px;flex-wrap:wrap}
+.row>div{flex:1 1 200px}
+textarea,select{width:100%;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:10px;padding:10px 12px;font:inherit}
+textarea{min-height:64px;resize:vertical}
+button:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.go{width:100%;margin-top:18px;background:var(--acc);color:var(--acc-ink);border:0;border-radius:12px;padding:14px;font:600 16px "Be Vietnam Pro",sans-serif;cursor:pointer}
+.go:disabled{opacity:.6;cursor:wait}
+.btn{background:transparent;border:1px solid var(--line);color:var(--ink);border-radius:9px;padding:6px 11px;font:inherit;font-size:13px;cursor:pointer}
+.btn:hover{border-color:var(--acc)}
+.hook{background:var(--sun);color:var(--sun-ink);border-radius:14px;padding:16px 18px;margin-bottom:14px}
+.hook b{font:800 22px/1.2 "Bricolage Grotesque",sans-serif;display:block;margin-bottom:4px}
+.bar{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.scene{display:grid;grid-template-columns:64px 1fr;gap:12px;border-top:1px solid var(--line);padding:14px 0}
+.scene:first-of-type{border-top:0}
+.t{font:600 13px "Bricolage Grotesque",sans-serif;color:var(--acc);background:color-mix(in srgb,var(--acc) 12%,transparent);border-radius:8px;padding:6px;text-align:center;height:fit-content}
+.nar{font-weight:500;margin:0 0 6px}
+.vis{font-size:14px;color:var(--mute);margin:0 0 6px}
+.alt{font-size:14px;color:var(--mute);font-style:italic;margin:0 0 6px}
+.nar:focus,.alt:focus{outline:2px solid var(--acc);border-radius:6px}
+.act{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.act input{flex:1 1 160px;min-width:0;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:9px;padding:6px 10px;font:inherit;font-size:13px}
+pre{white-space:pre-wrap;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:12px;font:13px/1.5 ui-monospace,Menlo,monospace;margin:0 0 8px;overflow-x:auto}
+.err{color:#c0362c;font-weight:500}
+.hist button{display:block;width:100%;text-align:left;margin-bottom:6px}
+textarea.sm{min-height:48px}
+.trow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;border-top:1px solid var(--line);padding:8px 0}
+.trow b{flex:1 1 100%;font-weight:600;font-size:14px}
+.trow select,.trow input,#setp input{width:auto;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:8px;padding:5px 8px;font:inherit;font-size:13px}
+#setp input{width:100%;padding:9px 10px}
+summary{cursor:pointer;font-weight:600}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:10px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .2s}
+.toast.on{opacity:1}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Xưởng kịch bản Short</h1>
+<p class="sub">Chọn chủ đề, bấm tạo. Nhận kịch bản, prompt hình từng cảnh và file phụ đề SRT để dựng trong CapCut.</p>
+
+<div class="panel">
+<label>Chủ đề</label>
+<div class="chips" id="topics" role="group" aria-label="Chủ đề"></div>
+<label for="idea">Ý tưởng riêng (không bắt buộc)</label>
+<textarea id="idea" placeholder="Ví dụ: Người cha già nhìn con gái lớn lên qua từng mùa đông"></textarea>
+<div class="row">
+<div><label for="dur">Thời lượng</label>
+<select id="dur"><option value="15">15 giây</option><option value="30" selected>30 giây</option><option value="60">60 giây</option></select></div>
+<div><label for="lang">Ngôn ngữ video</label>
+<select id="lang"><option value="en">Tiếng Anh</option><option value="vi">Tiếng Việt</option></select></div>
+</div>
+<label for="style">Phong cách hình</label>
+<select id="style">
+<option>3D animation, soft cinematic lighting, stylized realistic characters, vertical 9:16</option>
+<option>2D flat illustration, warm colors, vertical 9:16</option>
+<option>Cinematic photoreal, shallow depth of field, vertical 9:16</option>
+</select>
+<button class="go" id="go">Tạo kịch bản</button>
+</div>
+
+<details class="panel"><summary>Hồ sơ kênh (nhân vật và giọng văn cố định)</summary>
+<label for="pf_char">Nhân vật / thế giới luôn xuất hiện trong hình</label>
+<textarea id="pf_char" class="sm" placeholder="Ví dụ: bearded man in his 30s with a headband, blue t-shirt, small town street"></textarea>
+<label for="pf_rules">Giọng văn và quy tắc kênh</label>
+<textarea id="pf_rules" class="sm" placeholder="Ví dụ: calm, intimate, no jargon, always end with a question"></textarea>
+<p class="sub" style="margin:8px 0 0;font-size:13px">Tự lưu trên trình duyệt và tự thêm vào mọi lần tạo.</p></details>
+<div class="panel"><h2>Ý tưởng hàng loạt</h2><button class="btn" id="ideaBtn">Gợi ý 8 ý tưởng</button><div id="ideaList"></div></div>
+<div id="out"></div>
+<div class="panel hist" id="histp" hidden><h2>Đã tạo gần đây</h2><div id="hist"></div></div>
+<div class="panel"><h2>Theo dõi và lịch đăng</h2><p class="sub" id="trkTot" style="margin:0 0 8px"></p><div id="trkBody"></div></div>
+<details class="panel" id="setp" hidden><summary>Cài đặt AI (Gemini)</summary>
+<label for="gk">Gemini API key (lưu trên trình duyệt này)</label><input id="gk" type="password" autocomplete="off">
+<label for="gm">Model</label><input id="gm" placeholder="gemini-2.0-flash"></details>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+const TOPICS={
+"Cảm xúc và triết lý":"emotional, philosophical, relatable everyday life, ends with a line that makes people reflect and share",
+"Cơ thể người":"surprising things the human body does without us noticing",
+"Quy mô và góc nhìn":"mind-bending scale and perspective comparisons (size, time, numbers)",
+"Khoa học nhẹ nhàng":"gentle science: space, oceans, atoms, microbes, nuclear",
+"Lịch sử và nhân văn":"ordinary people across eras, a human story told in a few scenes",
+"What-if":"a what-if scenario explained step by step with a twist"
+};
+let topic=Object.keys(TOPICS)[0],cur=null;
+const $=id=>document.getElementById(id);
+const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function toast(m){const t=$("toast");t.textContent=m;t.classList.add("on");setTimeout(()=>t.classList.remove("on"),1800)}
+function drawTopics(){const b=$("topics");b.innerHTML="";Object.keys(TOPICS).forEach(k=>{const c=document.createElement("button");c.className="chip";c.textContent=k;c.setAttribute("aria-pressed",k===topic);c.onclick=()=>{topic=k;drawTopics()};b.appendChild(c)})}
+drawTopics();
+
+function load(){try{return JSON.parse(localStorage.getItem("sf_hist")||"[]")}catch(e){return[]}}
+function save(r){try{const h=[r,...load().filter(x=>x.title!==r.title)].slice(0,8);localStorage.setItem("sf_hist",JSON.stringify(h))}catch(e){}drawHist()}
+function drawHist(){const h=load(),p=$("histp"),box=$("hist");p.hidden=!h.length;box.innerHTML="";h.forEach(r=>{const b=document.createElement("button");b.className="btn";b.textContent=r.title+" ("+r.duration+"s)";b.onclick=()=>{cur=r;render()};box.appendChild(b)})}
+drawHist();
+
+function tc(s){const ms=Math.round(s*1000),h=Math.floor(ms/3600000),m=Math.floor(ms%3600000/60000),x=Math.floor(ms%60000/1000),y=ms%1000,p=(n,l)=>String(n).padStart(l,"0");return p(h,2)+":"+p(m,2)+":"+p(x,2)+","+p(y,3)}
+function makeSRT(r,alt){
+  let n=1,out="",t=0;const total=r.duration,sc=r.scenes,per=total/sc.length;
+  sc.forEach((s,i)=>{
+    const start=i*per,end=(i+1)*per,w=String((alt&&s.narration_alt)||s.narration).trim().split(/\s+/).filter(Boolean);
+    const chunks=[];for(let j=0;j<w.length;j+=3)chunks.push(w.slice(j,j+3).join(" "));
+    const len=chunks.reduce((a,c)=>a+c.length,0)||1;let cs=start;
+    chunks.forEach(c=>{const d=(end-start)*c.length/len;out+=n++ +"\n"+tc(cs)+" --> "+tc(cs+d)+"\n"+c+"\n\n";cs+=d});
+  });
+  return out.trim()+"\n";
+}
+function fullText(r){
+  return r.title+"\n\nHOOK: "+r.hook+"\n\n"+r.scenes.map((s,i)=>"Cảnh "+(i+1)+" ["+s.time+"]\nLời: "+s.narration+"\nHình: "+s.visual_prompt).join("\n\n")+"\n\nCaption: "+r.post_caption+"\n"+(r.hashtags||[]).join(" ");
+}
+function copy(t,m){navigator.clipboard.writeText(t).then(()=>toast(m||"Đã sao chép"),()=>toast("Không sao chép được, hãy chọn và copy tay"))}
+async function dl(name,data){try{const d=await claude.use("downloads");if(!d){copy(data,"Chưa tải được, đã sao chép nội dung");return}await d.save({filename:name,data});toast("Đã lưu "+name)}catch(e){toast("Đã hủy lưu")}}
+
+function render(keep){
+  const r=cur,o=$("out");if(!r){o.innerHTML="";return}
+  o.innerHTML='<div class="hook"><b>'+esc(r.title)+'</b>'+esc(r.hook)+'</div>'+
+  '<div class="bar"><button class="btn" id="b1">Sao chép toàn bộ</button><button class="btn" id="b2">Lưu SRT '+LN(r.lang)+'</button><button class="btn" id="b6">Lưu SRT '+LN(r.lang==="en"?"vi":"en")+'</button><button class="btn" id="b3">Sao chép lời đọc</button><button class="btn" id="b4">Lưu JSON</button></div>'+
+  '<div class="panel">'+r.scenes.map((s,i)=>'<div class="scene"><div class="t">'+esc(s.time)+'</div><div><p class="nar" contenteditable="true" role="textbox" data-n="'+i+'" aria-label="Lời đọc cảnh '+(i+1)+'">'+esc(s.narration)+'</p>'+(s.narration_alt?'<p class="alt" contenteditable="true" role="textbox" data-a="'+i+'" aria-label="Bản dịch cảnh '+(i+1)+'">'+esc(s.narration_alt)+'</p>':'')+'<p class="vis">Hình: '+esc(s.visual_prompt)+'</p><div class="act"><input data-r="'+i+'" placeholder="Yêu cầu sửa (không bắt buộc)" aria-label="Yêu cầu sửa cảnh '+(i+1)+'"><button class="btn" data-w="'+i+'">Viết lại cảnh</button><button class="btn" data-i="'+i+'">Copy prompt</button></div></div></div>').join("")+'</div>'+
+  '<div class="panel"><h2>Đăng bài</h2><pre>'+esc(r.post_caption)+"\n\n"+esc((r.hashtags||[]).join(" "))+'</pre><button class="btn" id="b5">Sao chép caption</button> <button class="btn" id="b7">Tạo gói đăng 3 nền tảng</button> <button class="btn" id="b8">Thêm vào theo dõi</button><div id="pack"></div></div>'+
+  '<div class="panel"><h2>Phụ đề SRT (3 từ mỗi dòng, tự cập nhật khi bạn sửa lời)</h2><pre id="srt">'+esc(makeSRT(r))+'</pre></div>';
+  $("b1").onclick=()=>copy(fullText(r));
+  $("b2").onclick=()=>dl("subtitles.srt",makeSRT(r));
+  $("b3").onclick=()=>copy(r.scenes.map(s=>s.narration).join(" "),"Đã sao chép lời đọc (dán vào ElevenLabs/CapCut TTS)");
+  $("b4").onclick=()=>dl("script.json",JSON.stringify(r,null,2));
+  $("b5").onclick=()=>copy(r.post_caption+"\n\n"+(r.hashtags||[]).join(" "));
+  o.querySelectorAll("[data-i]").forEach(b=>b.onclick=()=>copy(r.scenes[b.dataset.i].visual_prompt,"Đã sao chép prompt hình"));
+  $("b6").onclick=()=>dl("subtitles-"+(r.lang==="en"?"vi":"en")+".srt",makeSRT(r,true));
+  o.querySelectorAll("[data-n]").forEach(p=>p.onblur=()=>{r.scenes[p.dataset.n].narration=p.innerText.trim();touch()});
+  o.querySelectorAll("[data-a]").forEach(p=>p.onblur=()=>{r.scenes[p.dataset.a].narration_alt=p.innerText.trim();touch()});
+  o.querySelectorAll("[data-w]").forEach(b=>b.onclick=()=>rewrite(+b.dataset.w,b));
+  $("b7").onclick=()=>makePack($("b7"));$("b8").onclick=()=>addTrack();if(r.pack)showPack(r.pack);
+  if(!keep)o.scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+const LN=l=>l==="en"?"EN":"VI";
+function touch(){if(!cur)return;save(cur);const s=$("srt");if(s)s.textContent=makeSRT(cur)}
+async function rewrite(i,btn){
+  const r=cur,s=r.scenes[i],inp=document.querySelector('[data-r="'+i+'"]'),ask=inp.value.trim();
+  const L=r.lang==="en"?"English":"Vietnamese",L2=r.lang==="en"?"Vietnamese":"English",n=s.narration.split(/\s+/).length;
+  const prompt="Rewrite ONE scene of a short vertical video script. Full script for context:\n"+r.scenes.map((x,k)=>(k+1)+". "+x.narration).join("\n")+"\n\nRewrite scene "+(i+1)+" only, coherent with the others"+(i===0?" (it must stay a 3-second curiosity hook)":"")+(i===r.scenes.length-1?" (it must keep the twist ending)":"")+". About "+n+" words. narration in "+L+"; narration_alt is a faithful "+L2+" translation. visual_prompt in English, keeping the same style prefix and character descriptions as this one: "+s.visual_prompt+"\n"+(ask?"Creator request: "+ask+"\n":"Make it fresher and stronger.\n")+"Return ONLY JSON: {\"narration\":string,\"narration_alt\":string,\"visual_prompt\":string}";
+  btn.disabled=true;btn.textContent="Đang viết...";
+  try{
+    const sample=await claude.use("sample");if(!sample)throw {code:"none"};
+    const j=await sample.json(prompt,{cache:false});
+    if(!j||!j.narration)throw {code:"bad"};
+    Object.assign(s,{narration:j.narration,narration_alt:j.narration_alt||"",visual_prompt:j.visual_prompt||s.visual_prompt});
+    save(r);render(true);toast("Đã viết lại cảnh "+(i+1));
+  }catch(e){toast(e&&e.code==="rate_limited"?"Gọi quá nhanh, đợi chút rồi thử lại":"Chưa viết lại được, thử lại nhé");btn.disabled=false;btn.textContent="Viết lại cảnh"}
+}
+const HAS=!!window.claude;
+if(!HAS){
+  const gs={json:async p=>{let k="",m="";try{k=localStorage.getItem("sf_key")||"";m=localStorage.getItem("sf_model")||""}catch(e){}
+    if(!k)throw {code:"none"};
+    const r=await fetch("https://generativelanguage.googleapis.com/v1beta/models/"+(m||"gemini-2.0-flash")+":generateContent?key="+encodeURIComponent(k),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({contents:[{parts:[{text:p}]}],generationConfig:{responseMimeType:"application/json"}})});
+    if(r.status===429)throw {code:"rate_limited"};if(!r.ok)throw {code:"bad"};
+    const d=await r.json();return JSON.parse(d.candidates[0].content.parts[0].text)}};
+  const bd={save:async({filename,data})=>{const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([data],{type:"text/plain"}));a.download=filename;a.click()}};
+  window.claude={use:async n=>n==="sample"?gs:n==="downloads"?bd:null};
+  $("setp").hidden=false;
+  try{$("gk").value=localStorage.getItem("sf_key")||"";$("gm").value=localStorage.getItem("sf_model")||""}catch(e){}
+  $("gk").onchange=()=>{try{localStorage.setItem("sf_key",$("gk").value.trim())}catch(e){}};
+  $("gm").onchange=()=>{try{localStorage.setItem("sf_model",$("gm").value.trim())}catch(e){}};
+}
+async function ask(p){const s=await claude.use("sample");if(!s)throw {code:"none"};return s.json(p,{cache:false})}
+function prof(){try{return JSON.parse(localStorage.getItem("sf_prof")||"{}")}catch(e){return {}}}
+function profileText(){const p=prof();return (p.character?"Recurring channel character/world (use in every visual_prompt): "+p.character+"\n":"")+(p.rules?"Channel voice and rules: "+p.rules+"\n":"")}
+{const p=prof();$("pf_char").value=p.character||"";$("pf_rules").value=p.rules||"";
+ const sv=()=>{try{localStorage.setItem("sf_prof",JSON.stringify({character:$("pf_char").value.trim(),rules:$("pf_rules").value.trim()}))}catch(e){}};
+ $("pf_char").oninput=sv;$("pf_rules").oninput=sv}
+$("ideaBtn").onclick=async()=>{const b=$("ideaBtn");b.disabled=true;b.textContent="Đang nghĩ...";
+  const pr=profileText()+'Give 8 distinct, specific ideas for faceless short videos. Theme: '+topic+' ('+TOPICS[topic]+'). Each idea has a working title and a one-line hook in '+($("lang").value==="en"?"English":"Vietnamese")+'. Return ONLY JSON: {"ideas":[{"title":string,"hook":string}]}';
+  try{const j=await ask(pr),l=$("ideaList");l.innerHTML="";(j.ideas||[]).forEach(x=>{const d=document.createElement("button");d.className="btn";d.style.cssText="display:block;width:100%;text-align:left;margin-top:6px";d.textContent=x.title+": "+x.hook;d.onclick=()=>{$("idea").value=x.title+". "+x.hook;toast("Đã điền ý tưởng, bấm Tạo kịch bản")};l.appendChild(d)})}
+  catch(e){toast(e&&e.code==="none"?"Chưa có nguồn AI (xem Cài đặt)":"Chưa gợi ý được, thử lại nhé")}
+  b.disabled=false;b.textContent="Gợi ý 8 ý tưởng"};
+const PL={facebook:"Facebook Reels",youtube:"YouTube Shorts",tiktok:"TikTok"};
+function packText(q){return (q.title?q.title+"\n\n":"")+(q.text||"")+"\n\n"+(q.tags||[]).join(" ")}
+function showPack(p){const b=$("pack");if(!b)return;b.innerHTML=Object.keys(PL).map(k=>'<h2 style="margin-top:14px">'+PL[k]+'</h2><pre>'+esc(packText(p[k]||{}))+'</pre><button class="btn" data-pk="'+k+'">Sao chép</button>').join("");b.querySelectorAll("[data-pk]").forEach(x=>x.onclick=()=>copy(packText(p[x.dataset.pk]||{})))}
+async function makePack(btn){const r=cur;btn.disabled=true;btn.textContent="Đang viết...";
+  const pr='Write post copy for this short video on three platforms, adapted to each platform culture (YouTube title max 70 chars; TikTok caption short and punchy; Facebook Reels caption conversational and ending with a question that drives comments). Language: '+(r.lang==="en"?"English":"Vietnamese")+'.\n'+(prof().rules?'Channel rules: '+prof().rules+'\n':'')+'Script: '+r.scenes.map(s=>s.narration).join(" ")+'\nReturn ONLY JSON: {"facebook":{"text":string,"tags":[strings]},"youtube":{"title":string,"text":string,"tags":[strings]},"tiktok":{"text":string,"tags":[strings]}}';
+  try{r.pack=await ask(pr);save(r);showPack(r.pack)}catch(e){toast("Chưa tạo được gói đăng, thử lại nhé")}
+  btn.disabled=false;btn.textContent="Tạo gói đăng 3 nền tảng"}
+function tk(){try{return JSON.parse(localStorage.getItem("sf_trk")||"[]")}catch(e){return []}}
+function tsave(a){try{localStorage.setItem("sf_trk",JSON.stringify(a))}catch(e){}drawTrk()}
+function addTrack(){const a=tk();a.unshift({id:Date.now(),title:cur.title,platform:"facebook",date:new Date().toISOString().slice(0,10),status:"Lên lịch",views:0});tsave(a);toast("Đã thêm vào bảng theo dõi")}
+function drawTrk(){const a=tk(),b=$("trkBody"),tot=a.reduce((s,x)=>s+(+x.views||0),0);
+  $("trkTot").textContent=a.length?a.length+" video, tổng "+tot.toLocaleString("vi-VN")+" view":"Chưa có video nào. Mở một kịch bản và bấm Thêm vào theo dõi.";
+  b.innerHTML=a.map(x=>'<div class="trow" data-id="'+x.id+'"><b>'+esc(x.title)+'</b><select data-f="platform" aria-label="Nền tảng">'+Object.keys(PL).map(k=>'<option value="'+k+'"'+(x.platform===k?" selected":"")+'>'+PL[k]+'</option>').join("")+'</select><input type="date" data-f="date" aria-label="Ngày đăng" value="'+esc(x.date)+'"><select data-f="status" aria-label="Trạng thái">'+["Lên lịch","Đã đăng"].map(s=>'<option'+(x.status===s?" selected":"")+'>'+s+'</option>').join("")+'</select><input type="number" min="0" data-f="views" aria-label="Lượt xem" value="'+(+x.views||0)+'"><button class="btn" data-d="1">Xóa</button></div>').join("");
+  b.querySelectorAll("[data-f]").forEach(el=>el.onchange=()=>{const id=+el.closest(".trow").dataset.id,a=tk(),x=a.find(y=>y.id===id);if(x){x[el.dataset.f]=el.value;tsave(a)}});
+  b.querySelectorAll("[data-d]").forEach(el=>el.onclick=()=>{const id=+el.closest(".trow").dataset.id;tsave(tk().filter(y=>y.id!==id))})}
+drawTrk();
+$("go").onclick=async()=>{
+  const btn=$("go"),o=$("out");
+  const dur=+$("dur").value,lang=$("lang").value,idea=$("idea").value.trim(),style=$("style").value;
+  const nsc={15:4,30:6,60:9}[dur],words=Math.round(dur*(lang==="en"?2.3:2.7));
+  const L=lang==="en"?"English":"Vietnamese",L2=lang==="en"?"Vietnamese":"English";
+  const prompt="You write scripts for faceless vertical short videos (Facebook Reels, YouTube Shorts, TikTok) in the style of calm, wordless-feeling 3D animated stories with a thoughtful twist.\n"+
+  profileText()+"Theme: "+topic+" ("+TOPICS[topic]+").\n"+(idea?"Creator idea: "+idea+"\n":"Pick an original, specific idea.\n")+
+  "Narration language: "+L+". Total narration about "+words+" words for "+dur+" seconds, split into exactly "+nsc+" scenes.\n"+
+  "Rules: scene 1 narration is a hook that creates curiosity in 3 seconds; the last scene lands a twist or emotional line that echoes the hook so viewers rewatch; short plain sentences; no clichés; no claims that need citations unless well established.\n"+
+  "Each visual_prompt is in English, self-contained, describes one shot, and starts with this shared style so characters stay consistent: \""+style+"\". Reuse the same character description in every scene.\n"+
+  "Return ONLY JSON: {\"title\":string,\"hook\":string,\"scenes\":[{\"time\":\"0-5s\",\"narration\":string,\"narration_alt\":string (faithful "+L2+" translation of narration),\"visual_prompt\":string}],\"post_caption\":string (in "+L+", 1-2 lines),\"hashtags\":[5 strings]}. The time ranges must cover 0 to "+dur+"s evenly.";
+  btn.disabled=true;btn.textContent="Đang viết kịch bản...";o.innerHTML="";
+  try{
+    const sample=await claude.use("sample");
+    if(!sample)throw {code:"none"};
+    const j=await sample.json(prompt,{cache:false});
+    if(!j||!Array.isArray(j.scenes)||!j.scenes.length)throw {code:"bad"};
+    cur={...j,duration:dur,lang,topic};save(cur);render();
+  }catch(e){
+    const m=e&&e.code==="not_granted"?"Bạn cần cho phép trang này gọi Claude, rồi bấm lại.":e&&e.code==="rate_limited"?"Đang gọi quá nhanh. Đợi một chút rồi bấm lại.":e&&e.code==="none"?"Chưa có nguồn AI: mở trang trong claude.ai hoặc nhập Gemini API key ở mục Cài đặt.":"Kết quả chưa đúng định dạng. Bấm Tạo kịch bản để thử lại.";
+    o.innerHTML='<p class="err" role="alert">'+m+'</p>';
+  }
+  btn.disabled=false;btn.textContent="Tạo kịch bản";
+};
+</script>
+</body>
+</html>
