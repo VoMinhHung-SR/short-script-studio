@@ -69,12 +69,14 @@ summary{cursor:pointer;font-weight:600}
 <textarea id="idea" placeholder="Ví dụ: Người cha già nhìn con gái lớn lên qua từng mùa đông"></textarea>
 <div class="row">
 <div><label for="dur">Thời lượng</label>
-<select id="dur"><option value="15">15 giây</option><option value="30" selected>30 giây</option><option value="60">60 giây</option></select></div>
+<select id="dur"><option value="15">15 giây</option><option value="30" selected>30 giây</option><option value="60">60 giây</option><option value="480">8 phút (video dài)</option><option value="600">10 phút (video dài)</option></select></div>
 <div><label for="lang">Ngôn ngữ video</label>
 <select id="lang"><option value="en">Tiếng Anh</option><option value="vi">Tiếng Việt</option></select></div>
 </div>
 <label for="style">Phong cách hình</label>
 <select id="style">
+<option>Classic simple stick figure line art, uniform thick black outline, white fill, plain white background, simple line-art backgrounds in the same style, amber used only as a spotlight color on key objects, no shading, no text</option>
+<option>White stick figures on dark charcoal background, soft rim light, clean flat shapes, no text</option>
 <option>3D animation, soft cinematic lighting, stylized realistic characters, vertical 9:16</option>
 <option>2D flat illustration, warm colors, vertical 9:16</option>
 <option>Cinematic photoreal, shallow depth of field, vertical 9:16</option>
@@ -85,9 +87,17 @@ summary{cursor:pointer;font-weight:600}
 <details class="panel"><summary>Hồ sơ kênh (nhân vật và giọng văn cố định)</summary>
 <label for="pf_char">Nhân vật / thế giới luôn xuất hiện trong hình</label>
 <textarea id="pf_char" class="sm" placeholder="Ví dụ: bearded man in his 30s with a headband, blue t-shirt, small town street"></textarea>
+<div class="act" style="margin:8px 0 0"><button class="btn" id="pfA">Điền nhân vật Hiro (có nốt ruồi)</button><button class="btn" id="pfB">Điền nhân vật Hiro (trơn)</button></div>
 <label for="pf_rules">Giọng văn và quy tắc kênh</label>
 <textarea id="pf_rules" class="sm" placeholder="Ví dụ: calm, intimate, no jargon, always end with a question"></textarea>
 <p class="sub" style="margin:8px 0 0;font-size:13px">Tự lưu trên trình duyệt và tự thêm vào mọi lần tạo.</p></details>
+<details class="panel"><summary>Thư viện kịch bản mẫu<span id="refCnt"></span></summary>
+<p class="sub" style="margin:8px 0;font-size:13px">Dán 3-5 kịch bản hay mà kênh bạn muốn học theo. App sẽ bắt chước cấu trúc, nhịp, độ dài câu và kiểu hook, không sao chép nội dung. Mỗi lần tạo dùng tối đa 3 mẫu đang bật (mới nhất trước).</p>
+<label for="refLabel">Tên mẫu (không bắt buộc)</label>
+<textarea id="refLabel" class="sm" placeholder="Ví dụ: Hook tò mò - 30s"></textarea>
+<label for="refText">Nội dung kịch bản mẫu (lời đọc)</label>
+<textarea id="refText" placeholder="Dán lời đọc của một video hay vào đây"></textarea>
+<button class="btn" id="refAdd" style="margin-top:8px">Thêm vào thư viện</button><div id="refList"></div></details>
 <div class="panel"><h2>Ý tưởng hàng loạt</h2><button class="btn" id="ideaBtn">Gợi ý 8 ý tưởng</button><div id="ideaList"></div></div>
 <div id="out"></div>
 <div class="panel hist" id="histp" hidden><h2>Đã tạo gần đây</h2><div id="hist"></div></div>
@@ -100,6 +110,7 @@ summary{cursor:pointer;font-weight:600}
 
 <script>
 const TOPICS={
+"Con người, lịch sử và hành vi":"why humans behave the way they do, explained through history, evolution and behavioral science; curious, accurate, evergreen, for an English-speaking audience",
 "Cảm xúc và triết lý":"emotional, philosophical, relatable everyday life, ends with a line that makes people reflect and share",
 "Cơ thể người":"surprising things the human body does without us noticing",
 "Quy mô và góc nhìn":"mind-bending scale and perspective comparisons (size, time, numbers)",
@@ -138,8 +149,8 @@ async function dl(name,data){try{const d=await claude.use("downloads");if(!d){co
 
 function render(keep){
   const r=cur,o=$("out");if(!r){o.innerHTML="";return}
-  o.innerHTML='<div class="hook"><b>'+esc(r.title)+'</b>'+esc(r.hook)+'</div>'+
-  '<div class="bar"><button class="btn" id="b1">Sao chép toàn bộ</button><button class="btn" id="b2">Lưu SRT '+LN(r.lang)+'</button><button class="btn" id="b6">Lưu SRT '+LN(r.lang==="en"?"vi":"en")+'</button><button class="btn" id="b3">Sao chép lời đọc</button><button class="btn" id="b4">Lưu JSON</button></div>'+
+  o.innerHTML='<div class="hook"><b>'+esc(r.title)+'</b>'+esc(r.hook)+'</div>'+extraPanel(r)+
+  '<div class="bar"><button class="btn" id="b1">Sao chép toàn bộ</button><button class="btn" id="b2">Lưu SRT '+LN(r.lang)+'</button><button class="btn" id="b6">Lưu SRT '+LN(r.lang==="en"?"vi":"en")+'</button><button class="btn" id="b3">Sao chép lời đọc</button><button class="btn" id="b4">Lưu JSON</button><button class="btn" id="b9">Lưu làm mẫu</button><button class="btn" id="b10">Copy prompt hình</button><button class="btn" id="b11">Lưu prompts.txt</button></div>'+
   '<div class="panel">'+r.scenes.map((s,i)=>'<div class="scene"><div class="t">'+esc(s.time)+'</div><div><p class="nar" contenteditable="true" role="textbox" data-n="'+i+'" aria-label="Lời đọc cảnh '+(i+1)+'">'+esc(s.narration)+'</p>'+(s.narration_alt?'<p class="alt" contenteditable="true" role="textbox" data-a="'+i+'" aria-label="Bản dịch cảnh '+(i+1)+'">'+esc(s.narration_alt)+'</p>':'')+'<p class="vis">Hình: '+esc(s.visual_prompt)+'</p><div class="act"><input data-r="'+i+'" placeholder="Yêu cầu sửa (không bắt buộc)" aria-label="Yêu cầu sửa cảnh '+(i+1)+'"><button class="btn" data-w="'+i+'">Viết lại cảnh</button><button class="btn" data-i="'+i+'">Copy prompt</button></div></div></div>').join("")+'</div>'+
   '<div class="panel"><h2>Đăng bài</h2><pre>'+esc(r.post_caption)+"\n\n"+esc((r.hashtags||[]).join(" "))+'</pre><button class="btn" id="b5">Sao chép caption</button> <button class="btn" id="b7">Tạo gói đăng 3 nền tảng</button> <button class="btn" id="b8">Thêm vào theo dõi</button><div id="pack"></div></div>'+
   '<div class="panel"><h2>Phụ đề SRT (3 từ mỗi dòng, tự cập nhật khi bạn sửa lời)</h2><pre id="srt">'+esc(makeSRT(r))+'</pre></div>';
@@ -148,16 +159,21 @@ function render(keep){
   $("b3").onclick=()=>copy(r.scenes.map(s=>s.narration).join(" "),"Đã sao chép lời đọc (dán vào ElevenLabs/CapCut TTS)");
   $("b4").onclick=()=>dl("script.json",JSON.stringify(r,null,2));
   $("b5").onclick=()=>copy(r.post_caption+"\n\n"+(r.hashtags||[]).join(" "));
-  o.querySelectorAll("[data-i]").forEach(b=>b.onclick=()=>copy(r.scenes[b.dataset.i].visual_prompt,"Đã sao chép prompt hình"));
+  o.querySelectorAll("[data-i]").forEach(b=>b.onclick=()=>copy(vp(r,r.scenes[b.dataset.i]),"Đã sao chép prompt hình"));
   $("b6").onclick=()=>dl("subtitles-"+(r.lang==="en"?"vi":"en")+".srt",makeSRT(r,true));
   o.querySelectorAll("[data-n]").forEach(p=>p.onblur=()=>{r.scenes[p.dataset.n].narration=p.innerText.trim();touch()});
   o.querySelectorAll("[data-a]").forEach(p=>p.onblur=()=>{r.scenes[p.dataset.a].narration_alt=p.innerText.trim();touch()});
   o.querySelectorAll("[data-w]").forEach(b=>b.onclick=()=>rewrite(+b.dataset.w,b));
+  $("b10").onclick=()=>copy(allPrompts(r),"Đã sao chép "+r.scenes.length+" prompt");$("b11").onclick=()=>dl("prompts.txt",allPrompts(r));
+  $("b9").onclick=()=>addRef(r.scenes.map(s=>s.narration).join("\n"),r.title);
   $("b7").onclick=()=>makePack($("b7"));$("b8").onclick=()=>addTrack();if(r.pack)showPack(r.pack);
   if(!keep)o.scrollIntoView({behavior:"smooth",block:"start"});
 }
 
 const LN=l=>l==="en"?"EN":"VI";
+function vp(r,s){return [r.sp?r.style:"",r.sp?r.char:"",r.sp&&!/9:16/.test(r.style||"")?r.ar:"",s.visual_prompt].filter(Boolean).join(" ")}
+function allPrompts(r){return r.scenes.map(s=>vp(r,s)).join("\n\n")}
+function extraPanel(r){if(!r.titles&&!r.sources_to_verify)return "";return '<div class="panel"><h2>Tiêu đề gợi ý</h2><pre>'+esc((r.titles||[]).join("\n"))+'</pre><h2>Cần tự xác minh trước khi đăng</h2><pre>'+esc((r.sources_to_verify||[]).join("\n"))+'</pre><p class="sub" style="margin:0;font-size:13px">Đây là cụm từ để tìm trên Google Scholar hoặc PubMed, không phải trích dẫn đã kiểm chứng.</p></div>'}
 function touch(){if(!cur)return;save(cur);const s=$("srt");if(s)s.textContent=makeSRT(cur)}
 async function rewrite(i,btn){
   const r=cur,s=r.scenes[i],inp=document.querySelector('[data-r="'+i+'"]'),ask=inp.value.trim();
@@ -188,10 +204,13 @@ if(!HAS){
 }
 async function ask(p){const s=await claude.use("sample");if(!s)throw {code:"none"};return s.json(p,{cache:false})}
 function prof(){try{return JSON.parse(localStorage.getItem("sf_prof")||"{}")}catch(e){return {}}}
-function profileText(){const p=prof();return (p.character?"Recurring channel character/world (use in every visual_prompt): "+p.character+"\n":"")+(p.rules?"Channel voice and rules: "+p.rules+"\n":"")}
+function profileText(){const p=prof();return (p.character?"Recurring channel character/world (context only; the app adds it to image prompts): "+p.character+"\n":"")+(p.rules?"Channel voice and rules: "+p.rules+"\n":"")}
 {const p=prof();$("pf_char").value=p.character||"";$("pf_rules").value=p.rules||"";
  const sv=()=>{try{localStorage.setItem("sf_prof",JSON.stringify({character:$("pf_char").value.trim(),rules:$("pf_rules").value.trim()}))}catch(e){}};
  $("pf_char").oninput=sv;$("pf_rules").oninput=sv}
+const HIRO="Hiro, a classic simple stick figure with a round head, thick uniform black outline, white fill, two small dot eyes, simple eyebrows, small curved line mouth";
+$("pfA").onclick=()=>{$("pf_char").value=HIRO+", and a tiny solid black mole dot on the cheek just below the eye on the right side of the image";$("pf_char").dispatchEvent(new Event("input"));toast("Đã điền Hiro (có nốt ruồi)")};
+$("pfB").onclick=()=>{$("pf_char").value=HIRO;$("pf_char").dispatchEvent(new Event("input"));toast("Đã điền Hiro (trơn)")};
 $("ideaBtn").onclick=async()=>{const b=$("ideaBtn");b.disabled=true;b.textContent="Đang nghĩ...";
   const pr=profileText()+'Give 8 distinct, specific ideas for faceless short videos. Theme: '+topic+' ('+TOPICS[topic]+'). Each idea has a working title and a one-line hook in '+($("lang").value==="en"?"English":"Vietnamese")+'. Return ONLY JSON: {"ideas":[{"title":string,"hook":string}]}';
   try{const j=await ask(pr),l=$("ideaList");l.innerHTML="";(j.ideas||[]).forEach(x=>{const d=document.createElement("button");d.className="btn";d.style.cssText="display:block;width:100%;text-align:left;margin-top:6px";d.textContent=x.title+": "+x.hook;d.onclick=()=>{$("idea").value=x.title+". "+x.hook;toast("Đã điền ý tưởng, bấm Tạo kịch bản")};l.appendChild(d)})}
@@ -204,6 +223,16 @@ async function makePack(btn){const r=cur;btn.disabled=true;btn.textContent="Đan
   const pr='Write post copy for this short video on three platforms, adapted to each platform culture (YouTube title max 70 chars; TikTok caption short and punchy; Facebook Reels caption conversational and ending with a question that drives comments). Language: '+(r.lang==="en"?"English":"Vietnamese")+'.\n'+(prof().rules?'Channel rules: '+prof().rules+'\n':'')+'Script: '+r.scenes.map(s=>s.narration).join(" ")+'\nReturn ONLY JSON: {"facebook":{"text":string,"tags":[strings]},"youtube":{"title":string,"text":string,"tags":[strings]},"tiktok":{"text":string,"tags":[strings]}}';
   try{r.pack=await ask(pr);save(r);showPack(r.pack)}catch(e){toast("Chưa tạo được gói đăng, thử lại nhé")}
   btn.disabled=false;btn.textContent="Tạo gói đăng 3 nền tảng"}
+function refs(){try{return JSON.parse(localStorage.getItem("sf_refs")||"[]")}catch(e){return []}}
+function rsave(a){try{localStorage.setItem("sf_refs",JSON.stringify(a))}catch(e){}drawRefs()}
+function addRef(text,label){text=(text||"").trim().slice(0,1500);if(!text){toast("Hãy dán nội dung kịch bản mẫu");return false}const a=refs();a.unshift({id:Date.now(),label:(label||"").trim()||text.slice(0,40),text,on:true});rsave(a.slice(0,10));toast("Đã thêm vào thư viện mẫu");return true}
+function refsText(){const a=refs().filter(x=>x.on).slice(0,3);return a.length?"Reference scripts from the creator's favorite videos. Study their structure, pacing, sentence length, hook style and ending, and imitate that style, but never copy their content or wording:\n"+a.map((x,i)=>"--- Reference "+(i+1)+" ---\n"+x.text).join("\n")+"\n--- End references ---\n":""}
+function drawRefs(){const a=refs(),b=$("refList");$("refCnt").textContent=a.length?" ("+a.length+")":"";
+  b.innerHTML=a.map(x=>'<div class="trow" data-id="'+x.id+'"><b>'+esc(x.label)+'</b><label style="margin:0;font-weight:400;font-size:13px"><input type="checkbox" data-on="1"'+(x.on?" checked":"")+'> Dùng làm mẫu</label><button class="btn" data-d="1">Xóa</button></div>').join("");
+  b.querySelectorAll("[data-on]").forEach(el=>el.onchange=()=>{const id=+el.closest(".trow").dataset.id,a=refs(),x=a.find(y=>y.id===id);if(x){x.on=el.checked;rsave(a)}});
+  b.querySelectorAll("[data-d]").forEach(el=>el.onclick=()=>{const id=+el.closest(".trow").dataset.id;rsave(refs().filter(y=>y.id!==id))})}
+$("refAdd").onclick=()=>{if(addRef($("refText").value,$("refLabel").value)){$("refText").value="";$("refLabel").value=""}};
+drawRefs();
 function tk(){try{return JSON.parse(localStorage.getItem("sf_trk")||"[]")}catch(e){return []}}
 function tsave(a){try{localStorage.setItem("sf_trk",JSON.stringify(a))}catch(e){}drawTrk()}
 function addTrack(){const a=tk();a.unshift({id:Date.now(),title:cur.title,platform:"facebook",date:new Date().toISOString().slice(0,10),status:"Lên lịch",views:0});tsave(a);toast("Đã thêm vào bảng theo dõi")}
@@ -216,21 +245,21 @@ drawTrk();
 $("go").onclick=async()=>{
   const btn=$("go"),o=$("out");
   const dur=+$("dur").value,lang=$("lang").value,idea=$("idea").value.trim(),style=$("style").value;
-  const nsc={15:4,30:6,60:9}[dur],words=Math.round(dur*(lang==="en"?2.3:2.7));
+  const lg=dur>=300,nsc=lg?dur/15:{15:4,30:6,60:9}[dur],words=Math.round(dur*(lang==="en"?2.3:2.7));
   const L=lang==="en"?"English":"Vietnamese",L2=lang==="en"?"Vietnamese":"English";
   const prompt="You write scripts for faceless vertical short videos (Facebook Reels, YouTube Shorts, TikTok) in the style of calm, wordless-feeling 3D animated stories with a thoughtful twist.\n"+
-  profileText()+"Theme: "+topic+" ("+TOPICS[topic]+").\n"+(idea?"Creator idea: "+idea+"\n":"Pick an original, specific idea.\n")+
+  profileText()+refsText()+"Theme: "+topic+" ("+TOPICS[topic]+").\n"+(idea?"Creator idea: "+idea+"\n":"Pick an original, specific idea.\n")+
   "Narration language: "+L+". Total narration about "+words+" words for "+dur+" seconds, split into exactly "+nsc+" scenes.\n"+
   "Rules: scene 1 narration is a hook that creates curiosity in 3 seconds; the last scene lands a twist or emotional line that echoes the hook so viewers rewatch; short plain sentences; no clichés; no claims that need citations unless well established.\n"+
-  "Each visual_prompt is in English, self-contained, describes one shot, and starts with this shared style so characters stay consistent: \""+style+"\". Reuse the same character description in every scene.\n"+
-  "Return ONLY JSON: {\"title\":string,\"hook\":string,\"scenes\":[{\"time\":\"0-5s\",\"narration\":string,\"narration_alt\":string (faithful "+L2+" translation of narration),\"visual_prompt\":string}],\"post_caption\":string (in "+L+", 1-2 lines),\"hashtags\":[5 strings]}. The time ranges must cover 0 to "+dur+"s evenly.";
+  "Each visual_prompt is in English, self-contained, describes ONE shot only (composition, pose, action, props, background, camera). Never describe style or the character's looks: the app prepends them. Call the recurring character \"the character\".\n"+
+  "Return ONLY JSON: {\"title\":string,\"hook\":string,\"scenes\":[{\"time\":\"0-5s\",\"narration\":string,\"narration_alt\":string (faithful "+L2+" translation of narration),\"visual_prompt\":string}],\"post_caption\":string (in "+L+", 1-2 lines),\"hashtags\":[5 strings]}. The time ranges must cover 0 to "+dur+"s evenly."+(lg?" LONG VIDEO: write time as m:ss-m:ss; set narration_alt to an empty string; add \"titles\" (3 SEO titles phrased as questions people search) and \"sources_to_verify\" (5 specific search queries a human can use to verify the key claims; never invent citations). Each scene is about "+Math.round(words/nsc)+" words; add an open question or pattern interrupt about every 45 seconds; no filler.":"");
   btn.disabled=true;btn.textContent="Đang viết kịch bản...";o.innerHTML="";
   try{
     const sample=await claude.use("sample");
     if(!sample)throw {code:"none"};
     const j=await sample.json(prompt,{cache:false});
     if(!j||!Array.isArray(j.scenes)||!j.scenes.length)throw {code:"bad"};
-    cur={...j,duration:dur,lang,topic};save(cur);render();
+    cur={...j,duration:dur,lang,topic,style,sp:1,char:(prof().character||""),ar:lg?"horizontal 16:9":"vertical 9:16"};save(cur);render();
   }catch(e){
     const m=e&&e.code==="not_granted"?"Bạn cần cho phép trang này gọi Claude, rồi bấm lại.":e&&e.code==="rate_limited"?"Đang gọi quá nhanh. Đợi một chút rồi bấm lại.":e&&e.code==="none"?"Chưa có nguồn AI: mở trang trong claude.ai hoặc nhập Gemini API key ở mục Cài đặt.":"Kết quả chưa đúng định dạng. Bấm Tạo kịch bản để thử lại.";
     o.innerHTML='<p class="err" role="alert">'+m+'</p>';

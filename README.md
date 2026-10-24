@@ -2,11 +2,11 @@
 
 Single-file web app (no build step) that turns a topic into a short-video (15/30/60s) script:
 scenes, bilingual narration (EN/VI), per-scene image prompts, SRT subtitles, 3-platform post pack,
-channel profile, batch idea generation, and a posting tracker.
+channel profile, reference-script library (few-shot style), batch idea generation, and a posting tracker.
 
 ## Run
 - Open `index.html` in a browser, or serve the folder: `npx serve .` / `python3 -m http.server`.
-- Needs an AI source (see below). Data is stored in the browser's localStorage (keys `sf_*`).
+- Needs an AI source (see below). Data is stored in the browser's localStorage (keys `sf_*`, incl. `sf_refs`).
 
 ## AI source
 The app calls `window.claude.use("sample")`. Two modes:
@@ -19,7 +19,7 @@ The app calls `window.claude.use("sample")`. Two modes:
 
 ## Where to hook in
 - `gs.json(prompt)` (search for `const gs`) is the only network call. Replace it to use any LLM or your backend.
-- Prompts: search `const prompt=` (script), `async function rewrite`, `async function makePack`, `ideaBtn`.
+- Prompts: search `const prompt=` (script), `async function rewrite`, `async function makePack`, `ideaBtn`, `refsText` (few-shot reference scripts).
 - Subtitle logic: `makeSRT` (3 words per line, time split by character count).
 
 ## Known limits
