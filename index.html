@@ -47,6 +47,8 @@ pre{white-space:pre-wrap;background:var(--bg);border:1px solid var(--line);borde
 .err{color:#c0362c;font-weight:500}
 .hist button{display:block;width:100%;text-align:left;margin-bottom:6px}
 textarea.sm{min-height:48px}
+.row input[type=number]{width:100%;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:10px;padding:10px 12px;font:inherit}
+#hist{max-height:280px;overflow:auto}
 .trow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;border-top:1px solid var(--line);padding:8px 0}
 .trow b{flex:1 1 100%;font-weight:600;font-size:14px}
 .trow select,.trow input,#setp input{width:auto;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:8px;padding:5px 8px;font:inherit;font-size:13px}
@@ -69,7 +71,7 @@ summary{cursor:pointer;font-weight:600}
 <textarea id="idea" placeholder="Ví dụ: Người cha già nhìn con gái lớn lên qua từng mùa đông"></textarea>
 <div class="row">
 <div><label for="dur">Thời lượng</label>
-<select id="dur"><option value="15">15 giây</option><option value="30" selected>30 giây</option><option value="60">60 giây</option><option value="480">8 phút (video dài)</option><option value="600">10 phút (video dài)</option></select></div>
+<select id="dur"><option value="15">15 giây</option><option value="30">30 giây</option><option value="45" selected>45 giây</option><option value="60">60 giây</option><option value="480">8 phút (video dài)</option><option value="600">10 phút (video dài)</option></select></div>
 <div><label for="lang">Ngôn ngữ video</label>
 <select id="lang"><option value="en">Tiếng Anh</option><option value="vi">Tiếng Việt</option></select></div>
 </div>
@@ -99,6 +101,14 @@ summary{cursor:pointer;font-weight:600}
 <textarea id="refText" placeholder="Dán lời đọc của một video hay vào đây"></textarea>
 <button class="btn" id="refAdd" style="margin-top:8px">Thêm vào thư viện</button><div id="refList"></div></details>
 <div class="panel"><h2>Ý tưởng hàng loạt</h2><button class="btn" id="ideaBtn">Gợi ý 8 ý tưởng</button><div id="ideaList"></div></div>
+<details class="panel"><summary>Tạo hàng loạt (mỗi dòng một chủ đề)</summary>
+<p class="sub" style="margin:8px 0;font-size:13px">Dùng thời lượng, ngôn ngữ và phong cách đang chọn ở trên. Mỗi kịch bản được lưu vào mục Đã tạo gần đây (tối đa 60).</p>
+<textarea id="batchTxt" placeholder="Mỗi dòng một chủ đề, hoặc bấm Nạp lịch 30 ngày"></textarea>
+<div class="act" style="margin-top:8px"><button class="btn" id="batchPlan">Nạp lịch 30 ngày</button><button class="btn" id="batchRun">Tạo tất cả</button><button class="btn" id="batchCsv">Xuất CSV kế hoạch</button></div>
+<p class="sub" id="batchMsg" style="margin:8px 0 0;font-size:13px"></p></details>
+<details class="panel"><summary>Tính credit Flow</summary>
+<div class="row"><div><label for="cc_m">Credit mỗi tháng</label><input id="cc_m" type="number" value="250"></div><div><label for="cc_c">Credit mỗi clip 8s</label><input id="cc_c" type="number" value="15"></div><div><label for="cc_i">Credit mỗi ảnh (tự đo)</label><input id="cc_i" type="number" value="0"></div></div>
+<p class="sub" id="cc_out" style="margin:10px 0 0;font-size:14px"></p></details>
 <div id="out"></div>
 <div class="panel hist" id="histp" hidden><h2>Đã tạo gần đây</h2><div id="hist"></div></div>
 <div class="panel"><h2>Theo dõi và lịch đăng</h2><p class="sub" id="trkTot" style="margin:0 0 8px"></p><div id="trkBody"></div></div>
@@ -126,7 +136,7 @@ function drawTopics(){const b=$("topics");b.innerHTML="";Object.keys(TOPICS).for
 drawTopics();
 
 function load(){try{return JSON.parse(localStorage.getItem("sf_hist")||"[]")}catch(e){return[]}}
-function save(r){try{const h=[r,...load().filter(x=>x.title!==r.title)].slice(0,8);localStorage.setItem("sf_hist",JSON.stringify(h))}catch(e){}drawHist()}
+function save(r){try{const h=[r,...load().filter(x=>x.title!==r.title)].slice(0,60);localStorage.setItem("sf_hist",JSON.stringify(h))}catch(e){}drawHist()}
 function drawHist(){const h=load(),p=$("histp"),box=$("hist");p.hidden=!h.length;box.innerHTML="";h.forEach(r=>{const b=document.createElement("button");b.className="btn";b.textContent=r.title+" ("+r.duration+"s)";b.onclick=()=>{cur=r;render()};box.appendChild(b)})}
 drawHist();
 
@@ -167,7 +177,7 @@ function render(keep){
   $("b10").onclick=()=>copy(allPrompts(r),"Đã sao chép "+r.scenes.length+" prompt");$("b11").onclick=()=>dl("prompts.txt",allPrompts(r));
   $("b9").onclick=()=>addRef(r.scenes.map(s=>s.narration).join("\n"),r.title);
   $("b7").onclick=()=>makePack($("b7"));$("b8").onclick=()=>addTrack();if(r.pack)showPack(r.pack);
-  if(!keep)o.scrollIntoView({behavior:"smooth",block:"start"});
+  if(!keep&&!window.BATCH)o.scrollIntoView({behavior:"smooth",block:"start"});
 }
 
 const LN=l=>l==="en"?"EN":"VI";
@@ -233,6 +243,21 @@ function drawRefs(){const a=refs(),b=$("refList");$("refCnt").textContent=a.leng
   b.querySelectorAll("[data-d]").forEach(el=>el.onclick=()=>{const id=+el.closest(".trow").dataset.id;rsave(refs().filter(y=>y.id!==id))})}
 $("refAdd").onclick=()=>{if(addRef($("refText").value,$("refLabel").value)){$("refText").value="";$("refLabel").value=""}};
 drawRefs();
+const PLAN30=["How people woke up before alarm clocks (knocker-uppers)","Why you replay embarrassing moments at 3 a.m.","Same notes, rereading vs recalling: same 30 minutes, different result","Vikings never wore horned helmets","The doorway effect: why you forget why you entered a room","Why a week has seven days","Zero: one of the youngest big ideas in math","Same 20 minutes: daily practice vs one big cram","Why deadlines make you faster (Parkinson’s law)","Napoleon wasn’t actually short","How sailors navigated without GPS","The spotlight effect: nobody notices you as much as you think","Why clocks run clockwise","Same paycheck, different order: pay yourself first","The 10% of the brain myth","Why waiting feels longer than doing","Why a dozen is twelve","Same 1% a day, up vs down, over a year","Why we procrastinate (present bias)","Humans didn’t evolve from chimps","How people kept food cold before refrigerators","Where the word OK came from","Why first impressions stick","Same 2 minutes: start now vs plan forever","Medieval people didn’t all think the Earth was flat","How people cleaned their teeth before toothbrushes","Phantom vibration: why your phone buzzes when it didn’t","The first photograph of a person","Same book: reading it vs teaching it to someone","Why you can’t tickle yourself"];
+$("batchPlan").onclick=()=>{$("batchTxt").value=PLAN30.join("\n")};
+$("batchRun").onclick=async()=>{const L=$("batchTxt").value.split("\n").map(x=>x.trim()).filter(Boolean),b=$("batchRun"),m=$("batchMsg");if(!L.length)return;
+  b.disabled=true;window.BATCH=1;let ok=0;const bad=[];
+  for(let i=0;i<L.length;i++){m.textContent="Đang tạo "+(i+1)+"/"+L.length+": "+L[i];$("idea").value=L[i];let done=false;
+    for(let t=0;t<2&&!done;t++){const before=cur;await $("go").onclick();done=cur!==before;if(!done)await new Promise(r=>setTimeout(r,4000))}
+    done?ok++:bad.push(L[i])}
+  window.BATCH=0;b.disabled=false;m.textContent="Xong "+ok+"/"+L.length+(bad.length?". Lỗi: "+bad.join("; "):"")+". Xem mục Đã tạo gần đây."};
+function csvCell(v){return '"'+String(v==null?"":v).replace(/"/g,'""')+'"'}
+$("batchCsv").onclick=()=>{const h=load().slice().reverse();if(!h.length){toast("Chưa có kịch bản");return}
+  const rows=[["#","title","duration_s","lang","hook","narration","image_prompts","post_caption","hashtags"]].concat(h.map((r,i)=>[i+1,r.title,r.duration,r.lang,r.hook,r.scenes.map(s=>s.narration).join(" "),allPrompts(r).replace(/\n\n/g," || "),r.post_caption,(r.hashtags||[]).join(" ")]));
+  dl("production-plan.csv","\ufeff"+rows.map(r=>r.map(csvCell).join(",")).join("\n"))};
+function cc(){const d=+$("dur").value,m=+$("cc_m").value||0,c=+$("cc_c").value||0,i=+$("cc_i").value||0,clips=Math.ceil(d/8),imgs=d>=300?Math.round(d/12):6,A=clips*c,H=2*c+4*i,I=imgs*i,f=x=>x>0?"~"+Math.floor(m/x)+" video/tháng":"không giới hạn bởi credit";
+  $("cc_out").innerHTML="Video "+d+"s: <b>toàn clip</b> ("+clips+" clip) "+A+" credit, "+f(A)+". <b>Kết hợp</b> (2 clip + 4 ảnh) "+H+" credit, "+f(H)+". <b>Toàn ảnh</b> ("+imgs+" ảnh) "+I+" credit, "+f(I)+"."}
+["cc_m","cc_c","cc_i","dur"].forEach(id=>{$(id).addEventListener("input",cc);$(id).addEventListener("change",cc)});cc();
 function tk(){try{return JSON.parse(localStorage.getItem("sf_trk")||"[]")}catch(e){return []}}
 function tsave(a){try{localStorage.setItem("sf_trk",JSON.stringify(a))}catch(e){}drawTrk()}
 function addTrack(){const a=tk();a.unshift({id:Date.now(),title:cur.title,platform:"facebook",date:new Date().toISOString().slice(0,10),status:"Lên lịch",views:0});tsave(a);toast("Đã thêm vào bảng theo dõi")}
@@ -245,7 +270,7 @@ drawTrk();
 $("go").onclick=async()=>{
   const btn=$("go"),o=$("out");
   const dur=+$("dur").value,lang=$("lang").value,idea=$("idea").value.trim(),style=$("style").value;
-  const lg=dur>=300,nsc=lg?dur/15:{15:4,30:6,60:9}[dur],words=Math.round(dur*(lang==="en"?2.3:2.7));
+  const lg=dur>=300,nsc=lg?dur/15:{15:4,30:6,45:7,60:9}[dur],words=Math.round(dur*(lang==="en"?2.3:2.7));
   const L=lang==="en"?"English":"Vietnamese",L2=lang==="en"?"Vietnamese":"English";
   const prompt="You write scripts for faceless vertical short videos (Facebook Reels, YouTube Shorts, TikTok) in the style of calm, wordless-feeling 3D animated stories with a thoughtful twist.\n"+
   profileText()+refsText()+"Theme: "+topic+" ("+TOPICS[topic]+").\n"+(idea?"Creator idea: "+idea+"\n":"Pick an original, specific idea.\n")+

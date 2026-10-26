@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Quy trình làm Short với Hiro</title>
+<style>
+:root{--bg:#eef2f7;--card:#fff;--ink:#1b2a41;--mute:#5d6b82;--line:#d5dce8;--acc:#2f5bff;--acc-ink:#fff;--amb:#f5a524;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121a29;--card:#1b2538;--ink:#e8edf6;--mute:#9aa8c2;--line:#2c3a55;--acc:#7a98ff;--acc-ink:#0e1626}}
+:root[data-theme="dark"]{--bg:#121a29;--card:#1b2538;--ink:#e8edf6;--mute:#9aa8c2;--line:#2c3a55;--acc:#7a98ff;--acc-ink:#0e1626}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,"Segoe UI",Roboto,sans-serif}
+.w{max-width:780px;margin:0 auto;padding:20px 16px 70px}
+h1{font-size:clamp(26px,6vw,36px);line-height:1.15;margin:8px 0}
+h2{font-size:20px;margin:30px 0 10px;border-left:5px solid var(--amb);padding-left:10px}
+.sub{color:var(--mute);margin:0 0 14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin:12px 0}
+.card h3{margin:0 0 6px;font-size:16px}
+ol,ul{margin:6px 0;padding-left:22px}
+li{margin:4px 0}
+.k{font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--mute);margin:10px 0 4px}
+pre{white-space:pre-wrap;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin:0 0 6px;font:13px/1.5 ui-monospace,Menlo,monospace;overflow-x:auto}
+button{background:transparent;border:1px solid var(--line);color:var(--ink);border-radius:9px;padding:5px 11px;font:inherit;font-size:13px;cursor:pointer}
+button:hover{border-color:var(--acc)}
+button:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.t{display:inline-block;background:var(--amb);color:#1b2a41;font-weight:700;border-radius:8px;padding:2px 9px;font-size:13px}
+.toast{position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 15px;border-radius:10px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .2s}
+.toast.on{opacity:1}
+</style>
+</head>
+<body>
+<div class="w">
+<h1>Quy trình làm Short với Hiro</h1>
+<p class="sub">Mẫu thử: "Why Your Brain Replays Embarrassing Moments at 3 A.M." (7 đoạn x 8 giây = 56 giây). Bấm Copy ở từng khối để dán thẳng vào Flow hoặc CapCut.</p>
+
+<h2>0. Chuẩn bị một lần</h2>
+<div class="card"><h3>Sửa lỗi ảnh bị tạo trùng</h3>
+<ul><li>Flow, Cài đặt tác nhân, mục hình ảnh: chọn <b>x1</b> rồi bấm <b>Lưu</b> ở cuối bảng. Chưa bấm Lưu thì tác nhân vẫn dùng mức cũ (2x).</li>
+<li>Thêm câu <b>generate exactly 1 image</b> vào cuối mỗi prompt (đã có sẵn trong prompt bên dưới).</li>
+<li>Bản trùng thì chuyển vào thùng rác để thư viện gọn. Ảnh chưa thấy trừ credit, bạn vẫn nên nhìn bộ đếm credit sau vài lần tạo để chắc chắn.</li></ul></div>
+<div class="card"><h3>Bảng đạo cụ dùng lại (tạo một lần)</h3><div id="props"></div></div>
+
+<h2>1. Kịch bản mẫu và prompt từng đoạn 8 giây</h2>
+<p class="sub">Đính kèm ảnh Hiro đơn làm tham chiếu cho mọi prompt. Tỷ lệ 9:16.</p>
+<div id="segs"></div>
+<div class="card"><h3>Tiêu đề và caption đăng bài</h3><div id="post"></div></div>
+<div class="card"><h3>Cụm từ cần tự kiểm chứng trước khi đăng</h3><pre>negativity bias Baumeister "Bad is stronger than good"
+rumination and sleep onset
+Scullin 2018 to-do list sleep onset study</pre><p class="sub">Đây là cụm để tìm trên Google Scholar, không phải trích dẫn đã kiểm chứng. Ghi nguồn bạn xác minh được vào mô tả video, và bỏ ý nào không tìm thấy nguồn.</p></div>
+
+<h2>2. Âm thanh</h2>
+<div class="card"><h3>Giọng đọc</h3><ol>
+<li>Dán toàn bộ lời đọc (nút Copy lời đọc ở trên) vào công cụ chuyển văn bản thành giọng nói của CapCut (tên menu có thể khác theo phiên bản, thường nằm trong Text hoặc Audio).</li>
+<li>Chọn một giọng tiếng Anh điềm tĩnh và <b>dùng một giọng duy nhất cho cả kênh</b>. Tốc độ 0,95 đến 1,0.</li>
+<li>Nghe lại cả đoạn để bắt chỗ phát âm sai, rồi sửa dấu câu (dấu chấm tạo quãng nghỉ). Dấu ba chấm ở đoạn 7 dùng để ngắt trước câu hỏi cuối.</li>
+<li>Nếu bạn thoải mái thì tự thu giọng cũng được, giọng thật thường tạo cảm giác xác thực hơn.</li></ol></div>
+<div class="card"><h3>Nhạc và hiệu ứng</h3><ul>
+<li>Chỉ dùng nhạc trong thư viện không bản quyền của CapCut hoặc YouTube Audio Library, tránh bài hát thịnh hành vì dễ vướng bản quyền khi bật kiếm tiền.</li>
+<li>Nhạc nền nhỏ hơn giọng rõ rệt (gợi ý: âm lượng nhạc khoảng 10 đến 15 phần trăm so với giọng), chọn nhạc nhẹ, không lời.</li>
+<li>Thêm 3 đến 5 hiệu ứng âm thanh: tiếng "pop" khi bóng suy nghĩ hiện ra, tiếng "whoosh" khi chuyển cảnh, tiếng tim đập nhẹ ở đoạn 1.</li></ul></div>
+
+<h2>3. Dựng trong CapCut (khoảng 35 đến 50 phút khi đã quen)</h2>
+<div class="card"><ol>
+<li>Tạo dự án 9:16, nhập giọng đọc trước, cắt cho đúng khoảng 56 giây. <b>Giọng quyết định độ dài từng cảnh.</b></li>
+<li>Đặt 7 ảnh theo thứ tự, mỗi ảnh khoảng 8 giây, rồi kéo mép cho khớp từng câu thoại.</li>
+<li>Thêm chuyển động cho từng ảnh theo ghi chú ở mỗi đoạn (zoom vào chậm 100 đến 110 phần trăm, lia nhẹ). Đổi hướng xen kẽ giữa các ảnh.</li>
+<li>Phụ đề: tự động nhận diện giọng hoặc nhập file SRT từ app. Mỗi lần hiện 2 đến 3 từ, chữ trắng viền đen, từ khóa tô hổ phách. Giữ chữ cách mép dưới và mép phải khoảng 20 phần trăm để không bị nút giao diện che.</li>
+<li>Thêm nhạc nền và hiệu ứng, nghe lại cả video bằng tai nghe để cân âm lượng.</li>
+<li>Câu cuối chuyển ngược về cảnh đầu (ảnh Hiro nằm ngủ) để người xem xem lặp lại.</li>
+<li>Xuất 1080x1920, 30 khung hình mỗi giây.</li></ol></div>
+
+<h2>4. Đăng bài</h2>
+<div class="card"><ol>
+<li>Tải thẳng file đã xuất lên từng nền tảng (YouTube Shorts, Facebook Reels, TikTok), không tải lại video có watermark của nền tảng khác.</li>
+<li>Dán tiêu đề, caption, hashtag ở trên. Ghi nguồn vào mô tả YouTube.</li>
+<li>Hẹn giờ khoảng 7 đến 9 giờ sáng giờ Việt Nam, rồi sau 2 tuần chỉnh theo số liệu thực.</li>
+<li>Ghi vào bảng theo dõi của app: nền tảng, ngày, lượt xem sau 48 giờ.</li></ol></div>
+</div>
+<div class="toast" id="toast" role="status"></div>
+<script>
+const ST="Classic simple stick figure line art, thick uniform black outline, white fill, simple line-art background with flat soft pale fill, one key object colored amber-orange (#F5A524), vertical 9:16, no shading, no text, generate exactly 1 image.";
+const PROPS="Props sheet, simple line-art objects in a 3x3 grid with generous spacing, thick uniform black outline, white fill, plain pure white background (#FFFFFF), the main part of each object colored amber-orange (#F5A524): (1) round analog clock showing 3:00, (2) thought bubble with tangled scribbles inside, (3) notebook with a checklist and a pencil, (4) simple brain outline, (5) small snake, (6) crescent moon, (7) light bulb, (8) warning triangle, (9) question mark. No characters, no shadow, no grid lines, no text, no labels, generate exactly 1 image.";
+const SEG=[
+{t:"0 đến 8 giây",n:"It’s 3 a.m. You’re exhausted. And your brain suddenly plays the most embarrassing thing you ever said.",
+ p:"A bedroom at night with a bed and a window, Hiro lying on his back asleep with eyes closed on the bed, a small round clock on the nightstand showing 3:00 colored amber-orange. Same character as the reference.",
+ p2:"Same bedroom at night, Hiro sitting up in bed with both hands on his head and his mouth open in shock, the clock showing 3:00 still colored amber-orange. Same character as the reference.",
+ m:"Ảnh 1 zoom vào chậm khoảng 4 giây, rồi cắt sang ảnh 2 kèm tiếng pop và rung nhẹ khung hình. Thêm chữ 3:00 AM màu hổ phách."},
+{t:"8 đến 16 giây",n:"Not your best moments. Not your proudest wins. Just the cringe, in perfect detail, years later.",
+ p:"Same bedroom at night, Hiro sitting on the edge of the bed doing a facepalm, a large thought bubble above his head with tiny scribbled cringe faces inside, the bubble outline colored amber-orange. Same character as the reference.",
+ m:"Bóng suy nghĩ phóng to từ 0 lên kích thước đầy đủ (hiệu ứng pop). Zoom vào chậm."},
+{t:"16 đến 24 giây",n:"This isn’t a glitch. Your brain gives bad memories more weight than good ones. Scientists call it negativity bias.",
+ p:"Plain pale background, a simple balance scale tipping to the right, the left pan holds a tiny smiling sun, the right pan holds a big heavy frowning cloud, the scale colored amber-orange, Hiro standing beside it pointing at the scale. Same character as the reference.",
+ m:"Lia nhẹ từ trái sang phải theo hướng cân nghiêng. Chữ NEGATIVITY BIAS hiện lên khi lời đọc nhắc đến."},
+{t:"24 đến 32 giây",n:"One explanation: for our ancestors, remembering danger kept them alive. Missing a threat cost more than missing a nice sunset.",
+ p:"A cave interior with a small fire pit and a pale sunset visible at the cave mouth, Hiro without clothes looking shocked at a small snake on the ground, the snake colored amber-orange. Same character as the reference.",
+ m:"Zoom vào con rắn, kèm tiếng whoosh. Cắt qua cửa hang có hoàng hôn ở nửa sau câu thoại."},
+{t:"32 đến 40 giây",n:"At night, there’s nothing to distract you. No noise, no tasks. So your mind goes digging through old mistakes.",
+ p:"Same bedroom at night, Hiro lying awake on his back with eyes open staring at the ceiling, a big thought bubble above him filled with tangled scribbles, a crescent moon in the window colored amber-orange. Same character as the reference.",
+ m:"Giảm độ sáng ảnh một chút, lia nhẹ lên trên theo bóng suy nghĩ."},
+{t:"40 đến 48 giây",n:"Here’s a trick: write tomorrow’s to-do list before bed. One study found it helped people fall asleep faster.",
+ p:"Same bedroom at night with a warm lamp on, Hiro sitting on the bed writing in a notebook with a pencil, the notebook page shows a checklist with checkmarks, the pencil colored amber-orange. Same character as the reference.",
+ m:"Tăng độ sáng nhẹ để báo hiệu giải pháp. Zoom vào cuốn sổ. Hiện dấu tích hổ phách khi nhắc to-do list."},
+{t:"48 đến 56 giây",n:"Your brain isn’t broken. It’s just overprotective. So tonight, when the cringe replays... what will you tell it?",
+ p:"Same bedroom in soft morning light, Hiro sitting on the bed with one hand on his chin looking at the viewer, a small thought bubble above him with a question mark colored amber-orange. Same character as the reference.",
+ m:"Zoom vào mặt Hiro rất chậm. Đến câu cuối để im lặng nửa giây rồi cắt về ảnh Hiro nằm ngủ ở đoạn 1 để lặp lại."}
+];
+const POST={title:"Why Your Brain Replays Embarrassing Moments at 3 A.M.",cap:"Your brain isn’t broken. It’s overprotective. What will you tell it tonight?",tags:"#psychology #brain #sleep #shorts #mindset"};
+function toast(m){const t=document.getElementById("toast");t.textContent=m;t.classList.add("on");setTimeout(()=>t.classList.remove("on"),1700)}
+function copy(x){navigator.clipboard.writeText(x).then(()=>toast("Đã sao chép"),()=>toast("Không sao chép được, hãy chọn và copy tay"))}
+function blk(label,txt){const d=document.createElement("div");const k=document.createElement("div");k.className="k";k.textContent=label;const p=document.createElement("pre");p.textContent=txt;const b=document.createElement("button");b.textContent="Copy";b.onclick=()=>copy(txt);d.append(k,p,b);return d}
+document.getElementById("props").append(blk("Prompt bảng đạo cụ (đính kèm ảnh Hiro)",PROPS));
+const S=document.getElementById("segs");
+SEG.forEach((s,i)=>{const c=document.createElement("div");c.className="card";const h=document.createElement("h3");h.innerHTML="Đoạn "+(i+1)+" <span class='t'></span>";h.querySelector(".t").textContent=s.t;c.append(h);
+ c.append(blk("Lời đọc",s.n),blk("Prompt ảnh",s.p+" "+ST));
+ if(s.p2)c.append(blk("Prompt ảnh phụ (cắt sang ở giây thứ 4)",s.p2+" "+ST));
+ const m=document.createElement("p");m.className="sub";m.style.margin="8px 0 0";m.textContent="Chuyển động trong CapCut: "+s.m;c.append(m);S.append(c)});
+const all=document.createElement("div");all.className="card";all.append(blk("Toàn bộ lời đọc (để dán vào TTS)",SEG.map(s=>s.n).join("\n")));S.append(all);
+document.getElementById("post").append(blk("Tiêu đề",POST.title),blk("Caption",POST.cap+"\n\n"+POST.tags));
+</script>
+</body>
+</html>
