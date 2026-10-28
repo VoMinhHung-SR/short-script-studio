@@ -1,0 +1,51 @@
+:root{--bg:#eef2f7;--card:#fff;--ink:#1b2a41;--mute:#5d6b82;--line:#d5dce8;--acc:#2f5bff;--acc-ink:#fff;--sun:#ffc93c;--sun-ink:#1b2a41;--ok:#12805c;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121a29;--card:#1b2538;--ink:#e8edf6;--mute:#9aa8c2;--line:#2c3a55;--acc:#7a98ff;--acc-ink:#0e1626;--sun:#ffc93c;--ok:#4cc79a}}
+:root[data-theme="dark"]{--bg:#121a29;--card:#1b2538;--ink:#e8edf6;--mute:#9aa8c2;--line:#2c3a55;--acc:#7a98ff;--acc-ink:#0e1626;--sun:#ffc93c;--ok:#4cc79a}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.55 "Be Vietnam Pro",system-ui,sans-serif}
+.wrap{max-width:760px;margin:0 auto;padding:20px 16px 80px}
+h1{font:800 clamp(28px,6vw,40px)/1.1 "Bricolage Grotesque",system-ui,sans-serif;margin:8px 0 6px;letter-spacing:-.02em}
+h2{font:600 18px "Bricolage Grotesque",system-ui,sans-serif;margin:0 0 10px}
+.sub{color:var(--mute);margin:0 0 22px}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:16px}
+label{display:block;font-weight:600;font-size:14px;margin:14px 0 6px}
+label:first-child{margin-top:0}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:999px;padding:7px 13px;font:inherit;font-size:14px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.row{display:flex;gap:12px;flex-wrap:wrap}
+.row>div{flex:1 1 200px}
+textarea,select{width:100%;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:10px;padding:10px 12px;font:inherit}
+textarea{min-height:64px;resize:vertical}
+button:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.go{width:100%;margin-top:18px;background:var(--acc);color:var(--acc-ink);border:0;border-radius:12px;padding:14px;font:600 16px "Be Vietnam Pro",sans-serif;cursor:pointer}
+.go:disabled{opacity:.6;cursor:wait}
+.btn{background:transparent;border:1px solid var(--line);color:var(--ink);border-radius:9px;padding:6px 11px;font:inherit;font-size:13px;cursor:pointer}
+.btn:hover{border-color:var(--acc)}
+.hook{background:var(--sun);color:var(--sun-ink);border-radius:14px;padding:16px 18px;margin-bottom:14px}
+.hook b{font:800 22px/1.2 "Bricolage Grotesque",sans-serif;display:block;margin-bottom:4px}
+.bar{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.scene{display:grid;grid-template-columns:64px 1fr;gap:12px;border-top:1px solid var(--line);padding:14px 0}
+.scene:first-of-type{border-top:0}
+.t{font:600 13px "Bricolage Grotesque",sans-serif;color:var(--acc);background:color-mix(in srgb,var(--acc) 12%,transparent);border-radius:8px;padding:6px;text-align:center;height:fit-content}
+.nar{font-weight:500;margin:0 0 6px}
+.vis{font-size:14px;color:var(--mute);margin:0 0 6px}
+.alt{font-size:14px;color:var(--mute);font-style:italic;margin:0 0 6px}
+.nar:focus,.alt:focus{outline:2px solid var(--acc);border-radius:6px}
+.act{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.act input{flex:1 1 160px;min-width:0;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:9px;padding:6px 10px;font:inherit;font-size:13px}
+pre{white-space:pre-wrap;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:12px;font:13px/1.5 ui-monospace,Menlo,monospace;margin:0 0 8px;overflow-x:auto}
+.err{color:#c0362c;font-weight:500}
+.hist button{display:block;width:100%;text-align:left;margin-bottom:6px}
+textarea.sm{min-height:48px}
+.row input[type=number]{width:100%;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:10px;padding:10px 12px;font:inherit}
+#hist{max-height:280px;overflow:auto}
+.trow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;border-top:1px solid var(--line);padding:8px 0}
+.trow b{flex:1 1 100%;font-weight:600;font-size:14px}
+.trow select,.trow input,#setp input{width:auto;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:8px;padding:5px 8px;font:inherit;font-size:13px}
+#setp input{width:100%;padding:9px 10px}
+summary{cursor:pointer;font-weight:600}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:10px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .2s}
+.toast.on{opacity:1}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
