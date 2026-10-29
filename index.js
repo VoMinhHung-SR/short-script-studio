@@ -140,7 +140,7 @@ async function dl(name,data){
 function render(keep){
   const r=cur,o=$("out");if(!r){o.innerHTML="";return}
   o.innerHTML='<div class="hook"><b>'+esc(r.title)+'</b>'+esc(r.hook)+'</div>'+extraPanel(r)+
-  '<div class="bar"><button class="btn" id="b1">Sao chép toàn bộ</button><button class="btn" id="b2">Lưu SRT '+LN(r.lang)+'</button><button class="btn" id="b6">Lưu SRT '+LN(r.lang==="en"?"vi":"en")+'</button><button class="btn" id="b3">Sao chép lời đọc</button><button class="btn" id="b4">Lưu JSON</button><button class="btn" id="b9">Lưu làm mẫu</button><button class="btn" id="b10">Copy prompt hình</button><button class="btn" id="b11">Lưu prompts.txt</button><button class="btn" id="b12">Xuất file HTML</button></div>'+
+  '<div class="bar"><button class="btn" id="b1">Sao chép toàn bộ</button><button class="btn" id="b2">Lưu SRT '+LN(r.lang)+'</button><button class="btn" id="b6">Lưu SRT '+LN(r.lang==="en"?"vi":"en")+'</button><button class="btn" id="b3">Sao chép lời đọc</button><button class="btn" id="b4">Lưu JSON</button><button class="btn" id="b9">Lưu làm mẫu</button><button class="btn" id="b10">Copy prompt hình</button><button class="btn" id="b11">Lưu prompts.txt</button><button class="btn" id="b12">Xuất trang quy trình</button><button class="btn" id="b12">Xuất file HTML</button></div>'+
   '<div class="panel">'+r.scenes.map((s,i)=>'<div class="scene"><div class="t">'+esc(s.time)+'</div><div><p class="nar" contenteditable="true" role="textbox" data-n="'+i+'" aria-label="Lời đọc cảnh '+(i+1)+'">'+esc(s.narration)+'</p>'+(s.narration_alt?'<p class="alt" contenteditable="true" role="textbox" data-a="'+i+'" aria-label="Bản dịch cảnh '+(i+1)+'">'+esc(s.narration_alt)+'</p>':'')+'<p class="vis">Hình: '+esc(s.visual_prompt)+'</p><div class="act"><input data-r="'+i+'" placeholder="Yêu cầu sửa (không bắt buộc)" aria-label="Yêu cầu sửa cảnh '+(i+1)+'"><button class="btn" data-w="'+i+'">Viết lại cảnh</button><button class="btn" data-i="'+i+'">Copy prompt</button></div></div></div>').join("")+"</div>"+
   '<div class="panel"><h2>Đăng bài</h2><pre>'+esc(r.post_caption)+"\n\n"+esc((r.hashtags||[]).join(" "))+'</pre><button class="btn" id="b5">Sao chép caption</button> <button class="btn" id="b7">Tạo gói đăng 3 nền tảng</button> <button class="btn" id="b8">Thêm vào theo dõi</button><div id="pack"></div></div>'+
   '<div class="panel"><h2>Phụ đề SRT (3 từ mỗi dòng, tự cập nhật khi bạn sửa lời)</h2><pre id="srt">'+esc(makeSRT(r))+'</pre></div>';
@@ -154,6 +154,7 @@ function render(keep){
   o.querySelectorAll("[data-n]").forEach(p=>p.onblur=()=>{r.scenes[p.dataset.n].narration=p.innerText.trim();touch()});
   o.querySelectorAll("[data-a]").forEach(p=>p.onblur=()=>{r.scenes[p.dataset.a].narration_alt=p.innerText.trim();touch()});
   o.querySelectorAll("[data-w]").forEach(b=>b.onclick=()=>rewrite(+b.dataset.w,b));
+  $("b12").onclick=()=>exportWorkflow(r);
   $("b10").onclick=()=>copy(allPrompts(r),"Đã sao chép "+r.scenes.length+" prompt");$("b11").onclick=()=>dl("prompts.txt",allPrompts(r));
   $("b12").onclick=()=>exportCurrentScript();
   $("b9").onclick=()=>addRef(r.scenes.map(s=>s.narration).join("\n"),r.title);
@@ -295,7 +296,7 @@ $("go").onclick=async()=>{
   "Narration language: "+L+". Total narration about "+words+" words for "+dur+" seconds, split into exactly "+nsc+" scenes.\n"+
   "Rules: scene 1 narration is a hook that creates curiosity in 3 seconds; the last scene lands a twist or emotional line that echoes the hook so viewers rewatch; short plain sentences; no clichés; no claims that need citations unless well established.\n"+
   "Each visual_prompt is in English, self-contained, describes ONE shot only (composition, pose, action, props, background, camera). Never describe style or the character's looks: the app prepends them. Call the recurring character \"the character\".\n"+
-  "Return ONLY JSON: {\"title\":string,\"hook\":string,\"scenes\":[{\"time\":\"0-5s\",\"narration\":string,\"narration_alt\":string (faithful "+L2+" translation of narration),\"visual_prompt\":string}],\"post_caption\":string (in "+L+", 1-2 lines),\"hashtags\":[5 strings]}. The time ranges must cover 0 to "+dur+"s evenly."+(lg?" LONG VIDEO: write time as m:ss-m:ss; set narration_alt to an empty string; add \"titles\" (3 SEO titles phrased as questions people search) and \"sources_to_verify\" (5 specific search queries a human can use to verify the key claims; never invent citations). Each scene is about "+Math.round(words/nsc)+" words; add an open question or pattern interrupt about every 45 seconds; no filler.":"");
+  "Return ONLY JSON: {\"title\":string,\"hook\":string,\"scenes\":[{\"time\":\"0-5s\",\"narration\":string,\"narration_alt\":string (faithful "+L2+" translation of narration),\"visual_prompt\":string,\"motion\":string (one short CapCut camera or motion note in Vietnamese)}],\"post_caption\":string (in "+L+", 1-2 lines),\"hashtags\":[5 strings],\"sources_to_verify\":[3 to 5 search queries a human can use to verify the key claims, never invented citations]}. The time ranges must cover 0 to "+dur+"s evenly."+(lg?" LONG VIDEO: write time as m:ss-m:ss; set narration_alt to an empty string; add \"titles\" (3 SEO titles phrased as questions people search) and \"sources_to_verify\" (5 specific search queries a human can use to verify the key claims; never invent citations). Each scene is about "+Math.round(words/nsc)+" words; add an open question or pattern interrupt about every 45 seconds; no filler.":"");
   btn.disabled=true;btn.textContent="Đang viết kịch bản...";o.innerHTML="";
   try{
     const sample=await claude.use("sample");
@@ -310,3 +311,24 @@ $("go").onclick=async()=>{
   }
   btn.disabled=false;btn.textContent="Tạo kịch bản";
 };
+
+// ===== Xuất trang quy trình vào content/[Story].html =====
+function slugTitle(s){return String(s||"video").replace(/[^A-Za-z0-9]+/g," ").trim().split(" ").map(w=>w.charAt(0).toUpperCase()+w.slice(1)).join("")||"video"}
+function buildContent(r){
+  return {title:r.title,hook:r.hook||"",duration:r.duration,
+    segments:r.scenes.map(s=>({t:s.time,n:s.narration,p:vp(r,s)+" One key object colored amber-orange (#F5A524), no shading, no text, generate exactly 1 image.",m:s.motion||"Zoom vào chậm 100 đến 110 phần trăm."})),
+    post:{title:r.title,cap:r.post_caption||"",tags:(r.hashtags||[]).join(" ")},sources:r.sources_to_verify||[]};
+}
+function renderWorkflow(c){return window.WORKFLOW_TEMPLATE.split("__CONTENT__").join(JSON.stringify(c).replace(/</g,"\\u003c")).split("__TITLE__").join(esc(c.title))}
+async function saveToContent(name,html){
+  try{
+    if(!window.showDirectoryPicker)return false;
+    const db=await new Promise((ok,no)=>{const q=indexedDB.open("sf_fs",1);q.onupgradeneeded=()=>q.result.createObjectStore("h");q.onsuccess=()=>ok(q.result);q.onerror=no});
+    let root=await new Promise(ok=>{const q=db.transaction("h").objectStore("h").get("root");q.onsuccess=()=>ok(q.result);q.onerror=()=>ok(null)});
+    if(root&&(await root.requestPermission({mode:"readwrite"}))!=="granted")root=null;
+    if(!root){root=await showDirectoryPicker({mode:"readwrite"});db.transaction("h","readwrite").objectStore("h").put(root,"root")}
+    const dir=await root.getDirectoryHandle("content",{create:true}),f=await dir.getFileHandle(name,{create:true}),w=await f.createWritable();
+    await w.write(html);await w.close();toast("Đã lưu content/"+name);return true;
+  }catch(e){return !!(e&&e.name==="AbortError")}
+}
+async function exportWorkflow(r){const name=slugTitle(r.title)+".html",html=renderWorkflow(buildContent(r));if(!(await saveToContent(name,html)))dl(name,html)}
