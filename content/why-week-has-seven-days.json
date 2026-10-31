@@ -1,0 +1,55 @@
+{
+  "title": "Why Does a Week Have Seven Days?",
+  "hook": "A year doesn't divide evenly by seven. Neither do most months. So why is your week seven days?",
+  "duration": 50,
+  "segments": [
+    {
+      "t": "0 đến 8 giây",
+      "n": "A year doesn’t divide evenly by seven. Neither do most months. So why is your week seven days?",
+      "p": "A bright calendar page with a grid of days, a big question mark above it colored amber-orange, Hiro standing beside the calendar scratching his head, simple pale background. Hiro, the same character as the reference, with a tiny black mole under the eye on the right side of the image. Classic simple stick figure line art, thick uniform black outline, white fill, simple line-art background with flat soft pale fill, one key object colored amber-orange (#F5A524), vertical 9:16, no shading, no text, generate exactly 1 image.",
+      "m": "Zoom vào chậm, dấu hỏi hiện ra kèm tiếng pop."
+    },
+    {
+      "t": "8 đến 17 giây",
+      "n": "Historians trace it back to ancient Babylon, where people watched the Moon’s phases and seven bright objects in the sky.",
+      "p": "Ancient Babylon at night, a stepped stone tower in the background, a night sky with a crescent moon and seven small stars colored amber-orange, Hiro in a simple wrap looking up at the sky. Hiro, the same character as the reference, with a tiny black mole under the eye on the right side of the image. Classic simple stick figure line art, thick uniform black outline, white fill, simple line-art background with flat soft pale fill, one key object colored amber-orange (#F5A524), vertical 9:16, no shading, no text, generate exactly 1 image.",
+      "m": "Lia nhẹ từ dưới lên bầu trời, bảy ngôi sao hiện lần lượt."
+    },
+    {
+      "t": "17 đến 24 giây",
+      "n": "Each quarter of the Moon’s cycle lasts about seven days, so a week fits it roughly.",
+      "p": "Four moon phase circles in a row above Hiro (new, first quarter, full, last quarter), Hiro pointing at them with one open palm, the first quarter moon colored amber-orange, night sky with pale fill. Hiro, the same character as the reference, with a tiny black mole under the eye on the right side of the image. Classic simple stick figure line art, thick uniform black outline, white fill, simple line-art background with flat soft pale fill, one key object colored amber-orange (#F5A524), vertical 9:16, no shading, no text, generate exactly 1 image.",
+      "m": "Lia ngang qua bốn mặt trăng, dừng ở mặt trăng màu hổ phách."
+    },
+    {
+      "t": "24 đến 32 giây",
+      "n": "The Romans spread the planetary week across their empire, and that’s why we still have Saturday, Sunday and Monday.",
+      "p": "A Roman street with marble columns and an arch, Hiro in a simple toga holding a scroll, seven small round symbols floating in a row above him, the sun symbol colored amber-orange. Hiro, the same character as the reference, with a tiny black mole under the eye on the right side of the image. Classic simple stick figure line art, thick uniform black outline, white fill, simple line-art background with flat soft pale fill, one key object colored amber-orange (#F5A524), vertical 9:16, no shading, no text, generate exactly 1 image.",
+      "m": "Zoom vào chậm, đổi hướng lia khi nhắc đến Saturday, Sunday, Monday."
+    },
+    {
+      "t": "32 đến 41 giây",
+      "n": "Others tried to change it. Revolutionary France tested a ten-day week, and the Soviet Union tried shorter ones. Neither lasted.",
+      "p": "Split scene: on the left a tall calendar with ten rows of days crossed out, on the right a calendar with five days crossed out, Hiro in the middle shrugging with both palms up, the crossed marks colored amber-orange. Hiro, the same character as the reference, with a tiny black mole under the eye on the right side of the image. Classic simple stick figure line art, thick uniform black outline, white fill, simple line-art background with flat soft pale fill, one key object colored amber-orange (#F5A524), vertical 9:16, no shading, no text, generate exactly 1 image.",
+      "m": "Lia từ trái sang phải, hai dấu gạch chéo hiện ra lần lượt."
+    },
+    {
+      "t": "41 đến 50 giây",
+      "n": "The week survives because we agreed on it, not because of math. What else do we follow just because everyone does?",
+      "p": "A crowd of small stick figures all walking in the same direction toward a giant calendar, Hiro stopping at the front and turning to look at the viewer with a question mark above his head colored amber-orange. Hiro, the same character as the reference, with a tiny black mole under the eye on the right side of the image. Classic simple stick figure line art, thick uniform black outline, white fill, simple line-art background with flat soft pale fill, one key object colored amber-orange (#F5A524), vertical 9:16, no shading, no text, generate exactly 1 image.",
+      "m": "Zoom vào mặt Hiro rất chậm, im lặng nửa giây rồi cắt về ảnh đầu để lặp lại."
+    }
+  ],
+  "post": {
+    "title": "Why Does a Week Have Seven Days?",
+    "cap": "Your week isn’t math. It’s an agreement humans made. What else do we follow just because everyone does?",
+    "tags": "#history #calendar #didyouknow #shorts #facts"
+  },
+  "sources": [
+    "Babylonian seven-day week origin",
+    "planetary week Roman Empire days of the week names origin",
+    "French Republican calendar ten-day decade",
+    "Soviet calendar five-day six-day week 1929",
+    "moon phase quarter length 7.4 days"
+  ]
+}
