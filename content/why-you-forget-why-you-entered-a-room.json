@@ -1,0 +1,54 @@
+{
+  "title": "Why Do You Forget Why You Entered a Room?",
+  "hook": "You walk into the kitchen. And completely forget why.",
+  "duration": 54,
+  "segments": [
+    {
+      "t": "0 đến 8 giây",
+      "n": "You walk into the kitchen. And completely forget why. You’re not losing your mind. It has a name.",
+      "p": "A small kitchen with a table and a fridge, Hiro standing in the doorway with both hands out and a confused face, a question mark above his head colored amber-orange. Hiro, the same character as the reference, with a tiny black mole under the eye on the right side of the image. Classic simple stick figure line art, thick uniform black outline, white fill, simple line-art background with flat soft pale fill, one key object colored amber-orange (#F5A524), vertical 9:16, no shading, no text, generate exactly 1 image.",
+      "m": "Zoom vào chậm, dấu hỏi hiện ra kèm tiếng pop ở từ forget."
+    },
+    {
+      "t": "8 đến 18 giây",
+      "n": "It’s called the doorway effect. In one study, people forgot more after crossing a doorway than after walking the same distance inside one room.",
+      "p": "Split scene: on the left Hiro walking across one big room leaving a short trail of dots, on the right Hiro stepping through a doorway into another room, the doorway frame colored amber-orange, a tiny thought bubble floating away above him. Hiro, the same character as the reference, with a tiny black mole under the eye on the right side of the image. Classic simple stick figure line art, thick uniform black outline, white fill, simple line-art background with flat soft pale fill, one key object colored amber-orange (#F5A524), vertical 9:16, no shading, no text, generate exactly 1 image.",
+      "m": "Lia từ trái sang phải theo hướng đi, bóng suy nghĩ trôi đi khi qua cửa."
+    },
+    {
+      "t": "18 đến 26 giây",
+      "n": "Researchers think your brain treats a doorway like the end of a scene, and files the old thoughts away.",
+      "p": "Hiro standing beside a doorway, a small filing cabinet next to him with a thought bubble being slid into a drawer, the drawer colored amber-orange, plain pale background. Hiro, the same character as the reference, with a tiny black mole under the eye on the right side of the image. Classic simple stick figure line art, thick uniform black outline, white fill, simple line-art background with flat soft pale fill, one key object colored amber-orange (#F5A524), vertical 9:16, no shading, no text, generate exactly 1 image.",
+      "m": "Zoom vào ngăn kéo khi bóng suy nghĩ được cất vào, kèm tiếng whoosh."
+    },
+    {
+      "t": "26 đến 35 giây",
+      "n": "Think of a movie. When the scene changes, the last scene fades out. Your mind does something similar with rooms.",
+      "p": "A movie theater screen showing two simple scenes side by side, the left scene fading with dotted lines, the right scene sharp, a clapperboard colored amber-orange, Hiro seated in front watching with a popcorn bucket. Hiro, the same character as the reference, with a tiny black mole under the eye on the right side of the image. Classic simple stick figure line art, thick uniform black outline, white fill, simple line-art background with flat soft pale fill, one key object colored amber-orange (#F5A524), vertical 9:16, no shading, no text, generate exactly 1 image.",
+      "m": "Lia nhẹ từ cảnh mờ sang cảnh rõ, rung nhẹ khi nhắc đến rooms."
+    },
+    {
+      "t": "35 đến 44 giây",
+      "n": "So what helps? Go back to the room where you had the thought. The place itself can bring it back.",
+      "p": "Hiro walking back into the first room, a light bulb above his head colored amber-orange, a table with a notebook in the background. Hiro, the same character as the reference, with a tiny black mole under the eye on the right side of the image. Classic simple stick figure line art, thick uniform black outline, white fill, simple line-art background with flat soft pale fill, one key object colored amber-orange (#F5A524), vertical 9:16, no shading, no text, generate exactly 1 image.",
+      "m": "Đổi hướng lia ngược lại, bóng đèn sáng lên kèm tiếng pop."
+    },
+    {
+      "t": "44 đến 54 giây",
+      "n": "Try saying your goal out loud before you move. It’s not a flaw. It’s your brain turning the page. What did you forget today?",
+      "p": "Hiro standing in a doorway saying something aloud shown as a simple speech bubble with a checkmark inside colored amber-orange, calm expression, looking at the viewer. Hiro, the same character as the reference, with a tiny black mole under the eye on the right side of the image. Classic simple stick figure line art, thick uniform black outline, white fill, simple line-art background with flat soft pale fill, one key object colored amber-orange (#F5A524), vertical 9:16, no shading, no text, generate exactly 1 image.",
+      "m": "Zoom vào mặt Hiro rất chậm, im lặng nửa giây rồi cắt về ảnh đầu để lặp lại."
+    }
+  ],
+  "post": {
+    "title": "Why Do You Forget Why You Entered a Room?",
+    "cap": "Your brain isn’t broken. It just turned the page. What did you forget today?",
+    "tags": "#psychology #brain #memory #shorts #facts"
+  },
+  "sources": [
+    "doorway effect Radvansky 2011 walking through doorways causes forgetting",
+    "doorway effect replication event boundaries memory",
+    "context-dependent memory Godden Baddeley underwater",
+    "event segmentation theory Zacks"
+  ]
+}
