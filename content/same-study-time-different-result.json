@@ -1,0 +1,54 @@
+{
+  "title": "Same Study Time, Different Result",
+  "hook": "Two students. Same total study time: two hours and twenty minutes. One spreads it over a week. The other crams it the night before.",
+  "duration": 50,
+  "segments": [
+    {
+      "t": "0 đến 10 giây",
+      "n": "Two students. Same total study time: two hours and twenty minutes. One spreads it over a week. The other crams it the night before.",
+      "p": "Split scene: on the left Hiro at a desk beside a small calendar of seven days each marked with a tiny checkmark colored amber-orange, on the right a second stick figure wearing a small cap at a desk with a huge stack of books and a clock showing late night. Hiro, the same character as the reference, with a tiny black mole under the eye on the right side of the image; the second figure with a small cap has a plain face and no mole. Classic simple stick figure line art, thick uniform black outline, white fill, simple line-art background with flat soft pale fill, one key object colored amber-orange (#F5A524), vertical 9:16, no shading, no text, generate exactly 1 image.",
+      "m": "Lia từ trái sang phải, các dấu tích hiện ra lần lượt trên lịch."
+    },
+    {
+      "t": "10 đến 18 giây",
+      "n": "On test day, both feel ready. The crammer often feels more confident, because everything is still fresh.",
+      "p": "A classroom with two desks and test papers, Hiro smiling calmly, the cap figure giving a big confident thumbs up, a small checkmark badge above the cap figure colored amber-orange. Hiro, the same character as the reference, with a tiny black mole under the eye on the right side of the image; the second figure with a small cap has a plain face and no mole. Classic simple stick figure line art, thick uniform black outline, white fill, simple line-art background with flat soft pale fill, one key object colored amber-orange (#F5A524), vertical 9:16, no shading, no text, generate exactly 1 image.",
+      "m": "Zoom nhẹ vào nhân vật đội mũ khi nhắc đến confident."
+    },
+    {
+      "t": "18 đến 26 giây",
+      "n": "But weeks later, the spread-out student usually remembers more. Researchers have studied this spacing effect for over a century.",
+      "p": "A calendar with four pages flipped, Hiro holding a thick glowing notebook colored amber-orange and smiling, the cap figure scratching his head over an empty notebook. Hiro, the same character as the reference, with a tiny black mole under the eye on the right side of the image; the second figure with a small cap has a plain face and no mole. Classic simple stick figure line art, thick uniform black outline, white fill, simple line-art background with flat soft pale fill, one key object colored amber-orange (#F5A524), vertical 9:16, no shading, no text, generate exactly 1 image.",
+      "m": "Lật lịch nhanh bằng chuyển cảnh, rồi zoom vào cuốn sổ sáng."
+    },
+    {
+      "t": "26 đến 34 giây",
+      "n": "Researchers think that each time you almost forget and then recall something, your brain strengthens that memory.",
+      "p": "A simple brain outline with a thought bubble showing a memory that is almost fading, then a glowing arrow pointing back to it, the arrow colored amber-orange, Hiro standing beside the brain pointing at it. Hiro, the same character as the reference, with a tiny black mole under the eye on the right side of the image; the second figure with a small cap has a plain face and no mole. Classic simple stick figure line art, thick uniform black outline, white fill, simple line-art background with flat soft pale fill, one key object colored amber-orange (#F5A524), vertical 9:16, no shading, no text, generate exactly 1 image.",
+      "m": "Zoom vào mũi tên sáng, kèm tiếng pop khi ký ức hiện lại."
+    },
+    {
+      "t": "34 đến 41 giây",
+      "n": "Cramming skips that step. Everything is learned in one block, so it tends to fade faster.",
+      "p": "A single tall column of books collapsing with small pieces falling away and a fading dotted outline, the cap figure looking up at it, the falling pieces colored amber-orange. Hiro, the same character as the reference, with a tiny black mole under the eye on the right side of the image; the second figure with a small cap has a plain face and no mole. Classic simple stick figure line art, thick uniform black outline, white fill, simple line-art background with flat soft pale fill, one key object colored amber-orange (#F5A524), vertical 9:16, no shading, no text, generate exactly 1 image.",
+      "m": "Lia từ trên xuống theo các mảnh rơi, rung nhẹ khi cột sách đổ."
+    },
+    {
+      "t": "41 đến 50 giây",
+      "n": "So split your study across days. Twenty minutes a day can beat one huge night. Which student are you this week?",
+      "p": "Hiro at a desk with a weekly planner showing several short marked blocks, looking at the viewer, a question mark above him colored amber-orange, the cap figure small in the background asleep over a book. Hiro, the same character as the reference, with a tiny black mole under the eye on the right side of the image; the second figure with a small cap has a plain face and no mole. Classic simple stick figure line art, thick uniform black outline, white fill, simple line-art background with flat soft pale fill, one key object colored amber-orange (#F5A524), vertical 9:16, no shading, no text, generate exactly 1 image.",
+      "m": "Zoom vào mặt Hiro rất chậm, im lặng nửa giây rồi cắt về ảnh đầu để lặp lại."
+    }
+  ],
+  "post": {
+    "title": "Same Study Time, Different Result",
+    "cap": "Same study time. Different result. Which student are you this week?",
+    "tags": "#study #learning #psychology #shorts #memory"
+  },
+  "sources": [
+    "spacing effect distributed practice Cepeda 2006 meta-analysis",
+    "Ebbinghaus forgetting curve spacing effect",
+    "massed practice cramming illusion of fluency Bjork desirable difficulties",
+    "spaced retrieval practice student learning"
+  ]
+}
