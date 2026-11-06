@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Why Do We Experience Déjà Vu?</title>
+    <style>
+        :root {
+            --bg: #eef2f7;
+            --card: #fff;
+            --ink: #1b2a41;
+            --mute: #5d6b82;
+            --line: #d5dce8;
+            --acc: #2f5bff;
+            --acc-ink: #fff;
+            --amb: #f5a524;
+            box-sizing: border-box;
+            padding-top: env(safe-area-inset-top, 0px);
+            padding-bottom: env(safe-area-inset-bottom, 0px)
+        }
+
+        @media (prefers-color-scheme:dark) {
+            :root:not([data-theme="light"]) {
+                --bg: #121a29;
+                --card: #1b2538;
+                --ink: #e8edf6;
+                --mute: #9aa8c2;
+                --line: #2c3a55;
+                --acc: #7a98ff;
+                --acc-ink: #0e1626
+            }
+        }
+
+        :root[data-theme="dark"] {
+            --bg: #121a29;
+            --card: #1b2538;
+            --ink: #e8edf6;
+            --mute: #9aa8c2;
+            --line: #2c3a55;
+            --acc: #7a98ff;
+            --acc-ink: #0e1626
+        }
+
+        html {
+            scroll-padding-top: env(safe-area-inset-top, 0px)
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--ink);
+            font: 16px/1.55 system-ui, "Segoe UI", Roboto, sans-serif
+        }
+
+        .w {
+            max-width: 780px;
+            margin: 0 auto;
+            padding: 20px 16px 70px
+        }
+
+        h1 {
+            font-size: clamp(26px, 6vw, 36px);
+            line-height: 1.15;
+            margin: 8px 0
+        }
+
+        h2 {
+            font-size: 20px;
+            margin: 30px 0 10px;
+            border-left: 5px solid var(--amb);
+            padding-left: 10px
+        }
+
+        .sub {
+            color: var(--mute);
+            margin: 0 0 14px
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 14px 16px;
+            margin: 12px 0
+        }
+
+        .card h3 {
+            margin: 0 0 6px;
+            font-size: 16px
+        }
+
+        ol,
+        ul {
+            margin: 6px 0;
+            padding-left: 22px
+        }
+
+        li {
+            margin: 4px 0
+        }
+
+        .k {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: .04em;
+            text-transform: uppercase;
+            color: var(--mute);
+            margin: 10px 0 4px
+        }
+
+        pre {
+            white-space: pre-wrap;
+            background: var(--bg);
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 10px 12px;
+            margin: 0 0 6px;
+            font: 13px/1.5 ui-monospace, Menlo, monospace;
+            overflow-x: auto
+        }
+
+        button {
+            background: transparent;
+            border: 1px solid var(--line);
+            color: var(--ink);
+            border-radius: 9px;
+            padding: 5px 11px;
+            font: inherit;
+            font-size: 13px;
+            cursor: pointer
+        }
+
+        button:hover {
+            border-color: var(--acc)
+        }
+
+        button:focus-visible {
+            outline: 3px solid var(--acc);
+            outline-offset: 2px
+        }
+
+        .t {
+            display: inline-block;
+            background: var(--amb);
+            color: #1b2a41;
+            font-weight: 700;
+            border-radius: 8px;
+            padding: 2px 9px;
+            font-size: 13px
+        }
+
+        .toast {
+            position: fixed;
+            left: 50%;
+            bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+            transform: translateX(-50%);
+            background: var(--ink);
+            color: var(--bg);
+            padding: 8px 15px;
+            border-radius: 10px;
+            font-size: 14px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .2s
+        }
+
+        .toast.on {
+            opacity: 1
+        }
+    </style>
+</head>
+
+<body>
+    <div class="w">
+        <h1 id="ttl"></h1>
+        <p class="sub" id="meta"></p>
+
+        <h2>0. Chuẩn bị một lần</h2>
+        <div class="card">
+            <h3>Sửa lỗi ảnh bị tạo trùng</h3>
+            <ul>
+                <li>Flow, Cài đặt tác nhân, mục hình ảnh: chọn <b>x1</b> rồi bấm <b>Lưu</b> ở cuối bảng.</li>
+                <li>Thêm câu <b>generate exactly 1 image</b> vào cuối mỗi prompt.</li>
+                <li>Bản trùng thì chuyển vào thùng rác để thư viện gọn.</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>Bảng đạo cụ dùng lại (tạo một lần)</h3>
+            <div id="props"></div>
+        </div>
+
+        <h2>1. Kịch bản và prompt từng đoạn</h2>
+        <p class="sub">Đính kèm ảnh Hiro đơn làm tham chiếu cho mọi prompt. Tỷ lệ 9:16.</p>
+        <div id="segs"></div>
+
+        <div class="card">
+            <h3>Tiêu đề và caption đăng bài</h3>
+            <div id="post"></div>
+        </div>
+
+        <div class="card">
+            <h3>Cụm từ cần tự kiểm chứng trước khi đăng</h3>
+            <pre id="srcs"></pre>
+            <p class="sub">Đây là cụm để tìm nguồn, chưa phải trích dẫn đã kiểm chứng.</p>
+        </div>
+
+        <h2>2. Âm thanh</h2>
+        <div class="card">
+            <h3>Giọng đọc</h3>
+            <ol>
+                <li>Dán toàn bộ lời đọc vào công cụ chuyển văn bản thành giọng nói của CapCut.</li>
+                <li>Chọn một giọng tiếng Anh điềm tĩnh và dùng một giọng duy nhất cho cả kênh. Tốc độ 0,95 đến 1,0.</li>
+                <li>Nghe lại để bắt lỗi phát âm, chỉnh dấu câu và khoảng nghỉ.</li>
+                <li>Nếu thoải mái, bạn có thể tự thu giọng.</li>
+            </ol>
+        </div>
+
+        <div class="card">
+            <h3>Nhạc và hiệu ứng</h3>
+            <ul>
+                <li>Chỉ dùng nhạc trong thư viện không bản quyền của CapCut hoặc YouTube Audio Library.</li>
+                <li>Nhạc nền nhỏ hơn giọng rõ rệt, khoảng 10 đến 15 phần trăm.</li>
+                <li>Thêm 3 đến 5 hiệu ứng âm thanh: pop khi vật xuất hiện, whoosh khi chuyển cảnh.</li>
+            </ul>
+        </div>
+
+        <h2>3. Dựng trong CapCut</h2>
+        <div class="card">
+            <ol>
+                <li>Tạo dự án 9:16, nhập giọng đọc trước. Giọng quyết định độ dài từng cảnh.</li>
+                <li>Đặt ảnh theo thứ tự, căn khớp với lời thoại.</li>
+                <li>Thêm chuyển động zoom 100 đến 110 phần trăm, lia nhẹ và đổi hướng xen kẽ.</li>
+                <li>Thêm phụ đề tự động. Mỗi lần hiện 2 đến 3 từ, chữ trắng viền đen, từ khóa tô hổ phách.</li>
+                <li>Thêm nhạc nền và hiệu ứng, nghe lại bằng tai nghe.</li>
+                <li>Câu cuối chuyển về cảnh đầu để tạo vòng lặp.</li>
+                <li>Xuất 1080x1920, 30 FPS.</li>
+            </ol>
+        </div>
+
+        <h2>4. Đăng bài</h2>
+        <div class="card">
+            <ol>
+                <li>Tải video trực tiếp lên YouTube Shorts, Facebook Reels và TikTok, không dùng video có watermark nền
+                    tảng khác.</li>
+                <li>Dán tiêu đề, caption và hashtag. Ghi nguồn vào mô tả YouTube.</li>
+                <li>Có thể thử đăng khoảng 7 đến 9 giờ sáng giờ Việt Nam, sau đó điều chỉnh theo số liệu thực tế.</li>
+                <li>Theo dõi lượt xem sau 48 giờ trên từng nền tảng.</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="toast" id="toast" role="status"></div>
+
+    <script id="content" type="application/json">
+{
+"title":"Why Do We Experience Déjà Vu?",
+"hook":"Have you ever walked into a place for the first time... and felt like you’ve already been there?",
+"duration":52,
+"segments":[
+{
+"t":"0 đến 8 giây",
+"n":"Have you ever walked into a place for the first time... and felt like you’ve already been there? That strange feeling has a name: déjà vu.",
+"p":"Hiro standing in the doorway of an unfamiliar room, looking surprised as the room appears subtly duplicated behind him like an overlapping memory, one glowing amber-orange outline around the doorway. Hiro, the same character as the reference, with a tiny black mole under the eye on the right side of the image. Classic simple stick figure line art, thick uniform black outline, white fill, simple line-art background with flat soft pale fill, one key object colored amber-orange (#F5A524), vertical 9:16, no shading, no text, generate exactly 1 image.",
+"m":"Zoom chậm vào Hiro, thêm hiệu ứng whoosh nhẹ khi khung cảnh chồng lên nhau."
+},
+{
+"t":"8 đến 17 giây",
+"n":"The phrase is French for “already seen.” It describes a moment that feels familiar, even though you know it’s happening for the first time.",
+"p":"Hiro examining a simple unfamiliar street scene with a magnifying glass, while a translucent duplicate outline of the same street floats behind it, the duplicate outline colored amber-orange. Hiro, the same character as the reference, with a tiny black mole under the eye on the right side of the image. Classic simple stick figure line art, thick uniform black outline, white fill, simple line-art background with flat soft pale fill, one key object colored amber-orange (#F5A524), vertical 9:16, no shading, no text, generate exactly 1 image.",
+"m":"Lia nhẹ từ cảnh thật sang hình ảnh trùng lặp phía sau."
+},
+{
+"t":"17 đến 26 giây",
+"n":"One leading idea is that your brain has two ways of recognizing things: a quick feeling of familiarity, and a slower process that recalls where you know something from.",
+"p":"Hiro standing beside a simple brain diagram split into two connected halves, one half showing a glowing amber-orange spark and the other showing a small memory book, clear connecting arrows between them. Hiro, the same character as the reference, with a tiny black mole under the eye on the right side of the image. Classic simple stick figure line art, thick uniform black outline, white fill, simple line-art background with flat soft pale fill, one key object colored amber-orange (#F5A524), vertical 9:16, no shading, no text, generate exactly 1 image.",
+"m":"Zoom lần lượt vào tia sáng rồi cuốn sổ, thêm hai tiếng pop nhỏ."
+},
+{
+"t":"26 đến 35 giây",
+"n":"During déjà vu, the familiarity signal may appear without a clear memory to explain it. So a brand-new moment suddenly feels like a replay.",
+"p":"Hiro looking at a simple memory filing cabinet with one drawer glowing amber-orange and slightly open, but the drawer is empty, a question mark floating above it. Hiro, the same character as the reference, with a tiny black mole under the eye on the right side of the image. Classic simple stick figure line art, thick uniform black outline, white fill, simple line-art background with flat soft pale fill, one key object colored amber-orange (#F5A524), vertical 9:16, no shading, no text, generate exactly 1 image.",
+"m":"Zoom vào ngăn kéo trống, dừng nửa giây để nhấn ý không tìm thấy ký ức."
+},
+{
+"t":"35 đến 44 giây",
+"n":"Scientists are still studying exactly why it happens. But occasional déjà vu is common, and usually just a brief glitch in the feeling of recognition.",
+"p":"Hiro standing beside a large simple magnifying glass examining a small amber-orange spark between two brain-shaped symbols, with a few question marks in the background, calm curious mood. Hiro, the same character as the reference, with a tiny black mole under the eye on the right side of the image. Classic simple stick figure line art, thick uniform black outline, white fill, simple line-art background with flat soft pale fill, one key object colored amber-orange (#F5A524), vertical 9:16, no shading, no text, generate exactly 1 image.",
+"m":"Lia nhẹ quanh biểu tượng não, giữ hình ổn định ở câu still studying."
+},
+{
+"t":"44 đến 52 giây",
+"n":"So next time life feels like a rerun, your brain may simply be confusing familiarity with memory. Has déjà vu ever happened to you?",
+"p":"Hiro facing the viewer beside a looping circular arrow around a small doorway, the arrow colored amber-orange, Hiro raising one hand as if asking a question, clean simple background. Hiro, the same character as the reference, with a tiny black mole under the eye on the right side of the image. Classic simple stick figure line art, thick uniform black outline, white fill, simple line-art background with flat soft pale fill, one key object colored amber-orange (#F5A524), vertical 9:16, no shading, no text, generate exactly 1 image.",
+"m":"Zoom rất nhẹ vào Hiro, ngắt nửa giây rồi cắt về ảnh đầu để tạo vòng lặp."
+}
+],
+"post":{
+"title":"Why Do We Experience Déjà Vu?",
+"cap":"Ever felt like a moment was happening for the second time? Déjà vu may happen when the brain's feeling of familiarity doesn't match what we can actually remember.",
+"tags":"#dejavu #brainfacts #psychology #neuroscience #didyouknow #shorts"
+},
+"sources":[
+"Cleveland Clinic — That Strange Feeling of Déjà Vu: What It Is and Why It Happens",
+"BrainFacts.org — What causes déjà vu?",
+"Aitken, Jentzsch & O’Connor — Towards a conflict account of déjà vu, Neuroscience & Biobehavioral Reviews (2023)",
+"Accuracy note: The precise mechanism of everyday déjà vu is not fully settled. Present the familiarity/recollection explanation as a leading idea, not a proven single cause."
+]
+}
+</script>
+
+    <script>
+        const C = JSON.parse(document.getElementById("content").textContent);
+        const PROPS = "Props sheet, simple line-art objects in a 3x3 grid with generous spacing, thick uniform black outline, white fill, plain pure white background (#FFFFFF), the main part of each object colored amber-orange (#F5A524): (1) simple doorway, (2) magnifying glass, (3) open memory book, (4) brain outline, (5) empty filing drawer, (6) looping circular arrow, (7) small spark, (8) question mark, (9) simple map pin. No characters, no shadow, no grid lines, no text, no labels, generate exactly 1 image.";
+
+        const SEG = C.segments;
+        const POST = C.post;
+
+        function toast(m) {
+            const t = document.getElementById("toast");
+            t.textContent = m;
+            t.classList.add("on");
+            setTimeout(() => t.classList.remove("on"), 1700);
+        }
+
+        function copy(x) {
+            navigator.clipboard.writeText(x).then(
+                () => toast("Đã sao chép"),
+                () => toast("Không sao chép được, hãy chọn và copy tay")
+            );
+        }
+
+        function blk(label, txt) {
+            const d = document.createElement("div");
+            const k = document.createElement("div");
+            k.className = "k";
+            k.textContent = label;
+            const p = document.createElement("pre");
+            p.textContent = txt;
+            const b = document.createElement("button");
+            b.textContent = "Copy";
+            b.onclick = () => copy(txt);
+            d.append(k, p, b);
+            return d;
+        }
+
+        document.getElementById("props").append(
+            blk("Prompt bảng đạo cụ (đính kèm ảnh Hiro)", PROPS)
+        );
+
+        const S = document.getElementById("segs");
+
+        SEG.forEach((s, i) => {
+            const c = document.createElement("div");
+            c.className = "card";
+
+            const h = document.createElement("h3");
+            h.innerHTML = "Đoạn " + (i + 1) + " <span class='t'></span>";
+            h.querySelector(".t").textContent = s.t;
+            c.append(h);
+
+            c.append(blk("Lời đọc", s.n), blk("Prompt ảnh", s.p));
+
+            if (s.p2) {
+                c.append(blk("Prompt ảnh phụ (cắt sang ở giây thứ 4)", s.p2));
+            }
+
+            const m = document.createElement("p");
+            m.className = "sub";
+            m.style.margin = "8px 0 0";
+            m.textContent = "Chuyển động trong CapCut: " + s.m;
+            c.append(m);
+            S.append(c);
+        });
+
+        const all = document.createElement("div");
+        all.className = "card";
+        all.append(blk("Toàn bộ lời đọc (để dán vào TTS)", SEG.map(s => s.n).join("\n")));
+        S.append(all);
+
+        document.getElementById("post").append(
+            blk("Tiêu đề", POST.title),
+            blk("Caption", POST.cap + "\n\n" + POST.tags)
+        );
+
+        document.getElementById("ttl").textContent = "Quy trình: " + C.title;
+        document.getElementById("meta").textContent =
+            SEG.length + " đoạn, khoảng " + C.duration + " giây. Bấm Copy ở từng khối để dán vào Flow hoặc CapCut. Hook: " + C.hook;
+
+        document.getElementById("srcs").textContent =
+            (C.sources && C.sources.length) ? C.sources.join("\n") : "Tự tìm nguồn cho các ý chính.";
+
+        (function () {
+            const key = "hw:" + C.title;
+            let sv = {};
+            try { sv = JSON.parse(localStorage.getItem(key) || "{}") } catch (e) { }
+            document.querySelectorAll("ol li").forEach((li, i) => {
+                const c = document.createElement("input");
+                c.type = "checkbox";
+                c.checked = !!sv[i];
+                c.setAttribute("aria-label", "Hoàn thành bước");
+                c.onchange = () => {
+                    sv[i] = c.checked;
+                    try { localStorage.setItem(key, JSON.stringify(sv)) } catch (e) { }
+                };
+                li.prepend(c, " ");
+            });
+        })();
+    </script>
+</body>
+
+</html>
