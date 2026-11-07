@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Why Do Onions Make You Cry?</title>
+
+    <style>
+      :root {
+        --bg: #f5f5f2;
+        --card: #ffffff;
+        --text: #202020;
+        --muted: #777;
+        --accent: #f5a524;
+        --border: #e5e5e0;
+      }
+      [data-theme="dark"] {
+        --bg: #171717;
+        --card: #222;
+        --text: #f3f3f3;
+        --muted: #aaa;
+        --border: #383838;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        padding: 28px 16px 60px;
+        background: var(--bg);
+        color: var(--text);
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+      }
+      .container {
+        max-width: 900px;
+        margin: auto;
+      }
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 28px;
+      }
+      h1 {
+        font-size: clamp(26px, 5vw, 38px);
+        line-height: 1.2;
+      }
+      h2 {
+        font-size: 21px;
+        margin-top: 0;
+      }
+      h3 {
+        font-size: 17px;
+        margin-bottom: 8px;
+      }
+      p {
+        margin: 8px 0;
+      }
+      .card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 20px;
+        margin: 16px 0;
+      }
+      .muted {
+        color: var(--muted);
+        font-size: 14px;
+      }
+      .accent {
+        color: var(--accent);
+        font-weight: bold;
+      }
+      button {
+        border: 1px solid var(--border);
+        background: var(--card);
+        color: var(--text);
+        padding: 9px 13px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 13px;
+      }
+      button:hover {
+        border-color: var(--accent);
+      }
+      .copy-btn {
+        margin-top: 10px;
+      }
+      .prompt {
+        background: var(--bg);
+        border: 1px solid var(--border);
+        padding: 14px;
+        border-radius: 9px;
+        font-size: 14px;
+        white-space: pre-wrap;
+      }
+      .scene {
+        border-top: 1px solid var(--border);
+        padding: 18px 0;
+      }
+      .scene:first-of-type {
+        border-top: 0;
+      }
+      .scene-meta {
+        color: var(--muted);
+        font-size: 13px;
+        margin-bottom: 8px;
+      }
+      .narration {
+        font-size: 16px;
+        padding: 12px;
+        border-left: 3px solid var(--accent);
+        background: var(--bg);
+        border-radius: 4px;
+      }
+      .checklist label {
+        display: block;
+        padding: 7px 0;
+        cursor: pointer;
+      }
+      input[type="checkbox"] {
+        accent-color: var(--accent);
+      }
+      .toast {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #222;
+        color: white;
+        padding: 9px 16px;
+        border-radius: 8px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s;
+      }
+      .toast.show {
+        opacity: 1;
+      }
+      footer {
+        text-align: center;
+        margin-top: 36px;
+        color: var(--muted);
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <header>
+        <div>
+          <div class="muted">EVERYDAY MYSTERIES · HIRO SERIES</div>
+          <h1 id="mainTitle">Why Do Onions Make You Cry?</h1>
+        </div>
+        <button onclick="toggleTheme()">☀ / ☾ Theme</button>
+      </header>
+
+      <div class="card">
+        <h2>0. Prepare once</h2>
+        <p><strong>Video format:</strong> 9:16 vertical</p>
+        <p><strong>Estimated duration:</strong> <span id="duration"></span></p>
+        <p>
+          <strong>Visual style:</strong> Minimalist stick figure illustration,
+          clean black outlines, white character fill, pale background, one
+          amber-orange accent (#F5A524).
+        </p>
+        <p>
+          <strong>Image generation:</strong> Generate exactly 1 image per scene.
+          Keep Hiro's design consistent across every image.
+        </p>
+        <p class="muted">
+          Generate a reusable prop sheet first if you want consistent objects
+          across scenes.
+        </p>
+
+        <h3>Reusable prop sheet prompt</h3>
+        <div class="prompt" id="propPrompt"></div>
+        <button class="copy-btn" onclick="copyText('propPrompt')">
+          Copy prop prompt
+        </button>
+      </div>
+
+      <div class="card">
+        <h2>1. Script & image prompts</h2>
+        <p class="muted">
+          Each scene includes narration, image prompt and editing direction.
+        </p>
+
+        <div id="scenes"></div>
+      </div>
+
+      <div class="card">
+        <h2>2. Voice-over</h2>
+        <p class="muted">
+          Copy the complete narration and paste it into your TTS tool or CapCut.
+        </p>
+        <div class="prompt" id="fullNarration"></div>
+        <button class="copy-btn" onclick="copyText('fullNarration')">
+          Copy full narration
+        </button>
+      </div>
+
+      <div class="card">
+        <h2>3. Edit in CapCut</h2>
+        <div class="checklist" id="editChecklist">
+          <label
+            ><input type="checkbox" /> Import all generated images in the
+            correct order.</label
+          >
+          <label><input type="checkbox" /> Set project ratio to 9:16.</label>
+          <label
+            ><input type="checkbox" /> Add voice-over and synchronize each
+            scene.</label
+          >
+          <label
+            ><input type="checkbox" /> Add subtle zooms and pans to avoid static
+            visuals.</label
+          >
+          <label
+            ><input type="checkbox" /> Add light sound effects where
+            appropriate.</label
+          >
+          <label
+            ><input type="checkbox" /> Add captions with readable
+            contrast.</label
+          >
+          <label
+            ><input type="checkbox" /> Keep transitions short and clean.</label
+          >
+          <label
+            ><input type="checkbox" /> Make the ending connect naturally to the
+            opening.</label
+          >
+          <label><input type="checkbox" /> Export in 1080 × 1920.</label>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>4. Publish</h2>
+        <h3>Video title</h3>
+        <div class="prompt" id="postTitle"></div>
+        <button class="copy-btn" onclick="copyText('postTitle')">
+          Copy title
+        </button>
+
+        <h3>Caption</h3>
+        <div class="prompt" id="postCaption"></div>
+        <button class="copy-btn" onclick="copyText('postCaption')">
+          Copy caption
+        </button>
+
+        <h3>Hashtags</h3>
+        <div class="prompt" id="postTags"></div>
+        <button class="copy-btn" onclick="copyText('postTags')">
+          Copy hashtags
+        </button>
+      </div>
+
+      <div class="card">
+        <h2>5. Sources & accuracy notes</h2>
+        <div id="sources"></div>
+        <p class="muted">
+          The script simplifies the chemistry for a short video. Avoid
+          suggesting that every onion produces exactly the same amount of
+          irritating gas.
+        </p>
+      </div>
+
+      <footer>
+        Everyday Mysteries · One ordinary question, one surprising explanation.
+      </footer>
+    </div>
+
+    <div class="toast" id="toast">Copied!</div>
+
+    <script id="content" type="application/json">
+      {
+        "title": "Why Do Onions Make You Cry?",
+        "duration": "Approximately 52 seconds",
+        "propPrompt": "Create a clean 3x3 prop reference sheet in minimalist black-and-white stick figure illustration style. Include: a whole onion, a sliced onion, a kitchen knife, a cutting board, a pair of human eyes with tears, a small cloud of gas, a protective pair of goggles, a simple shield, and a frying pan. Thin but clear black outlines, white fill, pale warm background, only one accent color amber-orange #F5A524. Consistent simple geometry, no people or characters, no labels, no text, no shadows, no gradients. Each object separated clearly, front-facing, exactly one image.",
+        "segments": [
+          {
+            "t": "0–8s",
+            "n": "The mystery",
+            "p": "Have you ever started cutting an onion... and suddenly found yourself crying? You're not sad. You're not even hurt. So what's going on?",
+            "m": "Create a minimalist 9:16 vertical illustration. Hiro, the same simple stick figure character with round white head, thick black outline and thin black limbs, stands at a kitchen counter holding a knife beside a sliced onion. Hiro has oversized cartoon tears streaming from both eyes and looks confused. A small amber-orange accent (#F5A524) highlights the onion. Pale warm background, clean composition, no text, no shading, no gradients, no extra characters. Exactly 1 image.",
+            "edit": "Start with a quick zoom toward Hiro's teary face. Add a subtle comedic pop sound."
+          },
+          {
+            "t": "8–17s",
+            "n": "The hidden culprit",
+            "p": "Here's the strange part: cutting an onion doesn't just release its smell. It starts a tiny chemical reaction that sends an irritating gas into the air.",
+            "m": "Create a minimalist 9:16 vertical illustration. Hiro leans over a freshly cut onion on a kitchen cutting board. From the onion, a few simple wavy gas lines rise toward Hiro's face. Highlight the gas with amber-orange (#F5A524). Hiro looks surprised and leans backward. Same consistent stick figure design, thick black outlines, white fill, pale background, no text, no shading. Exactly 1 image.",
+            "edit": "Pan upward following the gas lines. Add a light whoosh sound."
+          },
+          {
+            "t": "17–26s",
+            "n": "The chemistry",
+            "p": "When onion cells are damaged, enzymes help turn natural sulfur-containing compounds into a volatile substance called syn-propanethial-S-oxide.",
+            "m": "Create a minimalist 9:16 vertical educational illustration. Hiro stands beside a large simplified onion cross-section. Several onion cells are shown as neat outlined circles, with one broken cell releasing a small amber-orange cloud. Add a simple arrow connecting the broken cell to the cloud, without any labels or words. Same consistent Hiro character, thick black outlines, white fill, pale background, no gradients, no shadows. Exactly 1 image.",
+            "edit": "Slow zoom into the broken onion cell. Use a soft click when the cell breaks."
+          },
+          {
+            "t": "26–35s",
+            "n": "Why your eyes react",
+            "p": "That airborne chemical reaches your eyes and irritates the surface. Your tear glands respond by producing extra tears to wash the irritant away.",
+            "m": "Create a minimalist 9:16 vertical illustration. Hiro points at a large simple close-up diagram of a human eye. A few amber-orange gas particles approach the eye, while clear blue-free white tear drops flow down from it. Use only black outlines, white fill and amber-orange as the single accent color. Keep the eye diagram friendly and educational, not realistic or disturbing. Pale background, no text, same visual style. Exactly 1 image.",
+            "edit": "Zoom toward the eye, then gently move down following the tears. Add a soft water-drop sound."
+          },
+          {
+            "t": "35–44s",
+            "n": "A simple way to reduce it",
+            "p": "That's why chilling an onion before cutting can help: lower temperatures slow some of the reactions and reduce how quickly irritating vapors spread.",
+            "m": "Create a minimalist 9:16 vertical illustration. Hiro places a whole onion into an open refrigerator. A small snowflake icon appears beside the onion, highlighted in amber-orange (#F5A524). Hiro looks pleased, holding a kitchen knife safely down at his side. Same consistent stick figure character, thick black outlines, white fill, pale warm background, no text, no shading. Exactly 1 image.",
+            "edit": "Pan from the refrigerator toward the onion. Add a subtle cool breeze sound."
+          },
+          {
+            "t": "44–53s",
+            "n": "The payoff",
+            "p": "So the next time an onion makes you cry, remember: it's not trying to break your heart. It's chemistry. Would you try chilling your onion first?",
+            "m": "Create a minimalist 9:16 vertical illustration. Hiro stands proudly beside a chilled onion on a kitchen counter, wearing simple protective goggles. The onion has a small amber-orange sparkle. Hiro gestures toward the viewer with one hand. Include a simple circular arrow near the onion to suggest a loop back to the opening scene. Same consistent character design, thick black outlines, white fill, pale background, no text, no gradients. Exactly 1 image.",
+            "edit": "Slow zoom out. End with a quick cut back to the first scene of Hiro crying while cutting an onion, creating a seamless loop."
+          }
+        ],
+        "post": {
+          "title": "Why Do Onions Make You Cry? 🧅",
+          "cap": "That onion isn't making you emotional. It's chemistry! 🧅 When you cut an onion, a chemical reaction releases an airborne irritant that makes your eyes produce tears. Would you try chilling your onions before cutting them?",
+          "tags": "#EverydayMysteries #OnionFacts #ScienceExplained #DidYouKnow #BrainAndBody #Shorts"
+        },
+        "sources": [
+          {
+            "name": "National Onion Association",
+            "detail": "Background information about onions and the compounds involved in onion-induced tears."
+          },
+          {
+            "name": "American Chemical Society",
+            "detail": "Chemistry explanations of the lachrymatory factor released when onion tissue is damaged."
+          },
+          {
+            "name": "Research on onion lachrymatory factor synthase",
+            "detail": "Scientific research describing the enzyme involved in producing syn-propanethial-S-oxide."
+          }
+        ]
+      }
+    </script>
+
+    <script>
+      const data = JSON.parse(document.getElementById("content").textContent);
+
+      function render() {
+        document.getElementById("mainTitle").textContent = data.title;
+        document.getElementById("duration").textContent = data.duration;
+        document.getElementById("propPrompt").textContent = data.propPrompt;
+        document.getElementById("postTitle").textContent = data.post.title;
+        document.getElementById("postCaption").textContent = data.post.cap;
+        document.getElementById("postTags").textContent = data.post.tags;
+
+        const scenes = document.getElementById("scenes");
+        scenes.innerHTML = "";
+
+        data.segments.forEach((s, i) => {
+          const section = document.createElement("section");
+          section.className = "scene";
+          section.innerHTML = `
+      <div class="scene-meta">SCENE ${i + 1} · ${s.t}</div>
+      <h3>${s.n}</h3>
+      <div class="narration">${s.p}</div>
+      <h3>Image prompt</h3>
+      <div class="prompt" id="prompt${i}"></div>
+      <button class="copy-btn" onclick="copyText('prompt${i}')">Copy image prompt</button>
+      <h3>Editing direction</h3>
+      <p>${s.edit}</p>
+    `;
+          scenes.appendChild(section);
+          document.getElementById(`prompt${i}`).textContent = s.m;
+        });
+
+        document.getElementById("fullNarration").textContent = data.segments
+          .map((s) => s.p)
+          .join("\n\n");
+
+        document.getElementById("sources").innerHTML = data.sources
+          .map(
+            (s) =>
+              `<p><strong>${s.name}</strong><br><span class="muted">${s.detail}</span></p>`,
+          )
+          .join("");
+      }
+
+      function copyText(id) {
+        const text = document.getElementById(id).textContent;
+        navigator.clipboard.writeText(text).then(() => {
+          const toast = document.getElementById("toast");
+          toast.classList.add("show");
+          setTimeout(() => toast.classList.remove("show"), 1400);
+        });
+      }
+
+      function toggleTheme() {
+        const current = document.documentElement.getAttribute("data-theme");
+        document.documentElement.setAttribute(
+          "data-theme",
+          current === "dark" ? "light" : "dark",
+        );
+      }
+
+      const checklist = document.getElementById("editChecklist");
+      const saved = JSON.parse(localStorage.getItem("onionChecklist") || "[]");
+
+      checklist.querySelectorAll("input").forEach((input, index) => {
+        input.checked = !!saved[index];
+        input.addEventListener("change", () => {
+          const values = [...checklist.querySelectorAll("input")].map(
+            (el) => el.checked,
+          );
+          localStorage.setItem("onionChecklist", JSON.stringify(values));
+        });
+      });
+
+      render();
+    </script>
+  </body>
+</html>
