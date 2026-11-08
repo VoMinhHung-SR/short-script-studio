@@ -1,0 +1,479 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Why Do We Get Brain Freeze?</title>
+
+    <style>
+      :root {
+        --bg: #f5f5f2;
+        --card: #ffffff;
+        --text: #202020;
+        --muted: #777;
+        --accent: #f5a524;
+        --border: #e5e5e0;
+      }
+      [data-theme="dark"] {
+        --bg: #171717;
+        --card: #222;
+        --text: #f3f3f3;
+        --muted: #aaa;
+        --border: #383838;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        padding: 28px 16px 60px;
+        background: var(--bg);
+        color: var(--text);
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+      }
+      .container {
+        max-width: 900px;
+        margin: auto;
+      }
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 28px;
+      }
+      h1 {
+        font-size: clamp(26px, 5vw, 38px);
+        line-height: 1.2;
+      }
+      h2 {
+        font-size: 21px;
+        margin-top: 0;
+      }
+      h3 {
+        font-size: 17px;
+        margin-bottom: 8px;
+      }
+      p {
+        margin: 8px 0;
+      }
+      .muted {
+        color: var(--muted);
+        font-size: 14px;
+      }
+      .card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 20px;
+        margin: 16px 0;
+      }
+      button {
+        border: 1px solid var(--border);
+        background: var(--card);
+        color: var(--text);
+        padding: 9px 13px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 13px;
+      }
+      button:hover {
+        border-color: var(--accent);
+      }
+      .copy-btn {
+        margin-top: 10px;
+      }
+      .prompt {
+        background: var(--bg);
+        border: 1px solid var(--border);
+        padding: 14px;
+        border-radius: 9px;
+        font-size: 14px;
+        white-space: pre-wrap;
+      }
+      .scene {
+        border-top: 1px solid var(--border);
+        padding: 18px 0;
+      }
+      .scene:first-of-type {
+        border-top: 0;
+      }
+      .scene-meta {
+        color: var(--muted);
+        font-size: 13px;
+        margin-bottom: 8px;
+      }
+      .narration {
+        font-size: 16px;
+        padding: 12px;
+        border-left: 3px solid var(--accent);
+        background: var(--bg);
+        border-radius: 4px;
+      }
+      .checklist label {
+        display: block;
+        padding: 7px 0;
+        cursor: pointer;
+      }
+      input[type="checkbox"] {
+        accent-color: var(--accent);
+      }
+      .toast {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #222;
+        color: white;
+        padding: 9px 16px;
+        border-radius: 8px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s;
+      }
+      .toast.show {
+        opacity: 1;
+      }
+      footer {
+        text-align: center;
+        margin-top: 36px;
+        color: var(--muted);
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <header>
+        <div>
+          <div class="muted">EVERYDAY MYSTERIES · HIRO SERIES</div>
+          <h1 id="mainTitle">Why Do We Get Brain Freeze?</h1>
+        </div>
+        <button onclick="toggleTheme()">☀ / ☾ Theme</button>
+      </header>
+
+      <div class="card">
+        <h2>0. Prepare once</h2>
+        <p><strong>Video format:</strong> 9:16 vertical</p>
+        <p><strong>Estimated duration:</strong> <span id="duration"></span></p>
+        <p>
+          <strong>Visual style:</strong> Minimalist stick figure illustration,
+          clean black outlines, white character fill, pale background, one
+          amber-orange accent (#F5A524).
+        </p>
+        <p>
+          <strong>Image generation:</strong> Generate exactly 1 image per scene.
+          Keep Hiro's design consistent across every image.
+        </p>
+        <p class="muted">
+          Generate a reusable prop sheet first if you want consistent objects
+          across scenes.
+        </p>
+
+        <h3>Reusable prop sheet prompt</h3>
+        <div class="prompt" id="propPrompt"></div>
+        <button class="copy-btn" onclick="copyText('propPrompt')">
+          Copy prop prompt
+        </button>
+      </div>
+
+      <div class="card">
+        <h2>1. Script & image prompts</h2>
+        <p class="muted">
+          Each scene includes narration, image prompt and editing direction.
+        </p>
+        <div id="scenes"></div>
+      </div>
+
+      <div class="card">
+        <h2>2. Voice-over</h2>
+        <p class="muted">
+          Copy the complete narration and paste it into your TTS tool or CapCut.
+        </p>
+        <div class="prompt" id="fullNarration"></div>
+        <button class="copy-btn" onclick="copyText('fullNarration')">
+          Copy full narration
+        </button>
+      </div>
+
+      <div class="card">
+        <h2>3. Edit in CapCut</h2>
+        <div class="checklist" id="editChecklist">
+          <label
+            ><input type="checkbox" /> Import all generated images in the
+            correct order.</label
+          >
+          <label><input type="checkbox" /> Set project ratio to 9:16.</label>
+          <label
+            ><input type="checkbox" /> Add voice-over and synchronize each
+            scene.</label
+          >
+          <label
+            ><input type="checkbox" /> Add subtle zooms and pans to avoid static
+            visuals.</label
+          >
+          <label
+            ><input type="checkbox" /> Add light sound effects where
+            appropriate.</label
+          >
+          <label
+            ><input type="checkbox" /> Add captions with readable
+            contrast.</label
+          >
+          <label
+            ><input type="checkbox" /> Keep transitions short and clean.</label
+          >
+          <label
+            ><input type="checkbox" /> Make the ending connect naturally to the
+            opening.</label
+          >
+          <label><input type="checkbox" /> Export in 1080 × 1920.</label>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>4. Publish</h2>
+        <h3>Video title</h3>
+        <div class="prompt" id="postTitle"></div>
+        <button class="copy-btn" onclick="copyText('postTitle')">
+          Copy title
+        </button>
+
+        <h3>Caption</h3>
+        <div class="prompt" id="postCaption"></div>
+        <button class="copy-btn" onclick="copyText('postCaption')">
+          Copy caption
+        </button>
+
+        <h3>Hashtags</h3>
+        <div class="prompt" id="postTags"></div>
+        <button class="copy-btn" onclick="copyText('postTags')">
+          Copy hashtags
+        </button>
+      </div>
+
+      <div class="card">
+        <h2>5. Sources & accuracy notes</h2>
+        <div id="sources"></div>
+        <p class="muted">
+          The exact mechanism behind brain freeze is still being studied. The
+          script presents the leading explanation as a theory, not a fully
+          settled fact.
+        </p>
+      </div>
+
+      <footer>
+        Everyday Mysteries · One ordinary question, one surprising explanation.
+      </footer>
+    </div>
+
+    <div class="toast" id="toast">Copied!</div>
+
+    <script id="content" type="application/json">
+      {
+        "title": "Why Do We Get Brain Freeze?",
+        "duration": "Approximately 52 seconds",
+        "propPrompt": "Create a clean 3x3 prop reference sheet in minimalist black-and-white stick figure illustration style. Include: an ice cream cone, a popsicle, a frozen drink cup with straw, a simple human mouth, a roof-of-mouth cross-section, a simplified brain, a branching nerve symbol, a few blood vessels, and a small warm water glass. Thin clear black outlines, white fill, pale warm background, only one accent color amber-orange #F5A524. Consistent simple geometry, no people or characters, no labels, no text, no shadows, no gradients. Each object separated clearly, front-facing, exactly one image.",
+        "segments": [
+          {
+            "t": "0–8s",
+            "n": "The mystery",
+            "p": "You take one huge bite of ice cream... and suddenly, your forehead feels like it's been frozen solid. That's brain freeze. But why does your brain seem to hurt?",
+            "m": "Create a minimalist 9:16 vertical illustration. Hiro, the same simple stick figure character with round white head, thick black outline and thin black limbs, holds a large ice cream cone. Hiro has one hand on his forehead, eyes wide, with a dramatic frozen expression. Add a few simple icy lines around his head, highlighted in amber-orange (#F5A524). Pale warm background, clean composition, no text, no shading, no gradients, no extra characters. Exactly 1 image.",
+            "edit": "Start with a quick zoom toward Hiro's face. Add a short icy whoosh sound when the pain hits."
+          },
+          {
+            "t": "8–16s",
+            "n": "Where it actually starts",
+            "p": "The surprising part? The pain doesn't actually begin in your brain. It usually starts when something extremely cold touches the roof of your mouth.",
+            "m": "Create a minimalist 9:16 vertical educational illustration. Hiro points toward a large simple side-view diagram of a human mouth. A small scoop of ice cream touches the roof of the mouth, with a tiny amber-orange highlight at the contact point. Keep the anatomy simplified, friendly and non-realistic. Same consistent Hiro character, thick black outlines, white fill, pale background, no text, no shading. Exactly 1 image.",
+            "edit": "Pan from the ice cream toward the roof of the mouth. Add a soft click at the contact point."
+          },
+          {
+            "t": "16–25s",
+            "n": "Your body's reaction",
+            "p": "That sudden cold makes nearby blood vessels tighten, then quickly widen again as your body reacts to the temperature change.",
+            "m": "Create a minimalist 9:16 vertical illustration. Show a simplified cross-section of the roof of a human mouth with a few small blood vessels. One vessel is narrow and another is widening, represented by clear simple shapes. Highlight the changing vessel area in amber-orange (#F5A524). Hiro stands beside the diagram, pointing at it with curiosity. Thick black outlines, white fill, pale background, no text, no gradients. Exactly 1 image.",
+            "edit": "Use a gentle zoom toward the blood vessels. Animate the transition from narrow to wider if possible."
+          },
+          {
+            "t": "25–34s",
+            "n": "The nerve connection",
+            "p": "This sudden change can activate pain-sensitive nerves. Signals travel through the trigeminal nerve, which carries sensation from your face and head.",
+            "m": "Create a minimalist 9:16 vertical educational illustration. Hiro stands beside a simplified human head profile. Show one clear branching nerve pathway running from the roof of the mouth toward the forehead. Highlight the pathway in amber-orange (#F5A524), with a small glowing signal moving along it. Simple educational diagram, thick black outlines, white fill, pale background, no labels or text. Exactly 1 image.",
+            "edit": "Follow the amber signal with a slow pan from the mouth area toward the forehead."
+          },
+          {
+            "t": "34–43s",
+            "n": "Why your forehead hurts",
+            "p": "Your brain can interpret those signals as pain coming from your forehead or temples instead. That's called referred pain: one place triggers pain felt somewhere else.",
+            "m": "Create a minimalist 9:16 vertical illustration. Hiro looks confused while pointing at his forehead. Beside him, show a simplified mouth icon connected by an amber-orange line to a forehead icon on a head silhouette. Add a small question mark above Hiro. Thick black outlines, white fill, pale warm background, no text, no shadows, no gradients. Exactly 1 image.",
+            "edit": "Zoom from the mouth icon to the forehead icon. Add a subtle pop sound as the connection becomes clear."
+          },
+          {
+            "t": "43–53s",
+            "n": "The quick fix",
+            "p": "The good news? It's usually harmless and brief. Stop eating for a moment, then press your tongue against the roof of your mouth to warm it up. Problem solved. Now... who's eating ice cream slowly?",
+            "m": "Create a minimalist 9:16 vertical illustration. Hiro presses his tongue gently against the roof of his mouth, looking relieved, while holding an ice cream cone in his other hand. A small amber-orange warmth symbol appears near the mouth. Add a simple circular arrow near the edge of the composition to suggest looping back to the first scene. Same consistent stick figure design, thick black outlines, white fill, pale background, no text, no gradients. Exactly 1 image.",
+            "edit": "Slow zoom out as Hiro looks relieved. Cut back to the first scene of Hiro taking a huge bite of ice cream to create a seamless loop."
+          }
+        ],
+        "post": {
+          "title": "Why Does Ice Cream Give You Brain Freeze? 🍦",
+          "cap": "That sudden headache after eating ice cream too fast has a name: brain freeze. 🍦 It usually starts at the roof of your mouth, then your nerves send pain signals that your brain may interpret as coming from your forehead. Try eating slowly next time!",
+          "tags": "#BrainFreeze #ScienceExplained #EverydayMysteries #HumanBody #DidYouKnow #Shorts"
+        },
+        "sources": [
+          {
+            "name": "Harvard Health Publishing — What happens during a brain freeze?",
+            "url": "https://www.harvardhealth.org/pain/what-happens-during-a-brain-freeze-and-is-it-harmful",
+            "detail": "Explains the leading theory involving blood vessels, the trigeminal nerve and referred pain."
+          },
+          {
+            "name": "Johns Hopkins Medicine — How to Ease Brain Freeze",
+            "url": "https://www.hopkinsmedicine.org/health/expert-qa/how-to-ease-brain-freeze",
+            "detail": "Explains the cold stimulus, possible nerve and blood-vessel response, and practical ways to ease the pain."
+          },
+          {
+            "name": "International Classification of Headache Disorders — Headache attributed to ingestion of a cold stimulus",
+            "url": "https://ichd-3.org/other-primary-headache-disorders/4-5-cold-stimulus-headache/4-5-2-headache-attributed-to-ingestion-or-inhalation-of-a-cold-stimulus/",
+            "detail": "Provides the clinical description and diagnostic criteria for cold-stimulus headache."
+          }
+        ]
+      }
+    </script>
+
+    <script>
+      const data = JSON.parse(document.getElementById("content").textContent);
+
+      function render() {
+        document.getElementById("mainTitle").textContent = data.title;
+        document.getElementById("duration").textContent = data.duration;
+        document.getElementById("propPrompt").textContent = data.propPrompt;
+        document.getElementById("postTitle").textContent = data.post.title;
+        document.getElementById("postCaption").textContent = data.post.cap;
+        document.getElementById("postTags").textContent = data.post.tags;
+
+        const scenes = document.getElementById("scenes");
+        scenes.innerHTML = "";
+
+        data.segments.forEach((s, i) => {
+          const section = document.createElement("section");
+          section.className = "scene";
+
+          const meta = document.createElement("div");
+          meta.className = "scene-meta";
+          meta.textContent = `SCENE ${i + 1} · ${s.t}`;
+
+          const heading = document.createElement("h3");
+          heading.textContent = s.n;
+
+          const narration = document.createElement("div");
+          narration.className = "narration";
+          narration.textContent = s.p;
+
+          const promptHeading = document.createElement("h3");
+          promptHeading.textContent = "Image prompt";
+
+          const prompt = document.createElement("div");
+          prompt.className = "prompt";
+          prompt.id = `prompt${i}`;
+          prompt.textContent = s.m;
+
+          const copyButton = document.createElement("button");
+          copyButton.className = "copy-btn";
+          copyButton.textContent = "Copy image prompt";
+          copyButton.onclick = () => copyText(`prompt${i}`);
+
+          const editHeading = document.createElement("h3");
+          editHeading.textContent = "Editing direction";
+
+          const edit = document.createElement("p");
+          edit.textContent = s.edit;
+
+          section.append(
+            meta,
+            heading,
+            narration,
+            promptHeading,
+            prompt,
+            copyButton,
+            editHeading,
+            edit,
+          );
+
+          scenes.appendChild(section);
+        });
+
+        document.getElementById("fullNarration").textContent = data.segments
+          .map((s) => s.p)
+          .join("\n\n");
+
+        const sources = document.getElementById("sources");
+        sources.innerHTML = "";
+
+        data.sources.forEach((source) => {
+          const item = document.createElement("p");
+          const name = document.createElement("strong");
+          name.textContent = source.name;
+
+          const detail = document.createElement("div");
+          detail.className = "muted";
+          detail.textContent = source.detail;
+
+          const link = document.createElement("a");
+          link.href = source.url;
+          link.target = "_blank";
+          link.rel = "noopener noreferrer";
+          link.textContent = "Read source";
+
+          item.append(name, document.createElement("br"), detail, link);
+          sources.appendChild(item);
+        });
+      }
+
+      function copyText(id) {
+        const text = document.getElementById(id).textContent;
+
+        navigator.clipboard
+          .writeText(text)
+          .then(() => {
+            const toast = document.getElementById("toast");
+            toast.classList.add("show");
+            setTimeout(() => toast.classList.remove("show"), 1400);
+          })
+          .catch(() => {
+            alert("Copy failed. Please select and copy the text manually.");
+          });
+      }
+
+      function toggleTheme() {
+        const current = document.documentElement.getAttribute("data-theme");
+        document.documentElement.setAttribute(
+          "data-theme",
+          current === "dark" ? "light" : "dark",
+        );
+      }
+
+      const checklist = document.getElementById("editChecklist");
+      const saved = JSON.parse(
+        localStorage.getItem("brainFreezeChecklist") || "[]",
+      );
+
+      checklist.querySelectorAll("input").forEach((input, index) => {
+        input.checked = !!saved[index];
+
+        input.addEventListener("change", () => {
+          const values = [...checklist.querySelectorAll("input")].map(
+            (el) => el.checked,
+          );
+
+          localStorage.setItem("brainFreezeChecklist", JSON.stringify(values));
+        });
+      });
+
+      render();
+    </script>
+  </body>
+</html>
