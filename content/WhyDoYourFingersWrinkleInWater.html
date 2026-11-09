@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Why Do Your Fingers Wrinkle in Water?</title>
+
+    <style>
+      :root {
+        --bg: #f5f5f2;
+        --card: #ffffff;
+        --text: #202020;
+        --muted: #777;
+        --accent: #f5a524;
+        --border: #e5e5e0;
+      }
+      [data-theme="dark"] {
+        --bg: #171717;
+        --card: #222;
+        --text: #f3f3f3;
+        --muted: #aaa;
+        --border: #383838;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        padding: 28px 16px 60px;
+        background: var(--bg);
+        color: var(--text);
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+      }
+      .container {
+        max-width: 900px;
+        margin: auto;
+      }
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 28px;
+      }
+      h1 {
+        font-size: clamp(26px, 5vw, 38px);
+        line-height: 1.2;
+      }
+      h2 {
+        font-size: 21px;
+        margin-top: 0;
+      }
+      h3 {
+        font-size: 17px;
+        margin-bottom: 8px;
+      }
+      p {
+        margin: 8px 0;
+      }
+      .muted {
+        color: var(--muted);
+        font-size: 14px;
+      }
+      .card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 20px;
+        margin: 16px 0;
+      }
+      button {
+        border: 1px solid var(--border);
+        background: var(--card);
+        color: var(--text);
+        padding: 9px 13px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 13px;
+      }
+      button:hover {
+        border-color: var(--accent);
+      }
+      .copy-btn {
+        margin-top: 10px;
+      }
+      .prompt {
+        background: var(--bg);
+        border: 1px solid var(--border);
+        padding: 14px;
+        border-radius: 9px;
+        font-size: 14px;
+        white-space: pre-wrap;
+      }
+      .scene {
+        border-top: 1px solid var(--border);
+        padding: 18px 0;
+      }
+      .scene:first-of-type {
+        border-top: 0;
+      }
+      .scene-meta {
+        color: var(--muted);
+        font-size: 13px;
+        margin-bottom: 8px;
+      }
+      .narration {
+        font-size: 16px;
+        padding: 12px;
+        border-left: 3px solid var(--accent);
+        background: var(--bg);
+        border-radius: 4px;
+      }
+      .checklist label {
+        display: block;
+        padding: 7px 0;
+        cursor: pointer;
+      }
+      input[type="checkbox"] {
+        accent-color: var(--accent);
+      }
+      .toast {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #222;
+        color: white;
+        padding: 9px 16px;
+        border-radius: 8px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s;
+      }
+      .toast.show {
+        opacity: 1;
+      }
+      footer {
+        text-align: center;
+        margin-top: 36px;
+        color: var(--muted);
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <header>
+        <div>
+          <div class="muted">EVERYDAY MYSTERIES · HIRO SERIES</div>
+          <h1 id="mainTitle">Why Do Your Fingers Wrinkle in Water?</h1>
+        </div>
+        <button onclick="toggleTheme()">☀ / ☾ Theme</button>
+      </header>
+
+      <div class="card">
+        <h2>0. Prepare once</h2>
+        <p><strong>Video format:</strong> 9:16 vertical</p>
+        <p><strong>Estimated duration:</strong> <span id="duration"></span></p>
+        <p>
+          <strong>Visual style:</strong> Minimalist stick figure illustration,
+          clean black outlines, white character fill, pale background, one
+          amber-orange accent (#F5A524).
+        </p>
+        <p>
+          <strong>Image generation:</strong> Generate exactly 1 image per scene.
+          Keep Hiro's design consistent across every image.
+        </p>
+        <p class="muted">
+          Generate a reusable prop sheet first if you want consistent objects
+          across scenes.
+        </p>
+
+        <h3>Reusable prop sheet prompt</h3>
+        <div class="prompt" id="propPrompt"></div>
+        <button class="copy-btn" onclick="copyText('propPrompt')">
+          Copy prop prompt
+        </button>
+      </div>
+
+      <div class="card">
+        <h2>1. Script & image prompts</h2>
+        <p class="muted">
+          Each scene includes narration, image prompt and editing direction.
+        </p>
+        <div id="scenes"></div>
+      </div>
+
+      <div class="card">
+        <h2>2. Voice-over</h2>
+        <p class="muted">
+          Copy the complete narration and paste it into your TTS tool or CapCut.
+        </p>
+        <div class="prompt" id="fullNarration"></div>
+        <button class="copy-btn" onclick="copyText('fullNarration')">
+          Copy full narration
+        </button>
+      </div>
+
+      <div class="card">
+        <h2>3. Edit in CapCut</h2>
+        <div class="checklist" id="editChecklist">
+          <label
+            ><input type="checkbox" /> Import all generated images in the
+            correct order.</label
+          >
+          <label><input type="checkbox" /> Set project ratio to 9:16.</label>
+          <label
+            ><input type="checkbox" /> Add voice-over and synchronize each
+            scene.</label
+          >
+          <label
+            ><input type="checkbox" /> Add subtle zooms and pans to avoid static
+            visuals.</label
+          >
+          <label
+            ><input type="checkbox" /> Add light sound effects where
+            appropriate.</label
+          >
+          <label
+            ><input type="checkbox" /> Add captions with readable
+            contrast.</label
+          >
+          <label
+            ><input type="checkbox" /> Keep transitions short and clean.</label
+          >
+          <label
+            ><input type="checkbox" /> Make the ending connect naturally to the
+            opening.</label
+          >
+          <label><input type="checkbox" /> Export in 1080 × 1920.</label>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>4. Publish</h2>
+        <h3>Video title</h3>
+        <div class="prompt" id="postTitle"></div>
+        <button class="copy-btn" onclick="copyText('postTitle')">
+          Copy title
+        </button>
+
+        <h3>Caption</h3>
+        <div class="prompt" id="postCaption"></div>
+        <button class="copy-btn" onclick="copyText('postCaption')">
+          Copy caption
+        </button>
+
+        <h3>Hashtags</h3>
+        <div class="prompt" id="postTags"></div>
+        <button class="copy-btn" onclick="copyText('postTags')">
+          Copy hashtags
+        </button>
+      </div>
+
+      <div class="card">
+        <h2>5. Sources & accuracy notes</h2>
+        <div id="sources"></div>
+        <p class="muted">
+          The exact evolutionary purpose of water-induced finger wrinkling is
+          still being studied. The grip explanation is a leading hypothesis, not
+          a confirmed universal function.
+        </p>
+      </div>
+
+      <footer>
+        Everyday Mysteries · One ordinary question, one surprising explanation.
+      </footer>
+    </div>
+
+    <div class="toast" id="toast">Copied!</div>
+
+    <script id="content" type="application/json">
+      {
+        "title": "Why Do Your Fingers Wrinkle in Water?",
+        "duration": "Approximately 53 seconds",
+        "propPrompt": "Create a clean 3x3 prop reference sheet in minimalist black-and-white stick figure illustration style. Include: a bathtub filled with water, a hand with smooth fingers, a hand with wrinkled fingertips, a water droplet, a simplified nerve pathway, a brain icon, a glass of water, a wet object being held, and a dry towel. Thin clear black outlines, white fill, pale warm background, only one accent color amber-orange #F5A524. Consistent simple geometry, no people or characters, no labels, no text, no shadows, no gradients. Each object separated clearly, exactly one image.",
+        "segments": [
+          {
+            "t": "0–8s",
+            "n": "The mystery",
+            "p": "Stay in the bath too long, and suddenly your fingertips look like tiny raisins. But here's the weird part: your skin isn't simply soaking up water. Something else is happening.",
+            "m": "Create a minimalist 9:16 vertical illustration. Hiro, the same simple stick figure character with round white head, thick black outline and thin black limbs, sits beside a bathtub filled with water. Hiro holds up one hand and stares at deeply wrinkled fingertips with a confused expression. Highlight the wrinkled fingertips with amber-orange (#F5A524). Pale warm background, clean composition, no text, no shading, no gradients, no extra characters. Exactly 1 image.",
+            "edit": "Start with a close-up zoom on Hiro's wrinkled fingertips, then reveal his confused face. Add a subtle bubbly water sound."
+          },
+          {
+            "t": "8–17s",
+            "n": "It's not just water absorption",
+            "p": "For a long time, people thought the skin simply swelled as it absorbed water. But researchers discovered that the nervous system plays an important role in making those wrinkles appear.",
+            "m": "Create a minimalist 9:16 vertical educational illustration. Hiro stands between two large simple hand diagrams: one smooth hand and one wrinkled hand. Show a water droplet near each hand, but highlight a small nerve symbol beside the wrinkled hand in amber-orange (#F5A524). Hiro points toward the nerve symbol. Thick black outlines, white fill, pale background, no labels, no text, no shading. Exactly 1 image.",
+            "edit": "Pan from the smooth hand to the wrinkled hand. Add a small reveal sound when the nerve symbol appears."
+          },
+          {
+            "t": "17–26s",
+            "n": "Your nerves are involved",
+            "p": "When your fingers stay underwater, nerves help trigger changes in the tiny blood vessels beneath your skin. Some of those vessels narrow, changing the shape of the skin above them.",
+            "m": "Create a minimalist 9:16 vertical educational illustration. Show a simplified cross-section of a fingertip with skin layers and tiny blood vessels underneath. One vessel is visibly narrower than the others, highlighted in amber-orange (#F5A524). Hiro stands beside the diagram, pointing at the narrowed vessel. Keep the anatomy simple and friendly, thick black outlines, white fill, pale background, no labels or text. Exactly 1 image.",
+            "edit": "Slowly zoom into the fingertip cross-section. Add a gentle pulse effect around the highlighted vessel."
+          },
+          {
+            "t": "26–35s",
+            "n": "How wrinkles form",
+            "p": "As the tissue underneath changes, the skin surface folds into grooves. That's why the tips of your fingers develop those familiar ridges after a long soak.",
+            "m": "Create a minimalist 9:16 vertical illustration. Show a large close-up comparison of a smooth fingertip and a wrinkled fingertip. Use simple curved black lines to show the grooves forming on the wrinkled surface. Highlight one groove in amber-orange (#F5A524). Hiro examines the two fingertips through a magnifying glass. Clean educational style, thick black outlines, white fill, pale background, no text. Exactly 1 image.",
+            "edit": "Use a slow left-to-right pan from the smooth fingertip to the wrinkled one. Add a soft transformation sound."
+          },
+          {
+            "t": "35–44s",
+            "n": "A possible hidden advantage",
+            "p": "So why would your body do this? One leading theory is that wrinkled fingertips help channel water away, giving you a better grip on wet objects.",
+            "m": "Create a minimalist 9:16 vertical illustration. Hiro uses a wrinkled hand to hold a smooth wet object, such as a small round stone. Show tiny water lines flowing away through the fingertip grooves. Highlight the grooves and water channels in amber-orange (#F5A524). Hiro looks surprised and impressed. Thick black outlines, white fill, pale background, no text, no shading. Exactly 1 image.",
+            "edit": "Pan along the fingertip grooves toward the object being held. Add a subtle water-flow sound."
+          },
+          {
+            "t": "44–53s",
+            "n": "The surprising conclusion",
+            "p": "Scientists have found evidence that wrinkled fingers can improve grip in wet conditions, although the full explanation is still being studied. So those tiny wrinkles might actually be useful. Have you noticed them after a bath?",
+            "m": "Create a minimalist 9:16 vertical illustration. Hiro proudly holds up a wrinkled hand beside a bathtub, with a small wet object securely held in the other hand. Add a simple amber-orange sparkle near the fingertips and a circular arrow near the edge of the composition to suggest a loop back to the opening. Same consistent stick figure design, thick black outlines, white fill, pale background, no text, no gradients. Exactly 1 image.",
+            "edit": "Slow zoom out as Hiro raises his hand. End with a quick cut back to the opening scene of Hiro noticing his wrinkled fingers."
+          }
+        ],
+        "post": {
+          "title": "Why Do Your Fingers Wrinkle in Water? 🖐️",
+          "cap": "Your fingers don't just wrinkle because they absorb water. Your nervous system helps trigger changes beneath the skin, and those wrinkles may even help you grip wet objects! 🖐️ Did you know this?",
+          "tags": "#HumanBody #ScienceExplained #EverydayMysteries #BodyFacts #DidYouKnow #Shorts"
+        },
+        "sources": [
+          {
+            "name": "Changizi, Weber, Kotecha & Palazzo (2011) — Are Wet-Induced Wrinkled Fingers Primate Rain Treads?",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/21300899/",
+            "detail": "Proposes that finger wrinkles may help improve grip in wet conditions, based on patterns resembling drainage networks."
+          },
+          {
+            "name": "Kareklas, Nettle & Smulders (2013) — Water-induced finger wrinkles improve handling of wet objects",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/23835029/",
+            "detail": "Experimental research suggesting wrinkled fingers may improve handling of wet objects."
+          },
+          {
+            "name": "Hsieh, 1971 — The mechanism of water immersion-induced wrinkling of the skin",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/?term=water+immersion+induced+wrinkling+skin+nerve",
+            "detail": "Research background on the physiological mechanism behind water-induced finger wrinkling."
+          }
+        ]
+      }
+    </script>
+
+    <script>
+      const data = JSON.parse(document.getElementById("content").textContent);
+
+      function render() {
+        document.getElementById("mainTitle").textContent = data.title;
+        document.getElementById("duration").textContent = data.duration;
+        document.getElementById("propPrompt").textContent = data.propPrompt;
+        document.getElementById("postTitle").textContent = data.post.title;
+        document.getElementById("postCaption").textContent = data.post.cap;
+        document.getElementById("postTags").textContent = data.post.tags;
+
+        const scenes = document.getElementById("scenes");
+        scenes.innerHTML = "";
+
+        data.segments.forEach((s, i) => {
+          const section = document.createElement("section");
+          section.className = "scene";
+
+          const meta = document.createElement("div");
+          meta.className = "scene-meta";
+          meta.textContent = `SCENE ${i + 1} · ${s.t}`;
+
+          const heading = document.createElement("h3");
+          heading.textContent = s.n;
+
+          const narration = document.createElement("div");
+          narration.className = "narration";
+          narration.textContent = s.p;
+
+          const promptHeading = document.createElement("h3");
+          promptHeading.textContent = "Image prompt";
+
+          const prompt = document.createElement("div");
+          prompt.className = "prompt";
+          prompt.id = `prompt${i}`;
+          prompt.textContent = s.m;
+
+          const copyButton = document.createElement("button");
+          copyButton.className = "copy-btn";
+          copyButton.textContent = "Copy image prompt";
+          copyButton.onclick = () => copyText(`prompt${i}`);
+
+          const editHeading = document.createElement("h3");
+          editHeading.textContent = "Editing direction";
+
+          const edit = document.createElement("p");
+          edit.textContent = s.edit;
+
+          section.append(
+            meta,
+            heading,
+            narration,
+            promptHeading,
+            prompt,
+            copyButton,
+            editHeading,
+            edit,
+          );
+
+          scenes.appendChild(section);
+        });
+
+        document.getElementById("fullNarration").textContent = data.segments
+          .map((s) => s.p)
+          .join("\n\n");
+
+        const sources = document.getElementById("sources");
+        sources.innerHTML = "";
+
+        data.sources.forEach((source) => {
+          const item = document.createElement("p");
+          const name = document.createElement("strong");
+          name.textContent = source.name;
+
+          const detail = document.createElement("div");
+          detail.className = "muted";
+          detail.textContent = source.detail;
+
+          const link = document.createElement("a");
+          link.href = source.url;
+          link.target = "_blank";
+          link.rel = "noopener noreferrer";
+          link.textContent = "Read source";
+
+          item.append(name, document.createElement("br"), detail, link);
+          sources.appendChild(item);
+        });
+      }
+
+      function copyText(id) {
+        const text = document.getElementById(id).textContent;
+
+        navigator.clipboard
+          .writeText(text)
+          .then(() => {
+            const toast = document.getElementById("toast");
+            toast.classList.add("show");
+            setTimeout(() => toast.classList.remove("show"), 1400);
+          })
+          .catch(() => {
+            alert("Copy failed. Please select and copy the text manually.");
+          });
+      }
+
+      function toggleTheme() {
+        const current = document.documentElement.getAttribute("data-theme");
+        document.documentElement.setAttribute(
+          "data-theme",
+          current === "dark" ? "light" : "dark",
+        );
+      }
+
+      const checklist = document.getElementById("editChecklist");
+      const saved = JSON.parse(
+        localStorage.getItem("fingerWrinkleChecklist") || "[]",
+      );
+
+      checklist.querySelectorAll("input").forEach((input, index) => {
+        input.checked = !!saved[index];
+
+        input.addEventListener("change", () => {
+          const values = [...checklist.querySelectorAll("input")].map(
+            (el) => el.checked,
+          );
+
+          localStorage.setItem(
+            "fingerWrinkleChecklist",
+            JSON.stringify(values),
+          );
+        });
+      });
+
+      render();
+    </script>
+  </body>
+</html>
