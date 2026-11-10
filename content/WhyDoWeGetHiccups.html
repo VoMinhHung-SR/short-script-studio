@@ -1,0 +1,479 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Why Do We Get Hiccups?</title>
+
+    <style>
+      :root {
+        --bg: #f5f5f2;
+        --card: #ffffff;
+        --text: #202020;
+        --muted: #777;
+        --accent: #f5a524;
+        --border: #e5e5e0;
+      }
+      [data-theme="dark"] {
+        --bg: #171717;
+        --card: #222;
+        --text: #f3f3f3;
+        --muted: #aaa;
+        --border: #383838;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        padding: 28px 16px 60px;
+        background: var(--bg);
+        color: var(--text);
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+      }
+      .container {
+        max-width: 900px;
+        margin: auto;
+      }
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 28px;
+      }
+      h1 {
+        font-size: clamp(26px, 5vw, 38px);
+        line-height: 1.2;
+      }
+      h2 {
+        font-size: 21px;
+        margin-top: 0;
+      }
+      h3 {
+        font-size: 17px;
+        margin-bottom: 8px;
+      }
+      p {
+        margin: 8px 0;
+      }
+      .muted {
+        color: var(--muted);
+        font-size: 14px;
+      }
+      .card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 20px;
+        margin: 16px 0;
+      }
+      button {
+        border: 1px solid var(--border);
+        background: var(--card);
+        color: var(--text);
+        padding: 9px 13px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 13px;
+      }
+      button:hover {
+        border-color: var(--accent);
+      }
+      .copy-btn {
+        margin-top: 10px;
+      }
+      .prompt {
+        background: var(--bg);
+        border: 1px solid var(--border);
+        padding: 14px;
+        border-radius: 9px;
+        font-size: 14px;
+        white-space: pre-wrap;
+      }
+      .scene {
+        border-top: 1px solid var(--border);
+        padding: 18px 0;
+      }
+      .scene:first-of-type {
+        border-top: 0;
+      }
+      .scene-meta {
+        color: var(--muted);
+        font-size: 13px;
+        margin-bottom: 8px;
+      }
+      .narration {
+        font-size: 16px;
+        padding: 12px;
+        border-left: 3px solid var(--accent);
+        background: var(--bg);
+        border-radius: 4px;
+      }
+      .checklist label {
+        display: block;
+        padding: 7px 0;
+        cursor: pointer;
+      }
+      input[type="checkbox"] {
+        accent-color: var(--accent);
+      }
+      .toast {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #222;
+        color: white;
+        padding: 9px 16px;
+        border-radius: 8px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s;
+      }
+      .toast.show {
+        opacity: 1;
+      }
+      footer {
+        text-align: center;
+        margin-top: 36px;
+        color: var(--muted);
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <header>
+        <div>
+          <div class="muted">EVERYDAY MYSTERIES · HIRO SERIES</div>
+          <h1 id="mainTitle">Why Do We Get Hiccups?</h1>
+        </div>
+        <button onclick="toggleTheme()">☀ / ☾ Theme</button>
+      </header>
+
+      <div class="card">
+        <h2>0. Prepare once</h2>
+        <p><strong>Video format:</strong> 9:16 vertical</p>
+        <p><strong>Estimated duration:</strong> <span id="duration"></span></p>
+        <p>
+          <strong>Visual style:</strong> Minimalist stick figure illustration,
+          clean black outlines, white character fill, pale background, one
+          amber-orange accent (#F5A524).
+        </p>
+        <p>
+          <strong>Image generation:</strong> Generate exactly 1 image per scene.
+          Keep Hiro's design consistent across every image.
+        </p>
+        <p class="muted">
+          Generate a reusable prop sheet first if you want consistent objects
+          across scenes.
+        </p>
+
+        <h3>Reusable prop sheet prompt</h3>
+        <div class="prompt" id="propPrompt"></div>
+        <button class="copy-btn" onclick="copyText('propPrompt')">
+          Copy prop prompt
+        </button>
+      </div>
+
+      <div class="card">
+        <h2>1. Script & image prompts</h2>
+        <p class="muted">
+          Each scene includes narration, image prompt and editing direction.
+        </p>
+        <div id="scenes"></div>
+      </div>
+
+      <div class="card">
+        <h2>2. Voice-over</h2>
+        <p class="muted">
+          Copy the complete narration and paste it into your TTS tool or CapCut.
+        </p>
+        <div class="prompt" id="fullNarration"></div>
+        <button class="copy-btn" onclick="copyText('fullNarration')">
+          Copy full narration
+        </button>
+      </div>
+
+      <div class="card">
+        <h2>3. Edit in CapCut</h2>
+        <div class="checklist" id="editChecklist">
+          <label
+            ><input type="checkbox" /> Import all generated images in the
+            correct order.</label
+          >
+          <label><input type="checkbox" /> Set project ratio to 9:16.</label>
+          <label
+            ><input type="checkbox" /> Add voice-over and synchronize each
+            scene.</label
+          >
+          <label
+            ><input type="checkbox" /> Add subtle zooms and pans to avoid static
+            visuals.</label
+          >
+          <label
+            ><input type="checkbox" /> Add light sound effects where
+            appropriate.</label
+          >
+          <label
+            ><input type="checkbox" /> Add captions with readable
+            contrast.</label
+          >
+          <label
+            ><input type="checkbox" /> Keep transitions short and clean.</label
+          >
+          <label
+            ><input type="checkbox" /> Make the ending connect naturally to the
+            opening.</label
+          >
+          <label><input type="checkbox" /> Export in 1080 × 1920.</label>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>4. Publish</h2>
+        <h3>Video title</h3>
+        <div class="prompt" id="postTitle"></div>
+        <button class="copy-btn" onclick="copyText('postTitle')">
+          Copy title
+        </button>
+
+        <h3>Caption</h3>
+        <div class="prompt" id="postCaption"></div>
+        <button class="copy-btn" onclick="copyText('postCaption')">
+          Copy caption
+        </button>
+
+        <h3>Hashtags</h3>
+        <div class="prompt" id="postTags"></div>
+        <button class="copy-btn" onclick="copyText('postTags')">
+          Copy hashtags
+        </button>
+      </div>
+
+      <div class="card">
+        <h2>5. Sources & accuracy notes</h2>
+        <div id="sources"></div>
+        <p class="muted">
+          Hiccups are a reflex involving several nerves and muscles. Common
+          triggers are known, but the exact reason this reflex exists is not
+          fully understood.
+        </p>
+      </div>
+
+      <footer>
+        Everyday Mysteries · One ordinary question, one surprising explanation.
+      </footer>
+    </div>
+
+    <div class="toast" id="toast">Copied!</div>
+
+    <script id="content" type="application/json">
+      {
+        "title": "Why Do We Get Hiccups?",
+        "duration": "Approximately 53 seconds",
+        "propPrompt": "Create a clean 3x3 prop reference sheet in minimalist black-and-white stick figure illustration style. Include: a simple human diaphragm muscle diagram, a pair of lungs, a stomach, a simplified brain, a branching nerve pathway, an open mouth, a glass of water, a soda cup with bubbles, and a speech bubble containing a simple sound-wave symbol. Thin clear black outlines, white fill, pale warm background, only one accent color amber-orange #F5A524. Consistent simple geometry, no people or characters, no labels, no text, no shadows, no gradients. Each object separated clearly, exactly one image.",
+        "segments": [
+          {
+            "t": "0–8s",
+            "n": "The mystery",
+            "p": "You're having a perfectly normal day... then suddenly: hic! And again. And again. Why does your body keep making that strange sound when you're not even trying?",
+            "m": "Create a minimalist 9:16 vertical illustration. Hiro, the same simple stick figure character with round white head, thick black outline and thin black limbs, stands with a surprised expression. One hand is on his chest while several small sound-wave symbols pop out near his mouth. Add a tiny amber-orange accent (#F5A524) to the sound waves. Pale warm background, clean composition, no text, no shading, no gradients, no extra characters. Exactly 1 image.",
+            "edit": "Start with a quick zoom toward Hiro's face. Add two short comedic hic sound effects, timed slightly apart."
+          },
+          {
+            "t": "8–16s",
+            "n": "The unexpected muscle",
+            "p": "The secret is a muscle you probably never think about: your diaphragm. It's the large muscle beneath your lungs that helps you breathe.",
+            "m": "Create a minimalist 9:16 vertical educational illustration. Hiro stands beside a simplified upper-body diagram showing two lungs and a curved diaphragm muscle underneath them. Highlight the diaphragm in amber-orange (#F5A524). Hiro points toward the muscle with a curious expression. Keep anatomy friendly and simplified, thick black outlines, white fill, pale background, no labels, no text. Exactly 1 image.",
+            "edit": "Pan from the lungs downward toward the diaphragm. Add a subtle reveal sound when the muscle is highlighted."
+          },
+          {
+            "t": "16–25s",
+            "n": "What causes the hic",
+            "p": "A hiccup happens when your diaphragm suddenly contracts without you controlling it. Air rushes inward, and your vocal cords quickly snap shut.",
+            "m": "Create a minimalist 9:16 vertical educational illustration. Show a simple side-view upper-body diagram with lungs, airway and diaphragm. The diaphragm is shown contracting suddenly, with a curved arrow moving upward. At the top of the airway, show the vocal cords closing. Highlight the diaphragm and closing point in amber-orange (#F5A524). Hiro watches the diagram in surprise. Thick black outlines, white fill, pale background, no labels or text. Exactly 1 image.",
+            "edit": "Animate a quick upward movement from the diaphragm toward the throat. Add a short hic sound exactly when the vocal cords close."
+          },
+          {
+            "t": "25–34s",
+            "n": "Why the sound appears",
+            "p": "That sudden closure interrupts the airflow and creates the familiar 'hic' sound. It's basically an involuntary breathing reflex going slightly off script.",
+            "m": "Create a minimalist 9:16 vertical illustration. Hiro stands beside a simplified throat and airway diagram. Show a small airflow arrow moving upward and stopping at closed vocal cords, with a little vibration symbol near the throat. Highlight the closing vocal cords in amber-orange (#F5A524). Hiro looks amused and puzzled. Thick black outlines, white fill, pale background, no text, no shading. Exactly 1 image.",
+            "edit": "Zoom toward the throat as the airflow arrow stops. Add a playful pop or hic sound."
+          },
+          {
+            "t": "34–43s",
+            "n": "What triggers it",
+            "p": "Eating too quickly, drinking fizzy drinks, or suddenly swallowing air can trigger hiccups. These actions can irritate or stretch parts of your stomach and digestive system.",
+            "m": "Create a minimalist 9:16 vertical illustration. Hiro sits at a table with a plate of food and a fizzy drink full of bubbles. He looks surprised, with one hand near his stomach. Show a few simple bubbles moving upward from the stomach area, with amber-orange highlights (#F5A524). Same consistent stick figure design, thick black outlines, white fill, pale background, no text, no gradients. Exactly 1 image.",
+            "edit": "Pan from the fizzy drink toward Hiro's stomach. Add a few light bubble sounds."
+          },
+          {
+            "t": "43–53s",
+            "n": "The final mystery",
+            "p": "Most hiccups disappear on their own after a short time. But scientists still don't fully know why humans have this reflex in the first place. So... did that sentence make you hiccup?",
+            "m": "Create a minimalist 9:16 vertical illustration. Hiro stands facing the viewer, holding a glass of water and looking slightly amused. A small simplified diaphragm symbol floats beside him, highlighted in amber-orange (#F5A524). Add a circular arrow near the edge of the composition to suggest looping back to the opening. Same consistent stick figure design, thick black outlines, white fill, pale background, no text, no gradients. Exactly 1 image.",
+            "edit": "Slow zoom toward Hiro as he looks at the viewer. End with a quick cut back to the opening scene and its first hic sound for a seamless loop."
+          }
+        ],
+        "post": {
+          "title": "Why Do We Get Hiccups? 🤔",
+          "cap": "That tiny 'hic' sound is actually caused by an involuntary muscle contraction. Your diaphragm suddenly moves, your vocal cords close, and there it is: a hiccup! Did reading this make you hiccup? 😂",
+          "tags": "#Hiccups #HumanBody #ScienceExplained #EverydayMysteries #DidYouKnow #Shorts"
+        },
+        "sources": [
+          {
+            "name": "Mayo Clinic — Hiccups: Causes",
+            "url": "https://www.mayoclinic.org/diseases-conditions/hiccups/symptoms-causes/syc-20352613",
+            "detail": "Overview of hiccups, their mechanism and common triggers."
+          },
+          {
+            "name": "Cleveland Clinic — Hiccups",
+            "url": "https://my.clevelandclinic.org/health/diseases/17672-hiccups",
+            "detail": "Explains the diaphragm contraction, vocal cord closure and common causes."
+          },
+          {
+            "name": "Merck Manual — Hiccups",
+            "url": "https://www.merckmanuals.com/home/digestive-disorders/symptoms-of-digestive-disorders/hiccups",
+            "detail": "Medical overview of the hiccup reflex and when persistent hiccups may need medical attention."
+          }
+        ]
+      }
+    </script>
+
+    <script>
+      const data = JSON.parse(document.getElementById("content").textContent);
+
+      function render() {
+        document.getElementById("mainTitle").textContent = data.title;
+        document.getElementById("duration").textContent = data.duration;
+        document.getElementById("propPrompt").textContent = data.propPrompt;
+        document.getElementById("postTitle").textContent = data.post.title;
+        document.getElementById("postCaption").textContent = data.post.cap;
+        document.getElementById("postTags").textContent = data.post.tags;
+
+        const scenes = document.getElementById("scenes");
+        scenes.innerHTML = "";
+
+        data.segments.forEach((s, i) => {
+          const section = document.createElement("section");
+          section.className = "scene";
+
+          const meta = document.createElement("div");
+          meta.className = "scene-meta";
+          meta.textContent = `SCENE ${i + 1} · ${s.t}`;
+
+          const heading = document.createElement("h3");
+          heading.textContent = s.n;
+
+          const narration = document.createElement("div");
+          narration.className = "narration";
+          narration.textContent = s.p;
+
+          const promptHeading = document.createElement("h3");
+          promptHeading.textContent = "Image prompt";
+
+          const prompt = document.createElement("div");
+          prompt.className = "prompt";
+          prompt.id = `prompt${i}`;
+          prompt.textContent = s.m;
+
+          const copyButton = document.createElement("button");
+          copyButton.className = "copy-btn";
+          copyButton.textContent = "Copy image prompt";
+          copyButton.onclick = () => copyText(`prompt${i}`);
+
+          const editHeading = document.createElement("h3");
+          editHeading.textContent = "Editing direction";
+
+          const edit = document.createElement("p");
+          edit.textContent = s.edit;
+
+          section.append(
+            meta,
+            heading,
+            narration,
+            promptHeading,
+            prompt,
+            copyButton,
+            editHeading,
+            edit,
+          );
+
+          scenes.appendChild(section);
+        });
+
+        document.getElementById("fullNarration").textContent = data.segments
+          .map((s) => s.p)
+          .join("\n\n");
+
+        const sources = document.getElementById("sources");
+        sources.innerHTML = "";
+
+        data.sources.forEach((source) => {
+          const item = document.createElement("p");
+          const name = document.createElement("strong");
+          name.textContent = source.name;
+
+          const detail = document.createElement("div");
+          detail.className = "muted";
+          detail.textContent = source.detail;
+
+          const link = document.createElement("a");
+          link.href = source.url;
+          link.target = "_blank";
+          link.rel = "noopener noreferrer";
+          link.textContent = "Read source";
+
+          item.append(name, document.createElement("br"), detail, link);
+          sources.appendChild(item);
+        });
+      }
+
+      function copyText(id) {
+        const text = document.getElementById(id).textContent;
+
+        navigator.clipboard
+          .writeText(text)
+          .then(() => {
+            const toast = document.getElementById("toast");
+            toast.classList.add("show");
+            setTimeout(() => toast.classList.remove("show"), 1400);
+          })
+          .catch(() => {
+            alert("Copy failed. Please select and copy the text manually.");
+          });
+      }
+
+      function toggleTheme() {
+        const current = document.documentElement.getAttribute("data-theme");
+        document.documentElement.setAttribute(
+          "data-theme",
+          current === "dark" ? "light" : "dark",
+        );
+      }
+
+      const checklist = document.getElementById("editChecklist");
+      const saved = JSON.parse(
+        localStorage.getItem("hiccupsChecklist") || "[]",
+      );
+
+      checklist.querySelectorAll("input").forEach((input, index) => {
+        input.checked = !!saved[index];
+
+        input.addEventListener("change", () => {
+          const values = [...checklist.querySelectorAll("input")].map(
+            (el) => el.checked,
+          );
+
+          localStorage.setItem("hiccupsChecklist", JSON.stringify(values));
+        });
+      });
+
+      render();
+    </script>
+  </body>
+</html>
