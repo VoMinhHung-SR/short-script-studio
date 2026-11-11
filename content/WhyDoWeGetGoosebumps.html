@@ -1,0 +1,881 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f7f4ed" />
+    <title>Everyday Mysteries — Why Do We Get Goosebumps?</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f7f4ed;
+        --surface: #fffdf8;
+        --surface-2: #f0ede5;
+        --text: #252525;
+        --muted: #77736b;
+        --border: #ded9ce;
+        --accent: #f5a524;
+        --accent-dark: #9a6100;
+        --shadow: 0 8px 30px rgba(30, 25, 15, 0.06);
+      }
+
+      [data-theme="dark"] {
+        color-scheme: dark;
+        --bg: #171717;
+        --surface: #222220;
+        --surface-2: #2c2b28;
+        --text: #f2f0e9;
+        --muted: #aaa69c;
+        --border: #414039;
+        --accent: #f5a524;
+        --accent-dark: #ffc45e;
+        --shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family:
+          Inter,
+          ui-sans-serif,
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          sans-serif;
+        line-height: 1.6;
+        transition:
+          background 0.2s,
+          color 0.2s;
+      }
+
+      button {
+        font: inherit;
+      }
+
+      .container {
+        width: min(900px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 32px 0 70px;
+      }
+
+      .topbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 34px;
+      }
+
+      .brand {
+        font-size: 13px;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .brand span {
+        color: var(--accent-dark);
+      }
+
+      .theme-btn,
+      .copy-btn {
+        border: 1px solid var(--border);
+        background: var(--surface);
+        color: var(--text);
+        border-radius: 10px;
+        padding: 8px 12px;
+        cursor: pointer;
+        transition: 0.2s;
+      }
+
+      .theme-btn:hover,
+      .copy-btn:hover {
+        border-color: var(--accent);
+        transform: translateY(-1px);
+      }
+
+      .hero {
+        margin-bottom: 30px;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        color: var(--accent-dark);
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+
+      .eyebrow::before {
+        content: "";
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--accent);
+      }
+
+      h1 {
+        max-width: 760px;
+        margin: 12px 0;
+        font-size: clamp(34px, 7vw, 58px);
+        line-height: 1.05;
+        letter-spacing: -0.045em;
+      }
+
+      .subtitle {
+        color: var(--muted);
+        max-width: 650px;
+        margin: 0;
+        font-size: 16px;
+      }
+
+      .meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 9px;
+        margin-top: 20px;
+      }
+
+      .pill {
+        padding: 6px 11px;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 650;
+      }
+
+      .section {
+        margin-top: 34px;
+      }
+
+      .section-heading {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 14px;
+      }
+
+      h2 {
+        margin: 0;
+        font-size: 21px;
+        letter-spacing: -0.025em;
+      }
+
+      .section-note {
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 20px;
+        box-shadow: var(--shadow);
+      }
+
+      .prompt-box {
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+        background: var(--surface-2);
+        padding: 15px;
+        border-radius: 10px;
+        color: var(--text);
+        font-size: 13px;
+        line-height: 1.65;
+        margin: 12px 0;
+      }
+
+      .scene-list {
+        display: grid;
+        gap: 16px;
+      }
+
+      .scene {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 19px;
+        box-shadow: var(--shadow);
+      }
+
+      .scene-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 10px;
+      }
+
+      .scene-number {
+        color: var(--accent-dark);
+        font-size: 12px;
+        font-weight: 850;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .timestamp {
+        font-size: 12px;
+        color: var(--muted);
+        font-variant-numeric: tabular-nums;
+      }
+
+      .scene h3 {
+        margin: 0 0 12px;
+        font-size: 18px;
+        letter-spacing: -0.02em;
+      }
+
+      .field-label {
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+        margin: 13px 0 5px;
+      }
+
+      .narration {
+        font-size: 15px;
+        line-height: 1.7;
+      }
+
+      .direction {
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .scene .prompt-box {
+        margin-bottom: 10px;
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 12px;
+      }
+
+      .copy-btn {
+        font-size: 12px;
+        font-weight: 750;
+      }
+
+      .primary-btn {
+        background: var(--accent);
+        color: #241a08;
+        border-color: var(--accent);
+      }
+
+      .primary-btn:hover {
+        background: #ffb83e;
+      }
+
+      .narration-box {
+        white-space: pre-wrap;
+        font-size: 15px;
+        line-height: 1.8;
+        padding: 16px;
+        border-radius: 10px;
+        background: var(--surface-2);
+      }
+
+      .checklist {
+        display: grid;
+        gap: 11px;
+      }
+
+      .check-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        font-size: 14px;
+      }
+
+      .check-item input {
+        accent-color: var(--accent);
+        width: 17px;
+        height: 17px;
+        margin-top: 3px;
+        flex-shrink: 0;
+      }
+
+      .check-item input:checked + span {
+        color: var(--muted);
+        text-decoration: line-through;
+      }
+
+      .progress-track {
+        height: 7px;
+        border-radius: 99px;
+        background: var(--surface-2);
+        overflow: hidden;
+        margin: 14px 0 7px;
+      }
+
+      .progress-bar {
+        width: 0;
+        height: 100%;
+        background: var(--accent);
+        transition: width 0.2s;
+      }
+
+      .progress-label {
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .publish-grid {
+        display: grid;
+        gap: 13px;
+      }
+
+      .publish-item {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 14px;
+      }
+
+      .publish-item p {
+        margin: 6px 0 10px;
+        font-size: 14px;
+        overflow-wrap: anywhere;
+      }
+
+      .publish-label {
+        font-size: 11px;
+        color: var(--accent-dark);
+        font-weight: 850;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .sources {
+        padding-left: 20px;
+        margin: 10px 0 0;
+      }
+
+      .sources li {
+        margin: 9px 0;
+        font-size: 13px;
+      }
+
+      a {
+        color: var(--accent-dark);
+        overflow-wrap: anywhere;
+      }
+
+      .note {
+        border-left: 3px solid var(--accent);
+        padding: 12px 15px;
+        background: var(--surface-2);
+        border-radius: 0 10px 10px 0;
+        font-size: 13px;
+        color: var(--muted);
+      }
+
+      footer {
+        border-top: 1px solid var(--border);
+        margin-top: 40px;
+        padding-top: 18px;
+        color: var(--muted);
+        font-size: 12px;
+        text-align: center;
+      }
+
+      #toast {
+        position: fixed;
+        bottom: 22px;
+        left: 50%;
+        transform: translate(-50%, 20px);
+        opacity: 0;
+        background: var(--text);
+        color: var(--bg);
+        padding: 9px 15px;
+        border-radius: 999px;
+        font-size: 13px;
+        pointer-events: none;
+        transition: 0.2s;
+        z-index: 10;
+      }
+
+      #toast.show {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+
+      @media (max-width: 600px) {
+        .container {
+          width: min(100% - 22px, 900px);
+          padding-top: 20px;
+        }
+        .card,
+        .scene {
+          padding: 15px;
+        }
+        .section-heading {
+          align-items: flex-start;
+          flex-direction: column;
+          gap: 3px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <main class="container">
+      <header class="topbar">
+        <div class="brand">Everyday <span>Mysteries</span></div>
+        <button class="theme-btn" id="themeToggle" type="button">
+          ☾ Theme
+        </button>
+      </header>
+
+      <section class="hero">
+        <div class="eyebrow">Episode 06 · Human Body</div>
+        <h1>Why Do We Get Goosebumps?</h1>
+        <p class="subtitle">
+          Your body can make your hair stand on end — even when there's nothing
+          to be afraid of.
+        </p>
+        <div class="meta">
+          <span class="pill">⏱ 50–55 seconds</span>
+          <span class="pill">6 scenes</span>
+          <span class="pill">9:16 vertical</span>
+          <span class="pill">English narration</span>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <h2>Character & Visual Style</h2>
+          <span class="section-note">Reusable prompt · Copy once</span>
+        </div>
+        <div class="card">
+          <p class="direction">
+            Use this prompt as the visual reference for every scene. Keep Hiro's
+            appearance consistent.
+          </p>
+          <div class="prompt-box" id="characterPrompt">
+            A minimalist 2D stick-figure character named Hiro. Hiro has a round
+            white head with a thick black outline, simple expressive black eyes
+            and mouth, thin black stick arms and legs, and a friendly, curious
+            personality. Clean hand-drawn line art, pale warm cream background
+            (#F7F4ED), black outlines, one amber-orange accent (#F5A524). Flat
+            vector illustration, simple shapes, high contrast, plenty of
+            negative space, consistent character proportions and design in every
+            image. Vertical 9:16 composition. No text, no letters, no watermark,
+            no gradients, no realistic rendering, no complex background. Exactly
+            one clear visual moment.
+          </div>
+          <button class="copy-btn primary-btn" data-copy="characterPrompt">
+            Copy character prompt
+          </button>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <h2>Scene Breakdown</h2>
+          <span class="section-note">One image per scene</span>
+        </div>
+        <div class="scene-list" id="sceneList"></div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <h2>Full Voiceover Script</h2>
+          <span class="section-note">Ready for TTS</span>
+        </div>
+        <div class="card">
+          <div class="narration-box" id="fullNarration"></div>
+          <div class="actions">
+            <button class="copy-btn primary-btn" id="copyNarration">
+              Copy full narration
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <h2>CapCut Production Checklist</h2>
+          <span class="section-note">Progress is saved in this browser</span>
+        </div>
+        <div class="card">
+          <div class="checklist" id="checklist"></div>
+          <div class="progress-track">
+            <div class="progress-bar" id="progressBar"></div>
+          </div>
+          <div class="progress-label" id="progressLabel">0 of 8 completed</div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <h2>Publishing Pack</h2>
+          <span class="section-note">English · Short-form platforms</span>
+        </div>
+        <div class="card">
+          <div class="publish-grid" id="publishPack"></div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <h2>Scientific Accuracy Notes</h2>
+        </div>
+        <div class="card">
+          <div class="note">
+            Goosebumps are medically called <strong>piloerection</strong>. Tiny
+            muscles attached to hair follicles contract, making hairs stand
+            upright and creating small bumps on the skin. This is an involuntary
+            response controlled by the autonomic nervous system.
+          </div>
+          <ul class="sources">
+            <li>
+              <a
+                href="https://health.clevelandclinic.org/why-do-you-get-goosebumps"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Cleveland Clinic — Why You Have Goosebumps</a
+              >
+              <br /><span class="direction"
+                >Overview of causes and the muscles responsible for
+                goosebumps.</span
+              >
+            </li>
+            <li>
+              <a
+                href="https://www.ncbi.nlm.nih.gov/books/NBK10829/"
+                target="_blank"
+                rel="noopener noreferrer"
+                >NCBI Bookshelf — Physiological Changes Associated with
+                Emotion</a
+              >
+              <br /><span class="direction"
+                >Explains how emotional arousal can activate autonomic
+                responses, including piloerection.</span
+              >
+            </li>
+            <li>
+              <a
+                href="https://pubmed.ncbi.nlm.nih.gov/35764195/"
+                target="_blank"
+                rel="noopener noreferrer"
+                >PubMed — The Physiological Study of Emotional Piloerection
+                (2022)</a
+              >
+              <br /><span class="direction"
+                >Systematic review discussing what researchers know — and what
+                remains uncertain — about emotion-related goosebumps.</span
+              >
+            </li>
+            <li>
+              <a
+                href="https://beta.nih.gov/news-events/nih-research-matters/what-goosebumps-are"
+                target="_blank"
+                rel="noopener noreferrer"
+                >NIH Research Matters — What Goosebumps Are For</a
+              >
+              <br /><span class="direction"
+                >Research on the connection between goosebumps, nerves, muscles
+                and hair follicle stem cells in mice.</span
+              >
+            </li>
+          </ul>
+          <p class="direction">
+            Accuracy note: The evolutionary explanation about trapping warm air
+            and appearing larger is well established in furry mammals. In
+            humans, goosebumps are largely a leftover reflex. Emotional
+            goosebumps are real, but their exact psychological purpose is still
+            being studied. The hair-growth research cited above was conducted in
+            mice, so it should not be presented as a proven benefit in humans.
+          </p>
+        </div>
+      </section>
+
+      <footer>EVERYDAY MYSTERIES · Small questions, surprising science.</footer>
+    </main>
+
+    <div id="toast" role="status" aria-live="polite">Copied!</div>
+
+    <script id="content" type="application/json">
+      {
+        "scenes": [
+          {
+            "time": "00:00–00:07",
+            "title": "The Strange Reaction",
+            "narration": "Have you ever felt a chill… and suddenly noticed tiny bumps all over your skin? That's your body doing something surprisingly ancient.",
+            "image": "Hiro stands in a slightly chilly breeze, looking down at his forearm with a surprised expression. Tiny simple bumps are visible on the forearm. A few curved wind lines suggest cold air. Cream background, one small amber accent.",
+            "direction": "Open with a close-up of Hiro's arm, then reveal Hiro looking confused. Add a subtle wind sound effect. Make the first second visually intriguing."
+          },
+          {
+            "time": "00:07–00:15",
+            "title": "What Is Actually Happening?",
+            "narration": "They're called goosebumps. Tiny muscles attached to your hair follicles suddenly contract, pulling your hairs upright and making your skin form little bumps.",
+            "image": "Hiro examines a simple magnified view of an arm. Show one hair follicle with a tiny muscle pulling a hair upright, with a small raised bump on the skin surface. Simple educational diagram, no labels or text.",
+            "direction": "Use a quick zoom into the skin. Animate one hair standing upright as the bump appears. Keep the diagram clean and easy to understand."
+          },
+          {
+            "time": "00:15–00:24",
+            "title": "An Ancient Survival Trick",
+            "narration": "But why would your body do this? Long ago, when our ancestors had much more body hair, raised hairs helped trap a layer of warm air close to the skin.",
+            "image": "Hiro stands beside a simple furry early human-like silhouette in a cold environment. The furry figure has raised hair with small air pockets shown between strands. Keep it symbolic and non-detailed.",
+            "direction": "Transition from modern Hiro to a simplified ancestral comparison. Use a gentle left-to-right reveal. Avoid making the scene look like a realistic historical reconstruction."
+          },
+          {
+            "time": "00:24–00:33",
+            "title": "Looking Bigger Than You Are",
+            "narration": "And when animals feel threatened, raised fur can make them look bigger and more intimidating. Think of a cat puffing up when it's startled.",
+            "image": "A simple cartoon cat with puffed-up fur stands next to Hiro. Hiro looks surprised, leaning back slightly. The cat looks bigger because its fur is raised. Minimal cream background.",
+            "direction": "Show the cat's fur expanding with a playful pop animation. Add a light comedic sound effect. Keep the scene friendly, not scary."
+          },
+          {
+            "time": "00:33–00:44",
+            "title": "Why Music Gives You Goosebumps",
+            "narration": "Here's the weird part: cold isn't the only trigger. Fear, excitement, and even a powerful song can activate your nervous system and give you goosebumps.",
+            "image": "Hiro listens to music through headphones, eyes closed, visibly moved. A few simple musical notes float around him, while tiny goosebumps appear on his arm. One amber accent highlights the headphones.",
+            "direction": "Let the music build slightly. On the emotional peak, cut to Hiro's arm with goosebumps. Sync the visual reveal with the strongest beat."
+          },
+          {
+            "time": "00:44–00:53",
+            "title": "A Reflex From the Past",
+            "narration": "Humans have lost most of that thick body hair, but the reflex remains. So the next time a song gives you chills, you're experiencing a tiny echo of your evolutionary past. What gives you goosebumps?",
+            "image": "Hiro looks at his arm with a curious smile. The composition echoes the opening scene: same pose, same forearm close-up, same pale background, with a small breeze line.",
+            "direction": "Slowly zoom out to match the opening composition. End on the same arm pose as Scene 1 so the video can loop smoothly. Leave the final question on screen as subtitles."
+          }
+        ],
+        "checklist": [
+          "Generate six scene images using the matching image prompts.",
+          "Check that Hiro looks consistent across all six images.",
+          "Generate English voiceover with a curious, conversational tone.",
+          "Import images and voiceover into CapCut.",
+          "Add slow zooms, simple transitions and subtle sound effects.",
+          "Add accurate English subtitles with readable contrast.",
+          "Export in 9:16, 1080 × 1920, with clear audio.",
+          "Watch the final cut once and check the opening-to-ending loop."
+        ],
+        "publishing": {
+          "title": "Why Do We Get Goosebumps? The Ancient Reason Is Wild",
+          "caption": "Your body still has an ancient survival reflex — even though you barely have body hair anymore. 🧠❄️\n\nAnd yes, even your favorite song can trigger it.\n\nWhat gives YOU goosebumps?",
+          "hashtags": "#EverydayMysteries #Goosebumps #HumanBody #ScienceExplained #Psychology #DidYouKnow #Hiro"
+        }
+      }
+    </script>
+
+    <script>
+      const data = JSON.parse(document.getElementById("content").textContent);
+
+      const sceneList = document.getElementById("sceneList");
+      const fullNarration = document.getElementById("fullNarration");
+
+      function makeElement(tag, className, text) {
+        const element = document.createElement(tag);
+        if (className) element.className = className;
+        if (text !== undefined) element.textContent = text;
+        return element;
+      }
+
+      function addCopyButton(parent, text, label = "Copy image prompt") {
+        const button = makeElement("button", "copy-btn", label);
+        button.type = "button";
+        button.addEventListener("click", () => copyText(text));
+        parent.appendChild(button);
+      }
+
+      data.scenes.forEach((scene, index) => {
+        const article = makeElement("article", "scene");
+
+        const top = makeElement("div", "scene-top");
+        top.append(
+          makeElement(
+            "span",
+            "scene-number",
+            `Scene ${String(index + 1).padStart(2, "0")}`,
+          ),
+          makeElement("span", "timestamp", scene.time),
+        );
+
+        const title = makeElement("h3", "", scene.title);
+
+        const narrationLabel = makeElement("div", "field-label", "Voiceover");
+        const narration = makeElement("div", "narration", scene.narration);
+
+        const imageLabel = makeElement(
+          "div",
+          "field-label",
+          "Image generation prompt",
+        );
+        const imagePrompt = makeElement("div", "prompt-box", scene.image);
+
+        const directionLabel = makeElement(
+          "div",
+          "field-label",
+          "Editing direction",
+        );
+        const direction = makeElement("div", "direction", scene.direction);
+
+        const actions = makeElement("div", "actions");
+        addCopyButton(actions, scene.image);
+
+        article.append(
+          top,
+          title,
+          narrationLabel,
+          narration,
+          imageLabel,
+          imagePrompt,
+          directionLabel,
+          direction,
+          actions,
+        );
+
+        sceneList.appendChild(article);
+      });
+
+      const narrationText = data.scenes
+        .map((scene) => scene.narration)
+        .join("\n\n");
+      fullNarration.textContent = narrationText;
+
+      async function copyText(text) {
+        try {
+          await navigator.clipboard.writeText(text);
+          showToast("Copied to clipboard!");
+        } catch (error) {
+          const area = document.createElement("textarea");
+          area.value = text;
+          area.style.position = "fixed";
+          area.style.opacity = "0";
+          document.body.appendChild(area);
+          area.select();
+          document.execCommand("copy");
+          area.remove();
+          showToast("Copied!");
+        }
+      }
+
+      document.querySelectorAll("[data-copy]").forEach((button) => {
+        button.addEventListener("click", () => {
+          const target = document.getElementById(button.dataset.copy);
+          if (target) copyText(target.textContent);
+        });
+      });
+
+      document.getElementById("copyNarration").addEventListener("click", () => {
+        copyText(narrationText);
+      });
+
+      let toastTimer;
+      function showToast(message) {
+        const toast = document.getElementById("toast");
+        toast.textContent = message;
+        toast.classList.add("show");
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => toast.classList.remove("show"), 1800);
+      }
+
+      // Publishing pack
+      const publishPack = document.getElementById("publishPack");
+      const publishItems = [
+        ["Video title", data.publishing.title],
+        ["Caption", data.publishing.caption],
+        ["Hashtags", data.publishing.hashtags],
+      ];
+
+      publishItems.forEach(([label, value]) => {
+        const item = makeElement("div", "publish-item");
+        item.append(
+          makeElement("div", "publish-label", label),
+          makeElement("p", "", value),
+        );
+        const actions = makeElement("div", "actions");
+        addCopyButton(actions, value, `Copy ${label.toLowerCase()}`);
+        item.appendChild(actions);
+        publishPack.appendChild(item);
+      });
+
+      // Persistent production checklist
+      const checklist = document.getElementById("checklist");
+      const storageKey = "everyday-mysteries-episode-06-checklist";
+      let checkedItems = [];
+
+      try {
+        checkedItems = JSON.parse(localStorage.getItem(storageKey)) || [];
+      } catch {
+        checkedItems = [];
+      }
+
+      data.checklist.forEach((label, index) => {
+        const wrapper = makeElement("label", "check-item");
+        const input = document.createElement("input");
+        input.type = "checkbox";
+        input.checked = checkedItems.includes(index);
+
+        const text = makeElement("span", "", label);
+
+        input.addEventListener("change", () => {
+          if (input.checked && !checkedItems.includes(index)) {
+            checkedItems.push(index);
+          } else {
+            checkedItems = checkedItems.filter((item) => item !== index);
+          }
+
+          localStorage.setItem(storageKey, JSON.stringify(checkedItems));
+          updateProgress();
+        });
+
+        wrapper.append(input, text);
+        checklist.appendChild(wrapper);
+      });
+
+      function updateProgress() {
+        const completed = checkedItems.length;
+        const total = data.checklist.length;
+        const percentage = (completed / total) * 100;
+
+        document.getElementById("progressBar").style.width = `${percentage}%`;
+        document.getElementById("progressLabel").textContent =
+          `${completed} of ${total} completed`;
+      }
+
+      updateProgress();
+
+      // Theme toggle
+      const themeToggle = document.getElementById("themeToggle");
+      const savedTheme = localStorage.getItem("everyday-mysteries-theme");
+
+      if (savedTheme === "dark") {
+        document.documentElement.dataset.theme = "dark";
+        themeToggle.textContent = "☀ Light";
+      }
+
+      themeToggle.addEventListener("click", () => {
+        const isDark = document.documentElement.dataset.theme === "dark";
+
+        if (isDark) {
+          delete document.documentElement.dataset.theme;
+          localStorage.setItem("everyday-mysteries-theme", "light");
+          themeToggle.textContent = "☾ Theme";
+        } else {
+          document.documentElement.dataset.theme = "dark";
+          localStorage.setItem("everyday-mysteries-theme", "dark");
+          themeToggle.textContent = "☀ Light";
+        }
+      });
+    </script>
+  </body>
+</html>
