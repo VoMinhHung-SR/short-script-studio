@@ -1,0 +1,623 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Everyday Mysteries — Why Does Popcorn Pop?</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f7f5ef;
+        --surface: #fffefa;
+        --text: #242424;
+        --muted: #77746e;
+        --line: #e7e2d8;
+        --accent: #f5a524;
+        --soft: #fff3d9;
+        --shadow: 0 8px 28px rgba(30, 25, 15, 0.06);
+      }
+      [data-theme="dark"] {
+        color-scheme: dark;
+        --bg: #191919;
+        --surface: #242424;
+        --text: #f3f0e9;
+        --muted: #aaa69e;
+        --line: #3b3934;
+        --accent: #f5a524;
+        --soft: #3a3020;
+        --shadow: 0 8px 28px rgba(0, 0, 0, 0.2);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font:
+          15px/1.6 system-ui,
+          -apple-system,
+          Segoe UI,
+          sans-serif;
+      }
+      .container {
+        max-width: 900px;
+        margin: auto;
+        padding: 28px 18px 70px;
+      }
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+      }
+      .brand {
+        font-size: 13px;
+        font-weight: 800;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+      }
+      button {
+        font: inherit;
+        cursor: pointer;
+        border: 1px solid var(--line);
+        background: var(--surface);
+        color: var(--text);
+        border-radius: 9px;
+        padding: 8px 12px;
+      }
+      button:hover {
+        border-color: var(--accent);
+      }
+      .hero {
+        padding: 48px 0 30px;
+      }
+      .eyebrow {
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+      }
+      h1 {
+        font-size: clamp(32px, 6vw, 52px);
+        line-height: 1.08;
+        letter-spacing: -1.8px;
+        margin: 12px 0;
+      }
+      .subtitle {
+        color: var(--muted);
+        font-size: 17px;
+        max-width: 650px;
+      }
+      .meta {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 20px;
+      }
+      .tag {
+        background: var(--soft);
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 700;
+      }
+      .section-title {
+        font-size: 20px;
+        margin: 36px 0 14px;
+      }
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 20px;
+        margin: 14px 0;
+        box-shadow: var(--shadow);
+      }
+      .card-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      .card h3 {
+        margin: 0;
+        font-size: 17px;
+      }
+      .time {
+        font-size: 12px;
+        color: var(--muted);
+        font-weight: 700;
+      }
+      p {
+        margin: 10px 0;
+      }
+      .muted {
+        color: var(--muted);
+      }
+      .prompt {
+        background: var(--bg);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 13px;
+        font-size: 13px;
+        white-space: pre-wrap;
+        margin: 12px 0;
+      }
+      .label {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--muted);
+        font-weight: 800;
+        margin-top: 15px;
+      }
+      .narration {
+        font-size: 16px;
+        line-height: 1.7;
+      }
+      .actions {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-top: 12px;
+      }
+      .primary {
+        background: var(--accent);
+        border-color: var(--accent);
+        color: #211909;
+        font-weight: 800;
+      }
+      .checklist label {
+        display: flex;
+        gap: 10px;
+        padding: 9px 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .checklist input {
+        accent-color: var(--accent);
+        width: 17px;
+        height: 17px;
+        margin-top: 4px;
+      }
+      .publish {
+        display: grid;
+        gap: 12px;
+      }
+      footer {
+        margin-top: 40px;
+        padding-top: 20px;
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 12px;
+      }
+      a {
+        color: var(--text);
+        text-decoration-color: var(--accent);
+      }
+      .toast {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--text);
+        color: var(--bg);
+        padding: 9px 16px;
+        border-radius: 30px;
+        opacity: 0;
+        pointer-events: none;
+        transition: 0.2s;
+        z-index: 10;
+        text-align: center;
+        max-width: 90%;
+      }
+      .toast.show {
+        opacity: 1;
+      }
+      @media (max-width: 600px) {
+        .container {
+          padding: 20px 14px 50px;
+        }
+        .hero {
+          padding-top: 35px;
+        }
+        .card {
+          padding: 16px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <header>
+        <div class="brand">
+          Everyday Mysteries <span style="color: #f5a524">/ Hiro</span>
+        </div>
+        <button id="themeBtn" type="button">Toggle theme</button>
+      </header>
+
+      <main>
+        <section class="hero">
+          <div class="eyebrow">
+            Episode 09 · Everyday Physics & Food Science
+          </div>
+          <h1>Why Does Popcorn Pop?</h1>
+          <p class="subtitle">
+            A tiny hard seed suddenly transforms into a fluffy snack. But what
+            actually happens inside that kernel before it explodes?
+          </p>
+          <div class="meta">
+            <span class="tag">50–55 seconds</span>
+            <span class="tag">6 scenes</span>
+            <span class="tag">9:16 vertical</span>
+          </div>
+        </section>
+
+        <h2 class="section-title">Character reference</h2>
+        <div class="card">
+          <p>
+            Use this prompt as the consistent visual reference for Hiro
+            throughout the episode.
+          </p>
+          <div class="prompt" id="characterPrompt">
+            A minimalist friendly stick-figure character named Hiro. Round white
+            head with thick black outline, tiny expressive black eyes and simple
+            mouth, thin black line arms and legs, clean simple body proportions.
+            Pale warm cream background, one amber-orange accent color #F5A524.
+            Flat 2D line art, clean composition, consistent character design, no
+            gradients, no shadows, no 3D, no text, no watermark. Vertical 9:16
+            composition.
+          </div>
+          <button class="copy" data-copy="characterPrompt">
+            Copy character prompt
+          </button>
+        </div>
+
+        <h2 class="section-title">Scene-by-scene storyboard</h2>
+        <div id="scenes"></div>
+
+        <h2 class="section-title">Full narration</h2>
+        <div class="card">
+          <p class="muted">
+            Complete voice-over script — approximately 50–55 seconds.
+          </p>
+          <div class="prompt narration" id="fullNarration"></div>
+          <button class="primary" id="copyNarration">
+            Copy full narration
+          </button>
+        </div>
+
+        <h2 class="section-title">CapCut editing checklist</h2>
+        <div class="card checklist">
+          <label>
+            <input type="checkbox" data-check="1" />
+            <span
+              >Generate all 6 vertical scene images with consistent Hiro
+              design</span
+            >
+          </label>
+          <label>
+            <input type="checkbox" data-check="2" />
+            <span>Record or generate English voice-over</span>
+          </label>
+          <label>
+            <input type="checkbox" data-check="3" />
+            <span>Place scenes in order and match narration timing</span>
+          </label>
+          <label>
+            <input type="checkbox" data-check="4" />
+            <span>Add English subtitles with readable contrast</span>
+          </label>
+          <label>
+            <input type="checkbox" data-check="5" />
+            <span>Add subtle sound effects and background music</span>
+          </label>
+          <label>
+            <input type="checkbox" data-check="6" />
+            <span>Check pacing, spelling, and the final loop</span>
+          </label>
+          <label>
+            <input type="checkbox" data-check="7" />
+            <span>Export in 1080 × 1920 (9:16)</span>
+          </label>
+        </div>
+
+        <h2 class="section-title">Publishing kit</h2>
+        <div class="card publish">
+          <div>
+            <div class="label">YouTube Shorts / Reels title</div>
+            <p id="pubTitle">Why Does Popcorn Explode? 🍿</p>
+            <button class="copy" data-copy="pubTitle">Copy title</button>
+          </div>
+          <div>
+            <div class="label">Caption</div>
+            <p id="pubCaption">
+              That tiny popcorn kernel is basically a miniature pressure cooker.
+              Here's the surprising science behind every pop! 🍿
+            </p>
+            <button class="copy" data-copy="pubCaption">Copy caption</button>
+          </div>
+          <div>
+            <div class="label">Hashtags</div>
+            <p id="pubTags">
+              #PopcornScience #EverydayPhysics #FoodScience #ScienceFacts
+              #EverydayMysteries #DidYouKnow
+            </p>
+            <button class="copy" data-copy="pubTags">Copy hashtags</button>
+          </div>
+        </div>
+
+        <h2 class="section-title">Scientific notes & sources</h2>
+        <div class="card">
+          <p>
+            <strong>1. What's inside a popcorn kernel?</strong>
+            A popcorn kernel contains water, starch, and a hard outer covering
+            called the pericarp. The starch-rich interior is known as the
+            endosperm. Popcorn typically contains around 13–14% moisture,
+            although the ideal amount varies with the kernel.
+          </p>
+
+          <p>
+            <strong>2. Why does pressure build up?</strong>
+            When heated, the water inside the kernel turns into vapor. The
+            strong pericarp helps trap that vapor, allowing pressure to build
+            while the starch softens and gelatinizes.
+          </p>
+
+          <p>
+            <strong>3. What actually causes the explosion?</strong>
+            Once the internal pressure becomes too great, the pericarp ruptures.
+            The pressurized water vapor rapidly expands, pushing the softened
+            starch outward. The starch expands and cools into the familiar
+            fluffy popcorn structure.
+          </p>
+
+          <p>
+            <strong>4. Why does popcorn jump?</strong>
+            Research suggests that escaping starch forms a small leg-like
+            structure that pushes against the cooking surface, launching the
+            kernel into the air.
+          </p>
+
+          <p>
+            <strong>5. Why does it make that popping sound?</strong>
+            A scientific study found that the release of water vapor is
+            consistent with the origin of the characteristic popping sound. The
+            exact dynamics of the sound and movement are more complicated than a
+            simple explosion.
+          </p>
+
+          <p class="muted">
+            Accuracy note: Popcorn does not simply explode because water boils.
+            Its special outer shell, moisture content, pressure buildup, and
+            softening starch all work together. The temperature and pressure
+            values vary with the kernel and experimental conditions.
+          </p>
+
+          <ul>
+            <li>
+              <a
+                href="https://www.popcorn.org/All-About-Popcorn/What-Makes-Popcorn-Pop/trk/article-ssr-frontend-pulse_little-text-block"
+                target="_blank"
+                rel="noopener"
+              >
+                Popcorn Board — What Makes Popcorn Pop?
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://pubmed.ncbi.nlm.nih.gov/25673298/"
+                target="_blank"
+                rel="noopener"
+              >
+                Virot & Ponomarenko (2015) — Popcorn: Critical Temperature, Jump
+                and Sound
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://www.sciencedirect.com/science/article/pii/S0733521083800071"
+                target="_blank"
+                rel="noopener"
+              >
+                Hoseney, Zeleznak & Abdelrahman (1983) — Mechanism of Popcorn
+                Popping
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://ucanr.edu/sites/default/files/2021-03/346217.pdf"
+                target="_blank"
+                rel="noopener"
+              >
+                University of California Agriculture and Natural Resources —
+                Kitchen Science: Why Does Popcorn Pop?
+              </a>
+            </li>
+          </ul>
+        </div>
+      </main>
+
+      <footer>
+        EVERYDAY MYSTERIES · HIRO<br />
+        Short science stories about the strange things hiding in everyday life.
+      </footer>
+    </div>
+
+    <div class="toast" id="toast">Copied!</div>
+
+    <script id="content" type="application/json">
+      {
+        "scenes": [
+          {
+            "time": "00:00–00:07",
+            "name": "The Tiny Explosion",
+            "narration": "How can a tiny, rock-hard seed suddenly explode into something fluffy and light? The secret is hiding inside every popcorn kernel.",
+            "image": "Hiro standing beside a single tiny yellow popcorn kernel on a clean kitchen table. The kernel is dramatically enlarged in the foreground, while Hiro leans forward with a surprised expression, pointing at it. A few tiny amber-orange energy lines surround the kernel to suggest something mysterious is happening inside. Pale warm cream background, minimalist 2D line art, round white head with thick black outline, thin black arms and legs, one amber-orange accent #F5A524, flat illustration, no gradients, no shadows, no 3D, no text, no watermark, vertical 9:16.",
+            "edit": "Open with an extreme close-up of a single hard kernel. Add a quick camera push-in and a subtle ticking sound. Pause briefly after the word 'explode' to build curiosity."
+          },
+          {
+            "time": "00:07–00:15",
+            "name": "A Hidden Ingredient",
+            "narration": "Inside that little seed are two important ingredients: water and starch. And around them is a surprisingly strong outer shell.",
+            "image": "Hiro examining a large scientifically inspired cross-section of a popcorn kernel. Show the hard outer pericarp as a thick dark outlined shell, with a soft white-yellow starch interior and a few small amber-orange water droplets trapped inside. Hiro holds a simple magnifying glass and looks amazed. Clearly distinguish the outer shell from the interior. Pale cream background, minimalist educational 2D line art, consistent Hiro character, amber-orange accents #F5A524, no labels, no text, no gradients, no shadows, no 3D, vertical 9:16.",
+            "edit": "Transition from the whole kernel into a cross-section. Use a gentle zoom to reveal the water droplets and starch. Add a soft reveal sound when the hidden ingredients appear."
+          },
+          {
+            "time": "00:15–00:24",
+            "name": "The Pressure Cooker",
+            "narration": "As the kernel heats up, its water turns into steam. But the tough outer shell traps most of that vapor inside, building intense pressure.",
+            "image": "Hiro standing beside a large transparent cutaway popcorn kernel sitting above a simple heating surface. Inside the kernel, several amber-orange steam swirls expand around the soft starch. Show small curved pressure arrows pushing outward against the thick hard shell, which remains intact. Hiro watches with wide eyes and a slightly worried expression. Pale warm cream background, minimalist 2D educational illustration, consistent Hiro design, black outlines, amber-orange accent #F5A524, no text, no labels, no gradients, no shadows, no 3D, vertical 9:16.",
+            "edit": "Animate the heat source appearing first, then gradually increase the size and number of steam swirls. Add a rising pressure sound and slowly increase the music tension."
+          },
+          {
+            "time": "00:24–00:33",
+            "name": "The Breaking Point",
+            "narration": "Eventually, the pressure becomes too much. The shell suddenly cracks, releasing superheated steam and forcing the soft starch outward in a split second.",
+            "image": "A dramatic close-up of a popcorn kernel at the exact moment of popping. The thick outer shell has just split open into several pieces. A burst of white and pale-yellow softened starch expands rapidly outward, surrounded by amber-orange steam motion lines. Hiro stands slightly behind the explosion, leaning backward with a startled expression and raised arms. Clear readable separation between the broken shell and expanding starch. Pale cream background, minimalist flat 2D line art, consistent Hiro design, amber-orange accent #F5A524, no text, no gradients, no shadows, no 3D, vertical 9:16.",
+            "edit": "Use a fast scale-up and a sharp pop sound effect. Add a very brief impact shake at the instant the shell breaks. This is the main visual climax, so keep the explosion clear and readable."
+          },
+          {
+            "time": "00:33–00:43",
+            "name": "From Hard Seed to Fluffy Snack",
+            "narration": "That starch expands like a tiny foam, then cools and solidifies into the fluffy shape we love. One little kernel can become many times larger!",
+            "image": "Hiro happily holding a large freshly popped piece of white popcorn next to one tiny unpopped yellow kernel. Show a simple visual comparison between the two sizes. Behind them, a few small white popcorn flakes float gently outward, with subtle amber-orange motion accents. Hiro has an amazed smiling expression and points toward the enormous size difference. Pale warm cream background, minimalist 2D line art, consistent round-headed stick figure, black outlines, amber-orange accent #F5A524, no text, no labels, no gradients, no shadows, no 3D, vertical 9:16.",
+            "edit": "Use a smooth match cut from the exploding starch to the finished popcorn. Show the popcorn expanding and settling into shape. Add a light airy sound and reduce the music tension."
+          },
+          {
+            "time": "00:43–00:53",
+            "name": "The Next Pop",
+            "narration": "So popcorn isn't magic. Each kernel is basically a tiny pressure cooker waiting to burst. And now... can you watch popcorn pop without hearing that sound in your head?",
+            "image": "Hiro sitting at a kitchen table looking directly at the viewer with a playful knowing smile. A large bowl filled with white fluffy popcorn sits in front of him. One tiny unpopped yellow kernel is placed prominently near the bowl, visually echoing the opening scene. Add a subtle amber-orange circular motion line around the single kernel to suggest the next explosion is about to happen. Pale warm cream background, minimalist 2D line art, consistent Hiro character design, black outlines, amber-orange accent #F5A524, no text, no gradients, no shadows, no 3D, vertical 9:16.",
+            "edit": "Slowly zoom toward the tiny unpopped kernel beside the bowl. End on a close-up composition that matches Scene 1. Add a faint ticking sound and cut directly back to the opening shot for a seamless loop."
+          }
+        ]
+      }
+    </script>
+
+    <script>
+      const content = JSON.parse(
+        document.getElementById("content").textContent,
+      );
+
+      const scenesEl = document.getElementById("scenes");
+      const narrationParts = [];
+
+      content.scenes.forEach((scene, index) => {
+        narrationParts.push(scene.narration);
+
+        const card = document.createElement("article");
+        card.className = "card";
+
+        const head = document.createElement("div");
+        head.className = "card-head";
+
+        const title = document.createElement("h3");
+        title.textContent = `Scene ${index + 1} — ${scene.name}`;
+
+        const time = document.createElement("span");
+        time.className = "time";
+        time.textContent = scene.time;
+
+        head.append(title, time);
+
+        const narrationLabel = document.createElement("div");
+        narrationLabel.className = "label";
+        narrationLabel.textContent = "Voice-over";
+
+        const narration = document.createElement("p");
+        narration.className = "narration";
+        narration.textContent = scene.narration;
+
+        const imageLabel = document.createElement("div");
+        imageLabel.className = "label";
+        imageLabel.textContent = "Image generation prompt";
+
+        const prompt = document.createElement("div");
+        prompt.className = "prompt";
+        prompt.textContent = scene.image;
+
+        const editLabel = document.createElement("div");
+        editLabel.className = "label";
+        editLabel.textContent = "Editing direction";
+
+        const edit = document.createElement("p");
+        edit.textContent = scene.edit;
+
+        const copy = document.createElement("button");
+        copy.className = "copy";
+        copy.textContent = "Copy image prompt";
+        copy.addEventListener("click", () => copyText(scene.image));
+
+        card.append(
+          head,
+          narrationLabel,
+          narration,
+          imageLabel,
+          prompt,
+          editLabel,
+          edit,
+          copy,
+        );
+
+        scenesEl.appendChild(card);
+      });
+
+      document.getElementById("fullNarration").textContent =
+        narrationParts.join("\n\n");
+
+      async function copyText(text) {
+        try {
+          await navigator.clipboard.writeText(text);
+          showToast("Copied!");
+        } catch {
+          showToast("Copy unavailable — please select the text manually.");
+        }
+      }
+
+      document.querySelectorAll("[data-copy]").forEach((button) => {
+        button.addEventListener("click", () => {
+          const target = document.getElementById(button.dataset.copy);
+          if (target) copyText(target.textContent);
+        });
+      });
+
+      document.getElementById("copyNarration").addEventListener("click", () => {
+        copyText(document.getElementById("fullNarration").textContent);
+      });
+
+      function showToast(message) {
+        const toast = document.getElementById("toast");
+        toast.textContent = message;
+        toast.classList.add("show");
+        setTimeout(() => toast.classList.remove("show"), 1800);
+      }
+
+      const savedTheme = localStorage.getItem("hiro-theme");
+      if (savedTheme) {
+        document.documentElement.dataset.theme = savedTheme;
+      }
+
+      document.getElementById("themeBtn").addEventListener("click", () => {
+        const next =
+          document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+
+        document.documentElement.dataset.theme = next;
+        localStorage.setItem("hiro-theme", next);
+      });
+
+      document.querySelectorAll("[data-check]").forEach((input) => {
+        const key = `hiro-popcorn-check-${input.dataset.check}`;
+
+        input.checked = localStorage.getItem(key) === "true";
+
+        input.addEventListener("change", () => {
+          localStorage.setItem(key, String(input.checked));
+        });
+      });
+    </script>
+  </body>
+</html>
