@@ -1,0 +1,608 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Everyday Mysteries — Why Does Metal Feel Colder Than Wood?</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f7f5ef;
+        --surface: #fffefa;
+        --text: #242424;
+        --muted: #77746e;
+        --line: #e7e2d8;
+        --accent: #f5a524;
+        --soft: #fff3d9;
+        --shadow: 0 8px 28px rgba(30, 25, 15, 0.06);
+      }
+      [data-theme="dark"] {
+        color-scheme: dark;
+        --bg: #191919;
+        --surface: #242424;
+        --text: #f3f0e9;
+        --muted: #aaa69e;
+        --line: #3b3934;
+        --accent: #f5a524;
+        --soft: #3a3020;
+        --shadow: 0 8px 28px rgba(0, 0, 0, 0.2);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font:
+          15px/1.6 system-ui,
+          -apple-system,
+          Segoe UI,
+          sans-serif;
+      }
+      .container {
+        max-width: 900px;
+        margin: auto;
+        padding: 28px 18px 70px;
+      }
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+      }
+      .brand {
+        font-size: 13px;
+        font-weight: 800;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+      }
+      button {
+        font: inherit;
+        cursor: pointer;
+        border: 1px solid var(--line);
+        background: var(--surface);
+        color: var(--text);
+        border-radius: 9px;
+        padding: 8px 12px;
+      }
+      button:hover {
+        border-color: var(--accent);
+      }
+      .hero {
+        padding: 48px 0 30px;
+      }
+      .eyebrow {
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+      }
+      h1 {
+        font-size: clamp(32px, 6vw, 52px);
+        line-height: 1.08;
+        letter-spacing: -1.8px;
+        margin: 12px 0;
+      }
+      .subtitle {
+        color: var(--muted);
+        font-size: 17px;
+        max-width: 650px;
+      }
+      .meta {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 20px;
+      }
+      .tag {
+        background: var(--soft);
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 700;
+      }
+      .section-title {
+        font-size: 20px;
+        margin: 36px 0 14px;
+      }
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 20px;
+        margin: 14px 0;
+        box-shadow: var(--shadow);
+      }
+      .card-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      .card h3 {
+        margin: 0;
+        font-size: 17px;
+      }
+      .time {
+        font-size: 12px;
+        color: var(--muted);
+        font-weight: 700;
+      }
+      p {
+        margin: 10px 0;
+      }
+      .muted {
+        color: var(--muted);
+      }
+      .prompt {
+        background: var(--bg);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 13px;
+        font-size: 13px;
+        white-space: pre-wrap;
+        margin: 12px 0;
+      }
+      .label {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--muted);
+        font-weight: 800;
+        margin-top: 15px;
+      }
+      .narration {
+        font-size: 16px;
+        line-height: 1.7;
+      }
+      .actions {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-top: 12px;
+      }
+      .primary {
+        background: var(--accent);
+        border-color: var(--accent);
+        color: #211909;
+        font-weight: 800;
+      }
+      .checklist label {
+        display: flex;
+        gap: 10px;
+        padding: 9px 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .checklist input {
+        accent-color: var(--accent);
+        width: 17px;
+        height: 17px;
+        margin-top: 4px;
+      }
+      .publish {
+        display: grid;
+        gap: 12px;
+      }
+      footer {
+        margin-top: 40px;
+        padding-top: 20px;
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 12px;
+      }
+      a {
+        color: var(--text);
+        text-decoration-color: var(--accent);
+      }
+      .toast {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--text);
+        color: var(--bg);
+        padding: 9px 16px;
+        border-radius: 30px;
+        opacity: 0;
+        pointer-events: none;
+        transition: 0.2s;
+      }
+      .toast.show {
+        opacity: 1;
+      }
+      @media (max-width: 600px) {
+        .container {
+          padding: 20px 14px 50px;
+        }
+        .hero {
+          padding-top: 35px;
+        }
+        .card {
+          padding: 16px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <header>
+        <div class="brand">
+          Everyday Mysteries <span style="color: #f5a524">/ Hiro</span>
+        </div>
+        <button id="themeBtn" type="button">Toggle theme</button>
+      </header>
+
+      <main>
+        <section class="hero">
+          <div class="eyebrow">Episode 11 · Everyday Physics</div>
+          <h1>Why Does Metal Feel Colder Than Wood?</h1>
+          <p class="subtitle">
+            Two objects. One room. The same temperature. So why does one feel
+            freezing while the other feels perfectly warm?
+          </p>
+          <div class="meta">
+            <span class="tag">50–55 seconds</span>
+            <span class="tag">6 scenes</span>
+            <span class="tag">9:16 vertical</span>
+          </div>
+        </section>
+
+        <h2 class="section-title">Character reference</h2>
+        <div class="card">
+          <p>
+            Use this prompt as the consistent visual reference for Hiro
+            throughout the episode.
+          </p>
+          <div class="prompt" id="characterPrompt">
+            A minimalist friendly stick-figure character named Hiro. Round white
+            head with thick black outline, tiny expressive black eyes and simple
+            mouth, thin black line arms and legs, clean simple body proportions.
+            Pale warm cream background, one amber-orange accent color #F5A524.
+            Flat 2D line art, clean composition, consistent character design, no
+            gradients, no shadows, no 3D, no text, no watermark. Vertical 9:16
+            composition.
+          </div>
+          <button class="copy" data-copy="characterPrompt">
+            Copy character prompt
+          </button>
+        </div>
+
+        <h2 class="section-title">Scene-by-scene storyboard</h2>
+        <div id="scenes"></div>
+
+        <h2 class="section-title">Full narration</h2>
+        <div class="card">
+          <p class="muted">
+            Complete voice-over script — approximately 50–55 seconds.
+          </p>
+          <div class="prompt narration" id="fullNarration"></div>
+          <button class="primary" id="copyNarration">
+            Copy full narration
+          </button>
+        </div>
+
+        <h2 class="section-title">CapCut editing checklist</h2>
+        <div class="card checklist">
+          <label>
+            <input type="checkbox" data-check="1" />
+            <span
+              >Generate all 6 vertical scene images with consistent Hiro
+              design</span
+            >
+          </label>
+          <label>
+            <input type="checkbox" data-check="2" />
+            <span>Record or generate English voice-over</span>
+          </label>
+          <label>
+            <input type="checkbox" data-check="3" />
+            <span>Place scenes in order and match narration timing</span>
+          </label>
+          <label>
+            <input type="checkbox" data-check="4" />
+            <span>Add English subtitles with readable contrast</span>
+          </label>
+          <label>
+            <input type="checkbox" data-check="5" />
+            <span>Add subtle sound effects and background music</span>
+          </label>
+          <label>
+            <input type="checkbox" data-check="6" />
+            <span>Check pacing, spelling, and the final loop</span>
+          </label>
+          <label>
+            <input type="checkbox" data-check="7" />
+            <span>Export in 1080 × 1920 (9:16)</span>
+          </label>
+        </div>
+
+        <h2 class="section-title">Publishing kit</h2>
+        <div class="card publish">
+          <div>
+            <div class="label">YouTube Shorts / Reels title</div>
+            <p id="pubTitle">Why Does Metal Feel Colder Than Wood? 🥶</p>
+            <button class="copy" data-copy="pubTitle">Copy title</button>
+          </div>
+
+          <div>
+            <div class="label">Caption</div>
+            <p id="pubCaption">
+              Metal and wood can have exactly the same temperature. So why does
+              metal feel so much colder? The answer is all about how quickly
+              heat moves. 🧊
+            </p>
+            <button class="copy" data-copy="pubCaption">Copy caption</button>
+          </div>
+
+          <div>
+            <div class="label">Hashtags</div>
+            <p id="pubTags">
+              #ThermalConductivity #PhysicsFacts #EverydayScience
+              #ScienceExplained #EverydayMysteries #DidYouKnow
+            </p>
+            <button class="copy" data-copy="pubTags">Copy hashtags</button>
+          </div>
+        </div>
+
+        <h2 class="section-title">Scientific notes & sources</h2>
+        <div class="card">
+          <p>
+            <strong
+              >1. Are metal and wood actually the same temperature?</strong
+            >
+            Yes. If both objects have been sitting in the same room long enough,
+            they will usually reach thermal equilibrium with their surroundings.
+            A metal spoon and a wooden spoon might both be around 24°C.
+          </p>
+
+          <p>
+            <strong>2. Why does metal feel colder?</strong>
+            Your skin is usually warmer than room-temperature objects. When you
+            touch them, thermal energy moves from your hand into the objects.
+            Metal conducts thermal energy much faster than wood, so your skin
+            loses heat more quickly.
+          </p>
+
+          <p>
+            <strong>3. What is thermal conductivity?</strong>
+            Thermal conductivity describes how effectively a material transfers
+            heat. Metals generally have high thermal conductivity, while wood is
+            a relatively poor conductor and acts as an insulator.
+          </p>
+
+          <p>
+            <strong>4. Does this work in reverse?</strong>
+            Absolutely. If metal and wood are both hotter than your skin, the
+            metal can transfer heat into your hand faster, making it feel hotter
+            than the wood.
+          </p>
+
+          <p>
+            <strong>5. The important distinction</strong>
+            Your sense of touch does not simply measure an object's temperature.
+            It also responds to how quickly thermal energy moves between your
+            skin and the object.
+          </p>
+
+          <p class="muted">
+            Accuracy note: Avoid saying that metal is always colder than wood.
+            The comparison assumes both objects are initially at the same
+            temperature and that temperature is below your skin temperature.
+          </p>
+
+          <ul>
+            <li>
+              <a
+                href="https://www.aps.org/learning-resources/getting-warmer-colder"
+                target="_blank"
+                rel="noopener"
+              >
+                American Physical Society — Getting Warmer / Getting Colder
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://en.khanacademy.org/science/physics/ap-physics-2/thermodynamics/specific-heat-and-heat-transfer/v/thermal-conductivity-of-metal-and-wood"
+                target="_blank"
+                rel="noopener"
+              >
+                Khan Academy — Thermal Conductivity of Metal and Wood
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://www.tec-science.com/thermodynamics/heat/human-thermal-response/"
+                target="_blank"
+                rel="noopener"
+              >
+                Tec-Science — Human Thermal Response
+              </a>
+            </li>
+          </ul>
+        </div>
+      </main>
+
+      <footer>
+        EVERYDAY MYSTERIES · HIRO<br />
+        Short science stories about the strange things hiding in everyday life.
+      </footer>
+    </div>
+
+    <div class="toast" id="toast">Copied!</div>
+
+    <script id="content" type="application/json">
+      {
+        "scenes": [
+          {
+            "time": "00:00–00:07",
+            "name": "The Cold Metal Mystery",
+            "narration": "Imagine touching a metal spoon and a wooden spoon in the same room. One feels freezing, the other feels warm. But here's the twist: they're actually the same temperature.",
+            "image": "Hiro standing at a simple table with two objects: a shiny silver metal spoon and a light brown wooden spoon. He touches the metal spoon with one finger and reacts dramatically with a surprised expression, then looks curiously at the wooden spoon. Add subtle amber-orange cold visual accents around the metal spoon. Clear visual contrast between materials. Pale warm cream background, minimalist flat 2D line art, consistent Hiro character, round white head with thick black outline, thin black arms and legs, amber-orange accent #F5A524, no text, no gradients, no shadows, no 3D, vertical 9:16.",
+            "edit": "Open with a close-up of the metal spoon. Hiro touches it and quickly pulls his hand away. Cut to the wooden spoon, where he looks relaxed. Add a subtle cold sound effect followed by a curious musical transition."
+          },
+          {
+            "time": "00:07–00:15",
+            "name": "The Temperature Trick",
+            "narration": "If both spoons have been sitting in the same room, they've usually reached the same temperature. So why does your hand experience them so differently?",
+            "image": "Hiro standing beside a metal spoon and wooden spoon on a table. Show two identical simple thermometers hovering above each spoon, both displaying the same temperature visually through identical thermometer levels without any written numbers. Hiro holds a magnifying glass and looks puzzled. Clean scientific comparison, pale warm cream background, minimalist 2D line art, consistent Hiro design, black outlines, amber-orange accent #F5A524, no readable text, no gradients, no shadows, no 3D, vertical 9:16.",
+            "edit": "Use a split-screen composition showing both spoons side by side. Bring two thermometers into frame with matching temperature levels. Add a short pause before the next explanation to build curiosity."
+          },
+          {
+            "time": "00:15–00:24",
+            "name": "Heat Is Moving",
+            "narration": "The secret is heat. Your hands are warmer than both objects, so thermal energy naturally flows from your skin into whatever you touch.",
+            "image": "Hiro holding out one hand toward two objects, a metal spoon and a wooden spoon. Show small amber-orange arrows representing thermal energy moving away from Hiro's fingertips toward both objects. The arrows are clearly visible and point from the warmer hand toward the cooler objects. Hiro watches the process with curiosity. Pale warm cream background, minimalist educational 2D line art, consistent Hiro character, black outlines, amber-orange accent #F5A524, no text, no gradients, no shadows, no 3D, vertical 9:16.",
+            "edit": "Introduce animated orange arrows moving from Hiro's hand toward both spoons. Use a gentle zoom to emphasize the direction of heat transfer. Keep the animation simple and easy to understand."
+          },
+          {
+            "time": "00:24–00:33",
+            "name": "The Metal Advantage",
+            "narration": "But metal is a much better thermal conductor. It carries heat away from your fingers much faster than wood does, making your skin cool down more quickly.",
+            "image": "A side-by-side educational illustration of Hiro touching a silver metal spoon and a wooden spoon. On the metal side, show many amber-orange thermal energy arrows moving rapidly away from Hiro's fingertips and spreading through the metal. On the wooden side, show only a few slow arrows moving through the wood. Hiro looks amazed at the difference. Pale warm cream background, minimalist flat 2D line art, consistent Hiro design, clean composition, black outlines, amber-orange accent #F5A524, no labels, no text, no gradients, no shadows, no 3D, vertical 9:16.",
+            "edit": "Make this the main explanatory visual. Animate many orange arrows moving quickly through the metal, while only a few move slowly through the wood. Use different animation speeds to make the contrast immediately understandable."
+          },
+          {
+            "time": "00:33–00:43",
+            "name": "Your Brain Feels the Difference",
+            "narration": "Your skin detects that faster heat loss and sends signals to your brain. That's why the metal feels colder, even though its actual temperature hasn't changed.",
+            "image": "Hiro looking at a simple cartoon brain illustration floating beside him. Show a small hand icon connected to the brain with a thin black line. Near the hand, illustrate fast amber-orange energy arrows moving away from the skin toward a metal object. The brain receives a small glowing signal, representing the sensation of cold. Friendly educational composition, pale warm cream background, minimalist 2D line art, consistent Hiro character, black outlines, amber-orange accent #F5A524, no labels, no text, no gradients, no shadows, no 3D, vertical 9:16.",
+            "edit": "Transition from the heat arrows to a simple brain illustration. Animate a small signal traveling from Hiro's hand toward the brain. Add a subtle notification sound when the signal arrives."
+          },
+          {
+            "time": "00:43–00:53",
+            "name": "The Twist",
+            "narration": "And here's the twist: if both objects were hotter than your hand, the metal would feel hotter instead. It's not about how cold something is. It's about how fast heat moves.",
+            "image": "Hiro standing between a metal spoon and a wooden spoon, both glowing with a warm amber-orange visual effect. He carefully touches the metal spoon and reacts as if it feels hotter. Show thermal energy arrows moving from the metal spoon toward Hiro's fingertip. Hiro looks directly at the viewer with a knowing expression. Pale warm cream background, minimalist flat 2D line art, consistent Hiro character, black outlines, amber-orange accent #F5A524, no text, no gradients, no shadows, no 3D, vertical 9:16.",
+            "edit": "Reveal the reverse situation with warm orange lighting. Show the heat arrows changing direction and moving from the metal toward Hiro's hand. End with Hiro looking at the viewer. Use a short pause before the final sentence, then cut back to the opening spoon composition for a seamless loop."
+          }
+        ]
+      }
+    </script>
+
+    <script>
+      const content = JSON.parse(
+        document.getElementById("content").textContent,
+      );
+
+      const scenesEl = document.getElementById("scenes");
+      const narrationParts = [];
+
+      content.scenes.forEach((scene, index) => {
+        narrationParts.push(scene.narration);
+
+        const card = document.createElement("article");
+        card.className = "card";
+
+        const head = document.createElement("div");
+        head.className = "card-head";
+
+        const title = document.createElement("h3");
+        title.textContent = `Scene ${index + 1} — ${scene.name}`;
+
+        const time = document.createElement("span");
+        time.className = "time";
+        time.textContent = scene.time;
+
+        head.append(title, time);
+
+        const narrationLabel = document.createElement("div");
+        narrationLabel.className = "label";
+        narrationLabel.textContent = "Voice-over";
+
+        const narration = document.createElement("p");
+        narration.className = "narration";
+        narration.textContent = scene.narration;
+
+        const imageLabel = document.createElement("div");
+        imageLabel.className = "label";
+        imageLabel.textContent = "Image generation prompt";
+
+        const prompt = document.createElement("div");
+        prompt.className = "prompt";
+        prompt.textContent = scene.image;
+
+        const editLabel = document.createElement("div");
+        editLabel.className = "label";
+        editLabel.textContent = "Editing direction";
+
+        const edit = document.createElement("p");
+        edit.textContent = scene.edit;
+
+        const copy = document.createElement("button");
+        copy.className = "copy";
+        copy.textContent = "Copy image prompt";
+        copy.addEventListener("click", () => copyText(scene.image));
+
+        card.append(
+          head,
+          narrationLabel,
+          narration,
+          imageLabel,
+          prompt,
+          editLabel,
+          edit,
+          copy,
+        );
+
+        scenesEl.appendChild(card);
+      });
+
+      document.getElementById("fullNarration").textContent =
+        narrationParts.join("\n\n");
+
+      async function copyText(text) {
+        try {
+          await navigator.clipboard.writeText(text);
+          showToast("Copied!");
+        } catch {
+          showToast("Copy unavailable — please select the text manually.");
+        }
+      }
+
+      document.querySelectorAll("[data-copy]").forEach((button) => {
+        button.addEventListener("click", () => {
+          const target = document.getElementById(button.dataset.copy);
+          if (target) copyText(target.textContent);
+        });
+      });
+
+      document.getElementById("copyNarration").addEventListener("click", () => {
+        copyText(document.getElementById("fullNarration").textContent);
+      });
+
+      function showToast(message) {
+        const toast = document.getElementById("toast");
+        toast.textContent = message;
+        toast.classList.add("show");
+        setTimeout(() => toast.classList.remove("show"), 1800);
+      }
+
+      const savedTheme = localStorage.getItem("hiro-theme");
+      if (savedTheme) {
+        document.documentElement.dataset.theme = savedTheme;
+      }
+
+      document.getElementById("themeBtn").addEventListener("click", () => {
+        const next =
+          document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+
+        document.documentElement.dataset.theme = next;
+        localStorage.setItem("hiro-theme", next);
+      });
+
+      document.querySelectorAll("[data-check]").forEach((input) => {
+        const key = `hiro-metal-wood-check-${input.dataset.check}`;
+
+        input.checked = localStorage.getItem(key) === "true";
+
+        input.addEventListener("change", () => {
+          localStorage.setItem(key, String(input.checked));
+        });
+      });
+    </script>
+  </body>
+</html>
