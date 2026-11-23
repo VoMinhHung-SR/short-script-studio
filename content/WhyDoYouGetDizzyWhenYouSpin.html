@@ -1,0 +1,558 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Why Do You Get Dizzy When You Spin? | Everyday Mysteries</title>
+    <style>
+      :root {
+        --bg: #f8f5ed;
+        --panel: #fffdf8;
+        --text: #242424;
+        --muted: #77736b;
+        --line: #ded9ce;
+        --accent: #f5a524;
+        --soft: #fff0d2;
+      }
+      [data-theme="dark"] {
+        --bg: #191919;
+        --panel: #242424;
+        --text: #f4f1e9;
+        --muted: #aaa49a;
+        --line: #414141;
+        --accent: #f5a524;
+        --soft: #49371c;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family:
+          Inter,
+          system-ui,
+          -apple-system,
+          sans-serif;
+        line-height: 1.6;
+      }
+      .container {
+        max-width: 900px;
+        margin: auto;
+        padding: 24px 18px 60px;
+      }
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid var(--line);
+        padding-bottom: 16px;
+      }
+      .brand {
+        font-size: 13px;
+        font-weight: 800;
+        letter-spacing: 1.5px;
+      }
+      .brand span {
+        color: var(--accent);
+      }
+      button {
+        cursor: pointer;
+        border: 1px solid var(--line);
+        border-radius: 9px;
+        padding: 8px 12px;
+        background: var(--panel);
+        color: var(--text);
+        font: inherit;
+        font-size: 13px;
+      }
+      button:hover {
+        border-color: var(--accent);
+      }
+      .hero {
+        padding: 48px 0 32px;
+      }
+      .eyebrow {
+        color: #bd7b0b;
+        font-weight: 800;
+        font-size: 12px;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+      }
+      h1 {
+        font-size: clamp(32px, 6vw, 52px);
+        line-height: 1.1;
+        margin: 12px 0;
+      }
+      .subtitle {
+        color: var(--muted);
+        font-size: 17px;
+        max-width: 650px;
+      }
+      .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 20px;
+      }
+      .tag {
+        background: var(--soft);
+        color: var(--text);
+        border-radius: 20px;
+        padding: 5px 12px;
+        font-size: 12px;
+        font-weight: 700;
+      }
+      section {
+        margin-top: 34px;
+      }
+      h2 {
+        font-size: 21px;
+        margin-bottom: 14px;
+      }
+      h3 {
+        font-size: 16px;
+        margin: 0 0 8px;
+      }
+      .panel {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 20px;
+        margin-bottom: 14px;
+      }
+      .muted {
+        color: var(--muted);
+        font-size: 13px;
+      }
+      .prompt {
+        white-space: pre-wrap;
+        font-size: 13px;
+        line-height: 1.65;
+        background: var(--bg);
+        border-radius: 9px;
+        padding: 13px;
+        margin: 10px 0;
+      }
+      .scene-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        align-items: center;
+        margin-bottom: 12px;
+      }
+      .time {
+        color: #bd7b0b;
+        font-size: 12px;
+        font-weight: 800;
+      }
+      .scene p {
+        margin: 8px 0;
+      }
+      .scene-label {
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 1px;
+        color: var(--muted);
+        text-transform: uppercase;
+      }
+      .scene + .scene {
+        margin-top: 14px;
+      }
+      .narration {
+        font-size: 15px;
+        line-height: 1.8;
+        white-space: pre-wrap;
+      }
+      .checklist {
+        display: grid;
+        gap: 11px;
+      }
+      .checklist label {
+        display: flex;
+        gap: 10px;
+        align-items: flex-start;
+        font-size: 14px;
+      }
+      .checklist input {
+        accent-color: var(--accent);
+        margin-top: 5px;
+      }
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 12px;
+      }
+      .source {
+        margin: 12px 0;
+        font-size: 13px;
+      }
+      a {
+        color: #bd7b0b;
+      }
+      footer {
+        border-top: 1px solid var(--line);
+        margin-top: 42px;
+        padding-top: 18px;
+        color: var(--muted);
+        font-size: 12px;
+      }
+      .toast {
+        position: fixed;
+        bottom: 22px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #242424;
+        color: white;
+        padding: 10px 16px;
+        border-radius: 9px;
+        font-size: 13px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s;
+      }
+      .toast.show {
+        opacity: 1;
+      }
+      @media (max-width: 600px) {
+        .container {
+          padding: 16px 13px 45px;
+        }
+        .hero {
+          padding-top: 35px;
+        }
+        .panel {
+          padding: 15px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <div class="brand">
+          SHORT-SCRIPT-STUDIO <span> / EVERYDAY MYSTERIES</span>
+        </div>
+        <button id="themeToggle">☾ Theme</button>
+      </header>
+
+      <main>
+        <div class="hero">
+          <div class="eyebrow">Episode 15 · Brain & Human Body</div>
+          <h1>Why Do You Get Dizzy When You Spin?</h1>
+          <p class="subtitle">
+            You stop spinning, but somehow the room keeps moving. Here's the
+            surprising reason why.
+          </p>
+          <div class="tags">
+            <span class="tag">50–55 Seconds</span>
+            <span class="tag">6 Scenes</span>
+            <span class="tag">9:16 Vertical</span>
+            <span class="tag">Science Explained</span>
+          </div>
+        </div>
+
+        <section>
+          <h2>01 — Character Reference</h2>
+          <div class="panel">
+            <p class="muted">
+              Use this consistent character description for every generated
+              image.
+            </p>
+            <div class="prompt" id="characterPrompt">
+              Hiro is a minimalist friendly stick-figure character. A simple
+              round white head with a thick black outline, tiny expressive black
+              eyes, a small simple mouth, thin black line arms and legs.
+              Consistent proportions and appearance in every scene. Flat 2D
+              hand-drawn line art, clean simple shapes, pale warm cream
+              background (#F8F5ED), amber-orange accent (#F5A524). Minimalist
+              educational explainer aesthetic. No gradients, no shadows, no 3D,
+              no realistic human anatomy, no text, no letters, no watermark.
+              Vertical 9:16 composition.
+            </div>
+            <button onclick="copyText('characterPrompt')">
+              Copy Character Prompt
+            </button>
+          </div>
+        </section>
+
+        <section>
+          <h2>02 — Storyboard</h2>
+          <div id="scenes"></div>
+        </section>
+
+        <section>
+          <h2>03 — Full Narration</h2>
+          <div class="panel">
+            <div class="narration" id="fullNarration"></div>
+            <div class="actions">
+              <button onclick="copyNarration()">Copy Full Narration</button>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2>04 — CapCut Editing Checklist</h2>
+          <div class="panel checklist" id="checklist">
+            <label
+              ><input type="checkbox" /> Set project ratio to 9:16 (1080 ×
+              1920).</label
+            >
+            <label
+              ><input type="checkbox" /> Generate all six scenes using the same
+              Hiro reference.</label
+            >
+            <label
+              ><input type="checkbox" /> Add English voiceover and synchronize
+              each scene.</label
+            >
+            <label
+              ><input type="checkbox" /> Use subtle motion: rotation, zoom, and
+              gentle camera movement.</label
+            >
+            <label
+              ><input type="checkbox" /> Add readable English subtitles with
+              highlighted keywords.</label
+            >
+            <label
+              ><input type="checkbox" /> Add light background music and subtle
+              spinning sound effects.</label
+            >
+            <label
+              ><input type="checkbox" /> Export at 1080p, 30fps, and check the
+              opening hook.</label
+            >
+          </div>
+        </section>
+
+        <section>
+          <h2>05 — Publishing Kit</h2>
+          <div class="panel">
+            <h3>Shorts / Reels Title</h3>
+            <p id="postTitle">Why Do You Feel Dizzy After Spinning? 🌀</p>
+            <button onclick="copyValue('postTitle')">Copy Title</button>
+            <hr
+              style="
+                border: 0;
+                border-top: 1px solid var(--line);
+                margin: 18px 0;
+              "
+            />
+            <h3>Caption</h3>
+            <p id="postCaption">
+              Ever stopped spinning but still felt like the world was moving?
+              Your inner ear has a fascinating explanation. 🌀
+            </p>
+            <button onclick="copyValue('postCaption')">Copy Caption</button>
+            <hr
+              style="
+                border: 0;
+                border-top: 1px solid var(--line);
+                margin: 18px 0;
+              "
+            />
+            <h3>Hashtags</h3>
+            <p id="hashtags">
+              #EverydayMysteries #HumanBody #BrainFacts #ScienceExplained
+              #DidYouKnow #HiroExplains
+            </p>
+            <button onclick="copyValue('hashtags')">Copy Hashtags</button>
+          </div>
+        </section>
+
+        <section>
+          <h2>06 — Scientific Notes & Sources</h2>
+          <div class="panel">
+            <h3>What actually happens?</h3>
+            <p>
+              The inner ear contains three semicircular canals filled with
+              fluid. These canals help detect rotational movement of the head.
+            </p>
+            <p>
+              When you spin, the canals move with your head, but the fluid
+              inside briefly lags behind because of inertia. This movement bends
+              tiny sensory structures and sends signals to your brain.
+            </p>
+            <p>
+              When you suddenly stop, the fluid can keep moving briefly. The
+              sensory signals may then suggest that you're still rotating, even
+              though your body has stopped. This mismatch contributes to the
+              dizzy, spinning sensation.
+            </p>
+            <p>
+              <strong>Important:</strong> This explains the familiar temporary
+              dizziness after spinning. Not all dizziness has this cause;
+              persistent or unexplained dizziness can have other causes.
+            </p>
+            <div class="source">
+              <strong>Sources:</strong><br />
+              •
+              <a
+                href="https://health.nih.gov/health-topics-a-z/balance-disorders"
+                target="_blank"
+                >NIH — Balance Disorders</a
+              ><br />
+              •
+              <a
+                href="https://www.nidcd.nih.gov/health/balance-disorders"
+                target="_blank"
+                >NIDCD — Balance Disorders</a
+              ><br />
+              •
+              <a
+                href="https://www.ncbi.nlm.nih.gov/books/NBK279394/"
+                target="_blank"
+                >NCBI Bookshelf — How does our sense of balance work?</a
+              ><br />
+              •
+              <a
+                href="https://www.cdc.gov/nchs/data/nhanes/public/2019/manuals/2020-Balance-Procedures-Manual-508.pdf"
+                target="_blank"
+                >CDC — Balance Procedures Manual</a
+              >
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer>
+        EVERYDAY MYSTERIES · HIRO<br />
+        Small questions. Fascinating answers.
+      </footer>
+    </div>
+    <div class="toast" id="toast">Copied to clipboard!</div>
+
+    <script id="content" type="application/json">
+      {
+        "scenes": [
+          {
+            "time": "00:00–00:07",
+            "name": "The Strange Feeling",
+            "narration": "Ever spun around really fast, stopped... and felt like the world was still spinning?",
+            "visual": "Hiro stands in the center of the frame, spinning rapidly. Curved amber motion lines circle around him. Suddenly, Hiro stops, but the background appears to keep rotating. Hiro looks confused and slightly dizzy.",
+            "direction": "Start with fast circular motion. Use a quick stop and a brief camera wobble to create the dizzy effect. Hook viewers immediately."
+          },
+          {
+            "time": "00:07–00:15",
+            "name": "Your Inner Ear Has a Secret",
+            "narration": "The answer is hiding deep inside your inner ear, in a tiny balance system.",
+            "visual": "Transition from Hiro's head to a simplified cutaway illustration of the inner ear. Highlight three curved, loop-shaped semicircular canals in amber. Keep the rest of the ear as simple black line art.",
+            "direction": "Use a smooth zoom-in transition. Reveal the three loops one by one with a subtle amber glow effect, without gradients."
+          },
+          {
+            "time": "00:15–00:24",
+            "name": "Three Tiny Motion Detectors",
+            "narration": "These three fluid-filled loops are called semicircular canals. They help your brain detect when your head rotates.",
+            "visual": "Show the three semicircular canals from a clear simplified angle. Inside each loop, show a small amount of amber liquid. Add tiny hair-like sensory cells at one end. Hiro points toward the canals.",
+            "direction": "Animate a small arrow around the loops to show rotational direction. Keep labels out of the generated image; add any text later in editing."
+          },
+          {
+            "time": "00:24–00:34",
+            "name": "The Fluid Keeps Moving",
+            "narration": "When you spin, your inner ear moves with your head. But the fluid inside briefly lags behind because of inertia.",
+            "visual": "Show a close-up cross-section of one semicircular canal. The canal rotates with an amber arrow, while the liquid inside appears to lag in the opposite relative direction. Use small curved arrows to distinguish the two movements.",
+            "direction": "Use a simple two-layer animation: canal moves first, fluid follows slightly later. Make the difference easy to understand visually."
+          },
+          {
+            "time": "00:34–00:45",
+            "name": "Why You Still Feel Like Spinning",
+            "narration": "Then you stop. But the fluid keeps moving for a moment, bending tiny sensory cells and sending your brain a signal that you're still turning.",
+            "visual": "The canal suddenly becomes still while the amber fluid continues flowing. Tiny sensory hairs bend. A simple signal travels from the inner ear toward a small illustration of the brain. Hiro stands still as curved motion lines continue around his head.",
+            "direction": "Pause the canal movement, continue the fluid animation briefly, then show the signal reaching the brain. Use a short wobble effect on Hiro."
+          },
+          {
+            "time": "00:45–00:55",
+            "name": "Your Brain Gets Mixed Messages",
+            "narration": "Your eyes say you're still. Your inner ear says you're moving. That mismatch makes you feel dizzy. So next time, blame the tiny fluid in your ears!",
+            "visual": "Hiro stands still. On one side, show calm eyes looking at a stationary object. On the other, show the inner ear with fluid still moving. Two simple arrows point toward the brain, representing conflicting signals. Finish with Hiro looking at the viewer while a small amber spiral fades away.",
+            "direction": "Use a split-screen visual for the conflicting signals. End with a gentle zoom toward Hiro and a clean loop back to the opening spinning motion."
+          }
+        ]
+      }
+    </script>
+
+    <script>
+      const content = JSON.parse(
+        document.getElementById("content").textContent,
+      );
+      const scenesRoot = document.getElementById("scenes");
+
+      content.scenes.forEach((scene, index) => {
+        const card = document.createElement("div");
+        card.className = "panel scene";
+        card.innerHTML = `
+    <div class="scene-head">
+      <h3>Scene ${index + 1} — ${scene.name}</h3>
+      <span class="time">${scene.time}</span>
+    </div>
+    <div class="scene-label">Voiceover</div>
+    <p class="narration">${scene.narration}</p>
+    <div class="scene-label">Image Generation Prompt</div>
+    <div class="prompt" id="imagePrompt${index}"></div>
+    <div class="scene-label">Editing Direction</div>
+    <p class="muted">${scene.direction}</p>
+    <button onclick="copyText('imagePrompt${index}')">Copy Image Prompt</button>
+  `;
+        scenesRoot.appendChild(card);
+        const prompt = document.getElementById(`imagePrompt${index}`);
+        prompt.textContent =
+          document.getElementById("characterPrompt").textContent +
+          "\n\nScene-specific composition: " +
+          scene.visual;
+      });
+
+      document.getElementById("fullNarration").textContent = content.scenes
+        .map((scene) => scene.narration)
+        .join("\n\n");
+
+      function showToast(message = "Copied to clipboard!") {
+        const toast = document.getElementById("toast");
+        toast.textContent = message;
+        toast.classList.add("show");
+        setTimeout(() => toast.classList.remove("show"), 1800);
+      }
+      async function copyText(id) {
+        const el = document.getElementById(id);
+        await navigator.clipboard.writeText(el.innerText || el.textContent);
+        showToast();
+      }
+      async function copyValue(id) {
+        await navigator.clipboard.writeText(
+          document.getElementById(id).textContent,
+        );
+        showToast();
+      }
+      async function copyNarration() {
+        await navigator.clipboard.writeText(
+          document.getElementById("fullNarration").textContent,
+        );
+        showToast();
+      }
+
+      const themeToggle = document.getElementById("themeToggle");
+      const savedTheme = localStorage.getItem("hiro-theme") || "light";
+      document.documentElement.dataset.theme = savedTheme;
+      themeToggle.textContent = savedTheme === "dark" ? "☀ Light" : "☾ Dark";
+      themeToggle.addEventListener("click", () => {
+        const next =
+          document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+        document.documentElement.dataset.theme = next;
+        localStorage.setItem("hiro-theme", next);
+        themeToggle.textContent = next === "dark" ? "☀ Light" : "☾ Dark";
+      });
+
+      const checklist = document.querySelectorAll("#checklist input");
+      const storageKey = "hiro-episode-15-checklist";
+      const savedChecks = JSON.parse(localStorage.getItem(storageKey) || "[]");
+      checklist.forEach((item, index) => {
+        item.checked = Boolean(savedChecks[index]);
+        item.addEventListener("change", () => {
+          const values = [...checklist].map((input) => input.checked);
+          localStorage.setItem(storageKey, JSON.stringify(values));
+        });
+      });
+    </script>
+  </body>
+</html>
