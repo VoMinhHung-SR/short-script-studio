@@ -1,0 +1,573 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Why Do Your Ears Pop on Airplanes? | Everyday Mysteries</title>
+    <style>
+      :root {
+        --bg: #f8f5ed;
+        --panel: #fffdf8;
+        --text: #242424;
+        --muted: #77736b;
+        --line: #ded9ce;
+        --accent: #f5a524;
+        --soft: #fff0d2;
+      }
+      [data-theme="dark"] {
+        --bg: #191919;
+        --panel: #242424;
+        --text: #f4f1e9;
+        --muted: #aaa49a;
+        --line: #414141;
+        --accent: #f5a524;
+        --soft: #49371c;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family: Inter, system-ui, sans-serif;
+        line-height: 1.6;
+      }
+      .container {
+        max-width: 900px;
+        margin: auto;
+        padding: 24px 18px 60px;
+      }
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid var(--line);
+        padding-bottom: 16px;
+      }
+      .brand {
+        font-size: 13px;
+        font-weight: 800;
+        letter-spacing: 1.5px;
+      }
+      .brand span {
+        color: var(--accent);
+      }
+      button {
+        cursor: pointer;
+        border: 1px solid var(--line);
+        border-radius: 9px;
+        padding: 8px 12px;
+        background: var(--panel);
+        color: var(--text);
+        font: inherit;
+        font-size: 13px;
+      }
+      button:hover {
+        border-color: var(--accent);
+      }
+      .hero {
+        padding: 48px 0 32px;
+      }
+      .eyebrow {
+        color: #bd7b0b;
+        font-weight: 800;
+        font-size: 12px;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+      }
+      h1 {
+        font-size: clamp(32px, 6vw, 52px);
+        line-height: 1.1;
+        margin: 12px 0;
+      }
+      .subtitle {
+        color: var(--muted);
+        font-size: 17px;
+        max-width: 650px;
+      }
+      .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 20px;
+      }
+      .tag {
+        background: var(--soft);
+        color: var(--text);
+        border-radius: 20px;
+        padding: 5px 12px;
+        font-size: 12px;
+        font-weight: 700;
+      }
+      section {
+        margin-top: 34px;
+      }
+      h2 {
+        font-size: 21px;
+        margin-bottom: 14px;
+      }
+      h3 {
+        font-size: 16px;
+        margin: 0 0 8px;
+      }
+      .panel {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 20px;
+        margin-bottom: 14px;
+      }
+      .muted {
+        color: var(--muted);
+        font-size: 13px;
+      }
+      .prompt {
+        white-space: pre-wrap;
+        font-size: 13px;
+        line-height: 1.65;
+        background: var(--bg);
+        border-radius: 9px;
+        padding: 13px;
+        margin: 10px 0;
+      }
+      .scene-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        align-items: center;
+        margin-bottom: 12px;
+      }
+      .time {
+        color: #bd7b0b;
+        font-size: 12px;
+        font-weight: 800;
+      }
+      .scene p {
+        margin: 8px 0;
+      }
+      .scene-label {
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 1px;
+        color: var(--muted);
+        text-transform: uppercase;
+      }
+      .scene + .scene {
+        margin-top: 14px;
+      }
+      .narration {
+        font-size: 15px;
+        line-height: 1.8;
+        white-space: pre-wrap;
+      }
+      .checklist {
+        display: grid;
+        gap: 11px;
+      }
+      .checklist label {
+        display: flex;
+        gap: 10px;
+        align-items: flex-start;
+        font-size: 14px;
+      }
+      .checklist input {
+        accent-color: var(--accent);
+        margin-top: 5px;
+      }
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 12px;
+      }
+      .source {
+        margin: 12px 0;
+        font-size: 13px;
+      }
+      a {
+        color: #bd7b0b;
+      }
+      footer {
+        border-top: 1px solid var(--line);
+        margin-top: 42px;
+        padding-top: 18px;
+        color: var(--muted);
+        font-size: 12px;
+      }
+      .toast {
+        position: fixed;
+        bottom: 22px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #242424;
+        color: white;
+        padding: 10px 16px;
+        border-radius: 9px;
+        font-size: 13px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s;
+      }
+      .toast.show {
+        opacity: 1;
+      }
+      @media (max-width: 600px) {
+        .container {
+          padding: 16px 13px 45px;
+        }
+        .hero {
+          padding-top: 35px;
+        }
+        .panel {
+          padding: 15px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <div class="brand">
+          SHORT-SCRIPT-STUDIO <span>/ EVERYDAY MYSTERIES</span>
+        </div>
+        <button id="themeToggle">☾ Theme</button>
+      </header>
+
+      <main>
+        <div class="hero">
+          <div class="eyebrow">Episode 16 · Brain & Human Body</div>
+          <h1>Why Do Your Ears Pop on Airplanes?</h1>
+          <p class="subtitle">
+            That tiny pop during takeoff or landing is actually your ears trying
+            to balance the pressure.
+          </p>
+          <div class="tags">
+            <span class="tag">50–55 Seconds</span>
+            <span class="tag">6 Scenes</span>
+            <span class="tag">9:16 Vertical</span>
+            <span class="tag">Science Explained</span>
+          </div>
+        </div>
+
+        <section>
+          <h2>01 — Character Reference</h2>
+          <div class="panel">
+            <p class="muted">
+              Use this consistent character description for every generated
+              image.
+            </p>
+            <div class="prompt" id="characterPrompt">
+              Hiro is a minimalist friendly stick-figure character. A simple
+              round white head with a thick black outline, tiny expressive black
+              eyes, a small simple mouth, thin black line arms and legs.
+              Consistent proportions and appearance in every scene. Flat 2D
+              hand-drawn line art, clean simple shapes, pale warm cream
+              background (#F8F5ED), amber-orange accent (#F5A524). Minimalist
+              educational explainer aesthetic. No gradients, no shadows, no 3D,
+              no realistic human anatomy, no text, no letters, no watermark.
+              Vertical 9:16 composition.
+            </div>
+            <button onclick="copyText('characterPrompt')">
+              Copy Character Prompt
+            </button>
+          </div>
+        </section>
+
+        <section>
+          <h2>02 — Storyboard</h2>
+          <div id="scenes"></div>
+        </section>
+
+        <section>
+          <h2>03 — Full Narration</h2>
+          <div class="panel">
+            <div class="narration" id="fullNarration"></div>
+            <div class="actions">
+              <button onclick="copyNarration()">Copy Full Narration</button>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2>04 — CapCut Editing Checklist</h2>
+          <div class="panel checklist" id="checklist">
+            <label
+              ><input type="checkbox" /> Set project ratio to 9:16 (1080 ×
+              1920).</label
+            >
+            <label
+              ><input type="checkbox" /> Generate all six scenes using the same
+              Hiro reference.</label
+            >
+            <label
+              ><input type="checkbox" /> Add English voiceover and synchronize
+              each scene.</label
+            >
+            <label
+              ><input type="checkbox" /> Animate the airplane climbing and
+              descending smoothly.</label
+            >
+            <label
+              ><input type="checkbox" /> Add English subtitles and highlight key
+              words in amber.</label
+            >
+            <label
+              ><input type="checkbox" /> Add subtle airplane cabin ambience and
+              soft pop sound effects.</label
+            >
+            <label
+              ><input type="checkbox" /> Export at 1080p, 30fps, and check the
+              opening hook.</label
+            >
+          </div>
+        </section>
+
+        <section>
+          <h2>05 — Publishing Kit</h2>
+          <div class="panel">
+            <h3>Shorts / Reels Title</h3>
+            <p id="postTitle">Why Do Your Ears Pop on Airplanes? ✈️</p>
+            <button onclick="copyValue('postTitle')">Copy Title</button>
+            <hr
+              style="
+                border: 0;
+                border-top: 1px solid var(--line);
+                margin: 18px 0;
+              "
+            />
+            <h3>Caption</h3>
+            <p id="postCaption">
+              Ever wondered why your ears pop during takeoff or landing? It's
+              all about pressure and a tiny tube connecting your ear to your
+              throat!
+            </p>
+            <button onclick="copyValue('postCaption')">Copy Caption</button>
+            <hr
+              style="
+                border: 0;
+                border-top: 1px solid var(--line);
+                margin: 18px 0;
+              "
+            />
+            <h3>Hashtags</h3>
+            <p id="hashtags">
+              #EverydayMysteries #HumanBody #EarFacts #ScienceExplained
+              #DidYouKnow #HiroExplains
+            </p>
+            <button onclick="copyValue('hashtags')">Copy Hashtags</button>
+          </div>
+        </section>
+
+        <section>
+          <h2>06 — Scientific Notes & Sources</h2>
+          <div class="panel">
+            <h3>What actually happens?</h3>
+            <p>
+              The middle ear is an air-filled space behind the eardrum. The
+              Eustachian tube connects it to the back of the nose and upper
+              throat.
+            </p>
+            <p>
+              When airplane cabin pressure changes during ascent or descent,
+              pressure on the two sides of the eardrum can become unequal. This
+              can make your ears feel full or your hearing temporarily muffled.
+            </p>
+            <p>
+              Swallowing, yawning, or chewing can briefly open the Eustachian
+              tube, allowing air to move and helping equalize the pressure. That
+              familiar pop is often the sensation or sound of pressure
+              equalizing.
+            </p>
+            <p>
+              Pressure equalization can be harder during descent. Colds and
+              allergies can also make it more difficult if the tube becomes
+              swollen or blocked.
+            </p>
+            <p>
+              <strong>Practical note:</strong> Swallowing, yawning, or chewing
+              gum may help. If trying to equalize pressure by holding your nose
+              and blowing, do it gently, never forcefully. Severe pain or
+              symptoms that persist after flying deserve medical advice.
+            </p>
+            <div class="source">
+              <strong>Sources:</strong><br />
+              •
+              <a
+                href="https://www.mayoclinic.org/diseases-conditions/airplane-ear/symptoms-causes/syc-20351701"
+                target="_blank"
+                rel="noopener"
+                >Mayo Clinic — Airplane Ear</a
+              ><br />
+              •
+              <a
+                href="https://www.medlineplus.gov/ency/article/001064.htm"
+                target="_blank"
+                rel="noopener"
+                >MedlinePlus — Ear Barotrauma</a
+              ><br />
+              •
+              <a
+                href="https://med.stanford.edu/ohns/OHNS-healthcare/earinstitute/conditions-we-treat/eustachian-tube-dysfunction.html"
+                target="_blank"
+                rel="noopener"
+                >Stanford Medicine — Eustachian Tube Dysfunction Related to
+                Flying</a
+              ><br />
+              •
+              <a
+                href="https://www.merckmanuals.com/home/ear-nose-and-throat-disorders/middle-ear-disorders/barotrauma-of-the-ear"
+                target="_blank"
+                rel="noopener"
+                >Merck Manual — Barotrauma of the Ear</a
+              >
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer>
+        EVERYDAY MYSTERIES · HIRO<br />
+        Small questions. Fascinating answers.
+      </footer>
+    </div>
+
+    <div class="toast" id="toast">Copied to clipboard!</div>
+
+    <script id="content" type="application/json">
+      {
+        "scenes": [
+          {
+            "time": "00:00–00:07",
+            "name": "The Mysterious Pop",
+            "narration": "Ever been on a plane when your ears suddenly feel blocked... then make a tiny popping sound?",
+            "visual": "Hiro sits beside an airplane window. The airplane is shown climbing through simple clouds. Hiro touches one ear with a confused expression. Small amber vibration marks appear around the ear.",
+            "direction": "Open with a close-up of Hiro touching his ear. Add a subtle cabin ambience and a quick pop sound effect near the end of the scene."
+          },
+          {
+            "time": "00:07–00:15",
+            "name": "Pressure Is Changing",
+            "narration": "It's not random. As the plane climbs or descends, the air pressure around you changes.",
+            "visual": "Show a simple airplane moving upward through clouds, then a visual transition to the airplane descending. Around the plane, use subtle amber arrows to represent changing air pressure. Hiro looks out the window.",
+            "direction": "Use a clean upward-to-downward motion transition. Avoid cluttering the scene with numbers or technical labels."
+          },
+          {
+            "time": "00:15–00:24",
+            "name": "A Tiny Passage in Your Ear",
+            "narration": "Behind your eardrum is an air-filled space, connected to the back of your throat by a tiny passage called the Eustachian tube.",
+            "visual": "Transition to a simplified side-view cutaway of Hiro's head and ear. Show the outer ear, eardrum, middle ear space, and a narrow curved Eustachian tube leading toward the throat. Highlight the tube in amber.",
+            "direction": "Slowly zoom into the ear. Reveal the Eustachian tube with an amber outline. Keep the anatomy simplified but make the connection to the throat clear."
+          },
+          {
+            "time": "00:24–00:33",
+            "name": "The Pressure Mismatch",
+            "narration": "When the pressure on each side of your eardrum doesn't match, the eardrum gets pushed or pulled slightly.",
+            "visual": "Show a close-up of the eardrum as a thin curved membrane. On one side, show outside air pressure arrows; on the other, show middle ear air pressure arrows. Make the arrows uneven to represent the pressure difference.",
+            "direction": "Animate the arrows gently pushing from opposite sides. Show the eardrum bending slightly, not dramatically or unrealistically."
+          },
+          {
+            "time": "00:33–00:44",
+            "name": "The Little Pressure Release",
+            "narration": "Swallowing or yawning opens that tiny tube, letting air move in or out and helping balance the pressure.",
+            "visual": "Hiro yawns, then swallows. Cut to the Eustachian tube briefly opening. Small amber air particles travel through the passage between the throat and middle ear. The eardrum returns toward its relaxed position.",
+            "direction": "Use a simple sequence: Hiro yawns, the tube opens, air particles move, and the eardrum settles. Add a soft pop sound effect."
+          },
+          {
+            "time": "00:44–00:55",
+            "name": "Now You Know",
+            "narration": "And that's the pop! Your ears are balancing pressure. So next time you fly, try swallowing, yawning, or chewing gum. Your tiny ear tube is doing its job!",
+            "visual": "Hiro happily chews gum in an airplane seat. A simple ear illustration appears beside him with the Eustachian tube highlighted in amber. The airplane flies smoothly through clouds. Finish with Hiro giving a thumbs-up.",
+            "direction": "Keep the ending upbeat. Use a gentle zoom-out to reveal the airplane window, then transition back to the opening shot for a seamless loop."
+          }
+        ]
+      }
+    </script>
+
+    <script>
+      const content = JSON.parse(
+        document.getElementById("content").textContent,
+      );
+      const scenesRoot = document.getElementById("scenes");
+
+      content.scenes.forEach((scene, index) => {
+        const card = document.createElement("div");
+        card.className = "panel scene";
+        card.innerHTML = `
+    <div class="scene-head">
+      <h3>Scene ${index + 1} — ${scene.name}</h3>
+      <span class="time">${scene.time}</span>
+    </div>
+    <div class="scene-label">Voiceover</div>
+    <p class="narration"></p>
+    <div class="scene-label">Image Generation Prompt</div>
+    <div class="prompt" id="imagePrompt${index}"></div>
+    <div class="scene-label">Editing Direction</div>
+    <p class="muted"></p>
+    <button onclick="copyText('imagePrompt${index}')">Copy Image Prompt</button>
+  `;
+        card.querySelector(".narration").textContent = scene.narration;
+        card.querySelector(".muted").textContent = scene.direction;
+        scenesRoot.appendChild(card);
+
+        document.getElementById(`imagePrompt${index}`).textContent =
+          document.getElementById("characterPrompt").textContent +
+          "\n\nScene-specific composition: " +
+          scene.visual;
+      });
+
+      document.getElementById("fullNarration").textContent = content.scenes
+        .map((scene) => scene.narration)
+        .join("\n\n");
+
+      function showToast(message = "Copied to clipboard!") {
+        const toast = document.getElementById("toast");
+        toast.textContent = message;
+        toast.classList.add("show");
+        setTimeout(() => toast.classList.remove("show"), 1800);
+      }
+
+      async function copyText(id) {
+        const el = document.getElementById(id);
+        await navigator.clipboard.writeText(el.innerText || el.textContent);
+        showToast();
+      }
+      async function copyValue(id) {
+        await navigator.clipboard.writeText(
+          document.getElementById(id).textContent,
+        );
+        showToast();
+      }
+      async function copyNarration() {
+        await navigator.clipboard.writeText(
+          document.getElementById("fullNarration").textContent,
+        );
+        showToast();
+      }
+
+      const themeToggle = document.getElementById("themeToggle");
+      const savedTheme = localStorage.getItem("hiro-theme") || "light";
+      document.documentElement.dataset.theme = savedTheme;
+      themeToggle.textContent = savedTheme === "dark" ? "☀ Light" : "☾ Dark";
+
+      themeToggle.addEventListener("click", () => {
+        const next =
+          document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+        document.documentElement.dataset.theme = next;
+        localStorage.setItem("hiro-theme", next);
+        themeToggle.textContent = next === "dark" ? "☀ Light" : "☾ Dark";
+      });
+
+      const checklist = document.querySelectorAll("#checklist input");
+      const storageKey = "hiro-episode-16-checklist";
+      const savedChecks = JSON.parse(localStorage.getItem(storageKey) || "[]");
+
+      checklist.forEach((item, index) => {
+        item.checked = Boolean(savedChecks[index]);
+        item.addEventListener("change", () => {
+          const values = [...checklist].map((input) => input.checked);
+          localStorage.setItem(storageKey, JSON.stringify(values));
+        });
+      });
+    </script>
+  </body>
+</html>
