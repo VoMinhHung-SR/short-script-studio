@@ -1,0 +1,574 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Why Does Spicy Food Make Your Nose Run? | Everyday Mysteries</title>
+    <style>
+      :root {
+        --bg: #f8f5ed;
+        --panel: #fffdf8;
+        --text: #242424;
+        --muted: #77736b;
+        --line: #ded9ce;
+        --accent: #f5a524;
+        --soft: #fff0d2;
+      }
+      [data-theme="dark"] {
+        --bg: #191919;
+        --panel: #242424;
+        --text: #f4f1e9;
+        --muted: #aaa49a;
+        --line: #414141;
+        --accent: #f5a524;
+        --soft: #49371c;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family: Inter, system-ui, sans-serif;
+        line-height: 1.6;
+      }
+      .container {
+        max-width: 900px;
+        margin: auto;
+        padding: 24px 18px 60px;
+      }
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid var(--line);
+        padding-bottom: 16px;
+      }
+      .brand {
+        font-size: 13px;
+        font-weight: 800;
+        letter-spacing: 1.5px;
+      }
+      .brand span {
+        color: var(--accent);
+      }
+      button {
+        cursor: pointer;
+        border: 1px solid var(--line);
+        border-radius: 9px;
+        padding: 8px 12px;
+        background: var(--panel);
+        color: var(--text);
+        font: inherit;
+        font-size: 13px;
+      }
+      button:hover {
+        border-color: var(--accent);
+      }
+      .hero {
+        padding: 48px 0 32px;
+      }
+      .eyebrow {
+        color: #bd7b0b;
+        font-weight: 800;
+        font-size: 12px;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+      }
+      h1 {
+        font-size: clamp(32px, 6vw, 52px);
+        line-height: 1.1;
+        margin: 12px 0;
+      }
+      .subtitle {
+        color: var(--muted);
+        font-size: 17px;
+        max-width: 650px;
+      }
+      .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 20px;
+      }
+      .tag {
+        background: var(--soft);
+        color: var(--text);
+        border-radius: 20px;
+        padding: 5px 12px;
+        font-size: 12px;
+        font-weight: 700;
+      }
+      section {
+        margin-top: 34px;
+      }
+      h2 {
+        font-size: 21px;
+        margin-bottom: 14px;
+      }
+      h3 {
+        font-size: 16px;
+        margin: 0 0 8px;
+      }
+      .panel {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 20px;
+        margin-bottom: 14px;
+      }
+      .muted {
+        color: var(--muted);
+        font-size: 13px;
+      }
+      .prompt {
+        white-space: pre-wrap;
+        font-size: 13px;
+        line-height: 1.65;
+        background: var(--bg);
+        border-radius: 9px;
+        padding: 13px;
+        margin: 10px 0;
+      }
+      .scene-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        align-items: center;
+        margin-bottom: 12px;
+      }
+      .time {
+        color: #bd7b0b;
+        font-size: 12px;
+        font-weight: 800;
+      }
+      .scene p {
+        margin: 8px 0;
+      }
+      .scene-label {
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 1px;
+        color: var(--muted);
+        text-transform: uppercase;
+      }
+      .scene + .scene {
+        margin-top: 14px;
+      }
+      .narration {
+        font-size: 15px;
+        line-height: 1.8;
+        white-space: pre-wrap;
+      }
+      .checklist {
+        display: grid;
+        gap: 11px;
+      }
+      .checklist label {
+        display: flex;
+        gap: 10px;
+        align-items: flex-start;
+        font-size: 14px;
+      }
+      .checklist input {
+        accent-color: var(--accent);
+        margin-top: 5px;
+      }
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 12px;
+      }
+      .source {
+        margin: 12px 0;
+        font-size: 13px;
+      }
+      a {
+        color: #bd7b0b;
+      }
+      footer {
+        border-top: 1px solid var(--line);
+        margin-top: 42px;
+        padding-top: 18px;
+        color: var(--muted);
+        font-size: 12px;
+      }
+      .toast {
+        position: fixed;
+        bottom: 22px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #242424;
+        color: white;
+        padding: 10px 16px;
+        border-radius: 9px;
+        font-size: 13px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s;
+      }
+      .toast.show {
+        opacity: 1;
+      }
+      @media (max-width: 600px) {
+        .container {
+          padding: 16px 13px 45px;
+        }
+        .hero {
+          padding-top: 35px;
+        }
+        .panel {
+          padding: 15px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <div class="brand">
+          SHORT-SCRIPT-STUDIO <span>/ EVERYDAY MYSTERIES</span>
+        </div>
+        <button id="themeToggle">☾ Theme</button>
+      </header>
+
+      <main>
+        <div class="hero">
+          <div class="eyebrow">Episode 18 · Food & Human Body</div>
+          <h1>Why Does Spicy Food Make Your Nose Run?</h1>
+          <p class="subtitle">
+            You take one bite of chili, and suddenly your nose starts dripping.
+            What's going on?
+          </p>
+          <div class="tags">
+            <span class="tag">50–55 Seconds</span>
+            <span class="tag">6 Scenes</span>
+            <span class="tag">9:16 Vertical</span>
+            <span class="tag">Science Explained</span>
+          </div>
+        </div>
+
+        <section>
+          <h2>01 — Character Reference</h2>
+          <div class="panel">
+            <p class="muted">
+              Use this consistent character description for every generated
+              image.
+            </p>
+            <div class="prompt" id="characterPrompt">
+              Hiro is a minimalist friendly stick-figure character. A simple
+              round white head with a thick black outline, tiny expressive black
+              eyes, a small simple mouth, thin black line arms and legs.
+              Consistent proportions and appearance in every scene. Flat 2D
+              hand-drawn line art, clean simple shapes, pale warm cream
+              background (#F8F5ED), amber-orange accent (#F5A524). Minimalist
+              educational explainer aesthetic. No gradients, no shadows, no 3D,
+              no realistic human anatomy, no text, no letters, no watermark.
+              Vertical 9:16 composition.
+            </div>
+            <button onclick="copyText('characterPrompt')">
+              Copy Character Prompt
+            </button>
+          </div>
+        </section>
+
+        <section>
+          <h2>02 — Storyboard</h2>
+          <div id="scenes"></div>
+        </section>
+
+        <section>
+          <h2>03 — Full Narration</h2>
+          <div class="panel">
+            <div class="narration" id="fullNarration"></div>
+            <div class="actions">
+              <button onclick="copyNarration()">Copy Full Narration</button>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2>04 — CapCut Editing Checklist</h2>
+          <div class="panel checklist" id="checklist">
+            <label
+              ><input type="checkbox" /> Set project ratio to 9:16 (1080 ×
+              1920).</label
+            >
+            <label
+              ><input type="checkbox" /> Generate all six scenes using the same
+              Hiro reference.</label
+            >
+            <label
+              ><input type="checkbox" /> Add English voiceover and synchronize
+              each scene.</label
+            >
+            <label
+              ><input type="checkbox" /> Animate the chili, sensory signals, and
+              nose reaction.</label
+            >
+            <label
+              ><input type="checkbox" /> Add English subtitles and highlight key
+              words in amber.</label
+            >
+            <label
+              ><input type="checkbox" /> Add subtle eating sounds and a playful
+              sneeze or sniffle effect.</label
+            >
+            <label
+              ><input type="checkbox" /> Export at 1080p, 30fps, and check the
+              opening hook.</label
+            >
+          </div>
+        </section>
+
+        <section>
+          <h2>05 — Publishing Kit</h2>
+          <div class="panel">
+            <h3>Shorts / Reels Title</h3>
+            <p id="postTitle">Why Does Spicy Food Make Your Nose Run? 🌶️</p>
+            <button onclick="copyValue('postTitle')">Copy Title</button>
+            <hr
+              style="
+                border: 0;
+                border-top: 1px solid var(--line);
+                margin: 18px 0;
+              "
+            />
+            <h3>Caption</h3>
+            <p id="postCaption">
+              One bite of chili and suddenly your nose won't stop running? It's
+              not necessarily an allergy. Your nerves may be triggering a
+              surprising reflex!
+            </p>
+            <button onclick="copyValue('postCaption')">Copy Caption</button>
+            <hr
+              style="
+                border: 0;
+                border-top: 1px solid var(--line);
+                margin: 18px 0;
+              "
+            />
+            <h3>Hashtags</h3>
+            <p id="hashtags">
+              #EverydayMysteries #FoodFacts #HumanBody #Capsaicin
+              #ScienceExplained #DidYouKnow
+            </p>
+            <button onclick="copyValue('hashtags')">Copy Hashtags</button>
+          </div>
+        </section>
+
+        <section>
+          <h2>06 — Scientific Notes & Sources</h2>
+          <div class="panel">
+            <h3>What actually happens?</h3>
+            <p>
+              Chili peppers contain capsaicin, the chemical responsible for
+              their burning sensation. Capsaicin activates sensory receptors,
+              including TRPV1, which are involved in detecting heat and
+              irritation.
+            </p>
+            <p>
+              In some people, spicy food triggers a nerve reflex that stimulates
+              glands in the nasal lining to produce watery secretions. This can
+              make the nose run while eating.
+            </p>
+            <p>
+              This reaction is called <strong>gustatory rhinitis</strong>. It is
+              generally a non-allergic response, rather than the immune reaction
+              involved in a typical food allergy.
+            </p>
+            <p>
+              The response usually settles after the trigger food is gone. Not
+              everyone experiences it, and other foods or even very hot foods
+              can trigger similar symptoms in some people.
+            </p>
+            <p>
+              <strong>Important:</strong> A runny nose alone after spicy food
+              does not automatically mean an allergy. But symptoms such as
+              hives, swelling of the lips or throat, or difficulty breathing
+              need urgent medical attention.
+            </p>
+            <div class="source">
+              <strong>Sources:</strong><br />
+              •
+              <a
+                href="https://www.uclahealth.org/news/article/hot-or-spicy-foods-can-cause-nonallergic-gustatory-rhinitis"
+                target="_blank"
+                rel="noopener"
+                >UCLA Health — Hot or spicy foods can cause nonallergic
+                gustatory rhinitis</a
+              ><br />
+              •
+              <a
+                href="https://my.clevelandclinic.org/health/diseases/gustatory-rhinitis"
+                target="_blank"
+                rel="noopener"
+                >Cleveland Clinic — Gustatory Rhinitis</a
+              ><br />
+              •
+              <a
+                href="https://onlinelibrary.wiley.com/doi/full/10.1002/alr.23090"
+                target="_blank"
+                rel="noopener"
+                >International Consensus Statement on Allergy and Rhinology —
+                2023</a
+              ><br />
+              •
+              <a
+                href="https://www.aaaai.org/Aaaai/media/MediaLibrary/PDF%20Documents/Practice%20and%20Parameters/Rhinitis-2020-A-practice-parameter-update.pdf"
+                target="_blank"
+                rel="noopener"
+                >AAAAI — Rhinitis 2020 Practice Parameter Update</a
+              >
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer>
+        EVERYDAY MYSTERIES · HIRO<br />
+        Small questions. Fascinating answers.
+      </footer>
+    </div>
+
+    <div class="toast" id="toast">Copied to clipboard!</div>
+
+    <script id="content" type="application/json">
+      {
+        "scenes": [
+          {
+            "time": "00:00–00:07",
+            "name": "The Unexpected Reaction",
+            "narration": "Ever eaten something spicy and suddenly... your nose starts running? Even though you're not crying or sick!",
+            "visual": "Hiro sits at a table with a bowl of spicy noodles. He takes one bite, his eyes widen, and a tiny drop of liquid appears under his nose. A bright red chili sits beside the bowl.",
+            "direction": "Open with a close-up of Hiro taking a bite. Add a quick comedic pause before the first drop appears. Use a subtle sniffle sound."
+          },
+          {
+            "time": "00:07–00:15",
+            "name": "Meet Capsaicin",
+            "narration": "The secret is a chemical in chili peppers called capsaicin. It's what gives them that burning sensation.",
+            "visual": "Show a large red chili pepper beside Hiro. Zoom into the chili and reveal tiny amber particles representing capsaicin. Hiro looks at the pepper with a surprised expression.",
+            "direction": "Use a smooth zoom into the pepper. Let the amber particles appear one by one, then transition toward a simple illustration of the mouth."
+          },
+          {
+            "time": "00:15–00:24",
+            "name": "Your Sensory Nerves React",
+            "narration": "Capsaicin activates special sensory receptors that detect heat and irritation, sending signals through your nerves.",
+            "visual": "Show a simplified illustration of Hiro's mouth with a few amber particles touching the surface. Tiny sensory nerve endings activate and send glowing amber signal lines toward the head.",
+            "direction": "Animate the particles touching the sensory receptors, followed by a short signal traveling along the nerve. Keep the anatomy simple and educational."
+          },
+          {
+            "time": "00:24–00:34",
+            "name": "A Surprising Nose Reflex",
+            "narration": "Those signals can trigger a reflex that tells glands inside your nose to produce more watery mucus.",
+            "visual": "Transition to a simplified side-view cutaway of Hiro's nose. Show tiny glands along the nasal lining releasing small blue droplets. Amber signal lines arrive from nearby sensory nerves.",
+            "direction": "Reveal the nasal lining gradually. Animate a few small droplets forming and moving toward the nostril. Avoid making the anatomy look realistic or graphic."
+          },
+          {
+            "time": "00:34–00:45",
+            "name": "It's Called Gustatory Rhinitis",
+            "narration": "This reaction is called gustatory rhinitis. It's usually a nerve reflex, not a food allergy.",
+            "visual": "Hiro holds a tissue under his nose. Beside him, show two simple visual paths: one labeled by editing as a nerve reflex, the other crossed out as an allergy explanation. Keep the background clean and warm.",
+            "direction": "Use a simple comparison animation. Add the words 'NERVE REFLEX' and 'NOT NECESSARILY AN ALLERGY' as editing overlays, not inside the generated image."
+          },
+          {
+            "time": "00:45–00:55",
+            "name": "Your Nose Has Its Own Reaction",
+            "narration": "So next time chili makes your nose run, remember: your nose is reacting to the spice in its own surprising way!",
+            "visual": "Hiro puts down his tissue, smiles, and looks at the chili pepper. A tiny amber signal travels from the pepper toward a simple nose icon. Finish with Hiro giving a playful shrug.",
+            "direction": "End with a light comedic beat. Use a gentle zoom toward Hiro, then match-cut back to the opening bite for a seamless loop."
+          }
+        ]
+      }
+    </script>
+
+    <script>
+      const content = JSON.parse(
+        document.getElementById("content").textContent,
+      );
+      const scenesRoot = document.getElementById("scenes");
+
+      content.scenes.forEach((scene, index) => {
+        const card = document.createElement("div");
+        card.className = "panel scene";
+        card.innerHTML = `
+    <div class="scene-head">
+      <h3>Scene ${index + 1} — ${scene.name}</h3>
+      <span class="time">${scene.time}</span>
+    </div>
+    <div class="scene-label">Voiceover</div>
+    <p class="narration"></p>
+    <div class="scene-label">Image Generation Prompt</div>
+    <div class="prompt" id="imagePrompt${index}"></div>
+    <div class="scene-label">Editing Direction</div>
+    <p class="muted"></p>
+    <button onclick="copyText('imagePrompt${index}')">Copy Image Prompt</button>
+  `;
+        card.querySelector(".narration").textContent = scene.narration;
+        card.querySelector(".muted").textContent = scene.direction;
+        scenesRoot.appendChild(card);
+
+        document.getElementById(`imagePrompt${index}`).textContent =
+          document.getElementById("characterPrompt").textContent +
+          "\n\nScene-specific composition: " +
+          scene.visual;
+      });
+
+      document.getElementById("fullNarration").textContent = content.scenes
+        .map((scene) => scene.narration)
+        .join("\n\n");
+
+      function showToast(message = "Copied to clipboard!") {
+        const toast = document.getElementById("toast");
+        toast.textContent = message;
+        toast.classList.add("show");
+        setTimeout(() => toast.classList.remove("show"), 1800);
+      }
+
+      async function copyText(id) {
+        const el = document.getElementById(id);
+        await navigator.clipboard.writeText(el.innerText || el.textContent);
+        showToast();
+      }
+      async function copyValue(id) {
+        await navigator.clipboard.writeText(
+          document.getElementById(id).textContent,
+        );
+        showToast();
+      }
+      async function copyNarration() {
+        await navigator.clipboard.writeText(
+          document.getElementById("fullNarration").textContent,
+        );
+        showToast();
+      }
+
+      const themeToggle = document.getElementById("themeToggle");
+      const savedTheme = localStorage.getItem("hiro-theme") || "light";
+      document.documentElement.dataset.theme = savedTheme;
+      themeToggle.textContent = savedTheme === "dark" ? "☀ Light" : "☾ Dark";
+
+      themeToggle.addEventListener("click", () => {
+        const next =
+          document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+        document.documentElement.dataset.theme = next;
+        localStorage.setItem("hiro-theme", next);
+        themeToggle.textContent = next === "dark" ? "☀ Light" : "☾ Dark";
+      });
+
+      const checklist = document.querySelectorAll("#checklist input");
+      const storageKey = "hiro-episode-18-checklist";
+      const savedChecks = JSON.parse(localStorage.getItem(storageKey) || "[]");
+
+      checklist.forEach((item, index) => {
+        item.checked = Boolean(savedChecks[index]);
+        item.addEventListener("change", () => {
+          const values = [...checklist].map((input) => input.checked);
+          localStorage.setItem(storageKey, JSON.stringify(values));
+        });
+      });
+    </script>
+  </body>
+</html>
